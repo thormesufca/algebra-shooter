@@ -1,0 +1,18 @@
+[gd_scene format=3 uid="uid://clcbjxumaguta"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c8u6y"]
+size = Vector2(38.25, 38.875)
+
+[node name="Enemy" type="Area2D" unique_id=1564927833 groups=["enemy"]]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=551160329]
+position = Vector2(236.875, 106.5625)
+shape = SubResource("RectangleShape2D_c8u6y")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1564242208]
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=1951917274]
+offset_left = 217.0
+offset_top = 87.0
+offset_right = 257.0
+offset_bottom = 127.0

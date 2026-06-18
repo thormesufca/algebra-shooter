@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://cnl6d2dgiqgd7"]
+
+[ext_resource type="Script" uid="uid://cjus3rqquaujb" path="res://scripts/player.gd" id="1_merdl"]
+[ext_resource type="PackedScene" uid="uid://c0jlq3i4yiars" path="res://entities/bullet.tscn" id="2_b0kkn"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u3f3p"]
+size = Vector2(40, 40)
+
+[node name="Player" type="CharacterBody2D" unique_id=1186022545 groups=["player"]]
+script = ExtResource("1_merdl")
+bullet_scene = ExtResource("2_b0kkn")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1784385982]
+position = Vector2(34, 20)
+shape = SubResource("RectangleShape2D_u3f3p")
+
+[node name="ShootTimer" type="Timer" parent="." unique_id=613720373]
+autostart = true
+
+[node name="ColorRect" type="ColorRect" parent="." unique_id=441133657]
+offset_left = 14.0
+offset_right = 54.0
+offset_bottom = 40.0
+color = Color(1, 0, 0, 1)
+
+[connection signal="timeout" from="ShootTimer" to="." method="_on_shoot_timer_timeout"]
