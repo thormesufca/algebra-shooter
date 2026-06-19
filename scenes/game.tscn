@@ -2,20 +2,22 @@
 
 [ext_resource type="PackedScene" uid="uid://cnl6d2dgiqgd7" path="res://entities/player.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://bukto4x8p0yiq" path="res://scripts/game.gd" id="1_yqjtg"]
+[ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="3_lnu2h"]
 
 [node name="game" type="Node2D" unique_id=1112172902]
 script = ExtResource("1_yqjtg")
 enemy_scene = ExtResource("3_lnu2h")
+power_scene = ExtResource("3_lbhrr")
 
 [node name="Player" parent="." unique_id=1186022545 instance=ExtResource("1_uwrxv")]
-position = Vector2(141, 32)
+position = Vector2(529, 243)
+scale = Vector2(2.5, 2.5)
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=1432857948]
-wait_time = 0.5
 autostart = true
 
 [node name="Enemy" parent="." unique_id=1564927833 instance=ExtResource("3_lnu2h")]
-position = Vector2(312, 31)
+position = Vector2(68, -119)
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

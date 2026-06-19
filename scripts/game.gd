@@ -1,12 +1,38 @@
 extends Node2D
 
 @export var enemy_scene: PackedScene
+@export var power_scene: PackedScene
+@export var powerup_enemy_index: int = 5
+
+var _spawn_count: int = 0
 
 func _on_spawn_timer_timeout() -> void:
-	spawn_enemy()
-
-func spawn_enemy() -> void:
-	var enemy = enemy_scene.instantiate()
-	var x_pos = randf_range(40, get_viewport_rect().size.x - 40)
-	enemy.position = Vector2(x_pos, -20)
+	_spawn_count += 1
+ 
+	var enemy: Enemy = enemy_scene.instantiate()
+	enemy.global_position = _get_spawn_position()
 	add_child(enemy)
+ 
+	# Só conecta o sinal de morte ao powerup para a instância específica.
+	if _spawn_count % powerup_enemy_index == 0:
+		enemy.died.connect(_on_powerup_enemy_died)
+
+
+func _ready() -> void:
+	pass
+	#var power = power_scene.instantiate()
+	#var x_pos = get_viewport_rect().size.x / 2
+	#power.position = Vector2(x_pos, 10)
+	#add_child(power)
+
+func _on_powerup_enemy_died(death_position: Vector2) -> void:
+	call_deferred("_spawn_powerup", death_position)
+	
+func _spawn_powerup(death_position: Vector2)->void:
+	var power := power_scene.instantiate()
+	add_child(power)
+	power.global_position = death_position
+	
+func _get_spawn_position() -> Vector2:
+	var viewport_size := get_viewport_rect().size
+	return Vector2(randf_range(0, viewport_size.x), 40)

@@ -2,19 +2,24 @@
 
 [ext_resource type="Script" uid="uid://bimq3aia52e5t" path="res://scripts/bullet.gd" id="1_j06he"]
 
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j06he"]
+load_path = "res://.godot/imported/arrow.png-bca7a1a978dc2bce9d3a95d4cea157b6.ctex"
+
 [sub_resource type="CircleShape2D" id="CircleShape2D_hht6g"]
-radius = 5.0
+radius = 1.4142135
 
 [node name="Bullet" type="Area2D" unique_id=1602602956]
 script = ExtResource("1_j06he")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=663448782]
-position = Vector2(5, 5)
-shape = SubResource("CircleShape2D_hht6g")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=940501818]
+texture_filter = 1
+scale = Vector2(0.1, 0.1)
+texture = SubResource("CompressedTexture2D_j06he")
+region_enabled = true
+region_rect = Rect2(-0.2930336, -0.09126592, 32.49296, 31.868767)
 
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1300546137]
-offset_right = 10.0
-offset_bottom = 10.0
-color = Color(0.39215687, 0.39215687, 1, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=663448782]
+visible = false
+shape = SubResource("CircleShape2D_hht6g")
 
 [connection signal="area_entered" from="." to="." method="_on_area_entered"]

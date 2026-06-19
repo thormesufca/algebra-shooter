@@ -1,18 +1,68 @@
 [gd_scene format=3 uid="uid://clcbjxumaguta"]
 
+[ext_resource type="Script" uid="uid://byg5r8aprf5uj" path="res://scripts/enemy.gd" id="1_p7g5j"]
+[ext_resource type="Texture2D" uid="uid://cnnromatbf6pg" path="res://sprites/enemies/anim_rat.png" id="2_pqhw6"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8u6y"]
 size = Vector2(38.25, 38.875)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_b4nis"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uvc0s"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x8e4v"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rrp0o"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jq0pf"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_68dbu"]
+atlas = ExtResource("2_pqhw6")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_f71c5"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_b4nis")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uvc0s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x8e4v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rrp0o")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jq0pf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_68dbu")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 5.0
+}]
+
 [node name="Enemy" type="Area2D" unique_id=1564927833 groups=["enemy"]]
+script = ExtResource("1_p7g5j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=551160329]
-position = Vector2(236.875, 106.5625)
 shape = SubResource("RectangleShape2D_c8u6y")
 
-[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1564242208]
-
-[node name="ColorRect" type="ColorRect" parent="." unique_id=1951917274]
-offset_left = 217.0
-offset_top = 87.0
-offset_right = 257.0
-offset_bottom = 127.0
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2003927357]
+sprite_frames = SubResource("SpriteFrames_f71c5")
+animation = &"moving"
+autoplay = "moving"
