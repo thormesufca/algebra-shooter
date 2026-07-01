@@ -34,5 +34,9 @@ func _spawn_powerup(death_position: Vector2)->void:
 	power.global_position = death_position
 	
 func _get_spawn_position() -> Vector2:
+	var camera := get_viewport().get_camera_2d()
 	var viewport_size := get_viewport_rect().size
-	return Vector2(randf_range(0, viewport_size.x), 40)
+	var cam_pos := camera.global_position if camera else Vector2.ZERO
+	var spawn_x := randf_range(cam_pos.x - viewport_size.x / 2, cam_pos.x + viewport_size.x / 2)
+	var spawn_y := cam_pos.y - viewport_size.y / 2 - 20.0
+	return Vector2(spawn_x, spawn_y)

@@ -2,6 +2,8 @@
 
 [ext_resource type="Script" uid="uid://byg5r8aprf5uj" path="res://scripts/enemy.gd" id="1_p7g5j"]
 [ext_resource type="Texture2D" uid="uid://cnnromatbf6pg" path="res://sprites/enemies/anim_rat.png" id="2_pqhw6"]
+[ext_resource type="Texture2D" uid="uid://cs2p1kox8jju3" path="res://sprites/others/health bar under.png" id="3_uvc0s"]
+[ext_resource type="Texture2D" uid="uid://7psvc0eskggw" path="res://sprites/others/health bar progress.png" id="4_x8e4v"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_c8u6y"]
 size = Vector2(38.25, 38.875)
@@ -56,13 +58,30 @@ animations = [{
 "speed": 5.0
 }]
 
-[node name="Enemy" type="Area2D" unique_id=1564927833 groups=["enemy"]]
+[node name="Enemy" type="CharacterBody2D" unique_id=1231994193 groups=["enemy"]]
+collision_layer = 4
+collision_mask = 10
 script = ExtResource("1_p7g5j")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=551160329]
 shape = SubResource("RectangleShape2D_c8u6y")
 
 [node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=2003927357]
+rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_f71c5")
 animation = &"moving"
 autoplay = "moving"
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="." unique_id=1974213384]
+offset_left = -14.0
+offset_top = -31.0
+offset_right = 15.0
+offset_bottom = -12.0
+value = 100.0
+nine_patch_stretch = true
+stretch_margin_left = 2
+stretch_margin_top = 1
+stretch_margin_right = 2
+stretch_margin_bottom = 2
+texture_under = ExtResource("3_uvc0s")
+texture_progress = ExtResource("4_x8e4v")

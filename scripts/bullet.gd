@@ -4,7 +4,7 @@ extends Area2D
 @export var bullet_size: float = 1.0
 @export var damage: float = 1.0
 var direction: Vector2 = Vector2.UP
-@export var lifetime: float = 2.0
+@export var lifetime: float = 10.0
 var _age: float = 0.0
 
 
@@ -17,10 +17,9 @@ func _physics_process(delta: float) -> void:
 	if _age > lifetime:
 		queue_free()
 
-func _on_area_entered(area: Area2D) -> void:
-	if area.is_in_group("enemy"):
-		#area.queue_free()
-		area.take_damage(damage)
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("enemy"):
+		body.take_damage(damage)
 		enemy_hit.emit()
 		queue_free()
 		#var player = get_tree().get_first_node_in_group("player")
@@ -31,6 +30,7 @@ func _on_area_entered(area: Area2D) -> void:
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	scale = Vector2(bullet_size, bullet_size)
+	lifetime = lifetime * 100/speed
 
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
