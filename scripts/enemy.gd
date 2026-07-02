@@ -5,10 +5,18 @@ class_name Enemy
 signal died(death_position: Vector2)
 @onready var progress_bar: TextureProgressBar = $TextureProgressBar
 @export var max_health: int = 5
+@export var coin_scene: PackedScene
+@export var reward_value: int = 1
 
 var player: Player = null
 var speed: float = 100.0
 var direction := Vector2.ZERO
+
+const KNOCKBACK_FRICTION := 600.0
+var knockback: Vector2 = Vector2.ZERO
+
+func apply_knockback(push_direction: Vector2, force: float) -> void:
+	knockback = push_direction.normalized() * force
 
 
 
@@ -22,7 +30,6 @@ func _ready() -> void:
 	player = get_tree().get_nodes_in_group("player")[0] as Player
 
 func _physics_process(delta: float) -> void:
-	print("Entrei")
 	if player != null:
 		var enemy_to_player = (player.global_position - global_position)
 		direction = enemy_to_player.normalized()
@@ -32,9 +39,12 @@ func _physics_process(delta: float) -> void:
 			velocity.x = move_toward(velocity.x, 0, speed)
 			velocity.y = move_toward(velocity.y, 0, speed)
 
+		velocity += knockback
+		knockback = knockback.move_toward(Vector2.ZERO, KNOCKBACK_FRICTION * delta)
+
 		move_and_slide()
 	
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	look_at(player.global_position)
 
 func take_damage(amount: int)->void:
@@ -45,4 +55,13 @@ func take_damage(amount: int)->void:
 
 func die()->void:
 	died.emit(global_position)
+	call_deferred("_spawn_reward")
 	queue_free()
+
+func _spawn_reward() -> void:
+	if coin_scene == null:
+		return
+	var coin := coin_scene.instantiate()
+	coin.value = reward_value
+	get_tree().get_first_node_in_group("game_root").add_child(coin)
+	coin.global_position = global_position

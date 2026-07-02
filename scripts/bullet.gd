@@ -11,6 +11,8 @@ var _age: float = 0.0
 
 signal enemy_hit
 
+var _has_hit: bool = false
+
 func _physics_process(delta: float) -> void:
 	position += direction * speed * delta
 	_age += delta
@@ -18,7 +20,10 @@ func _physics_process(delta: float) -> void:
 		queue_free()
 
 func _on_body_entered(body: Node2D) -> void:
+	if _has_hit:
+		return
 	if body.is_in_group("enemy"):
+		_has_hit = true
 		body.take_damage(damage)
 		enemy_hit.emit()
 		queue_free()

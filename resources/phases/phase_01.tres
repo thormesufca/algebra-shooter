@@ -1,0 +1,11 @@
+[gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://0w66td5y6oqx"]
+
+[ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
+[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
+
+[resource]
+script = ExtResource("1_phase")
+enemy_scene = ExtResource("2_enemy")
+power_scene = ExtResource("3_power")
+walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)

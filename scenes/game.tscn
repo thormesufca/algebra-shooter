@@ -5,11 +5,43 @@
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_lbhrr"]
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="3_lnu2h"]
 [ext_resource type="PackedScene" uid="uid://j1f3qxwod0wg" path="res://entities/camera.tscn" id="5_iywne"]
+[ext_resource type="Resource" uid="uid://0w66td5y6oqx" path="res://resources/phases/phase_01.tres" id="6_phase"]
+[ext_resource type="Texture2D" uid="uid://chvjtv56bqdrr" path="res://assets/backgrounds/bg_maze_floor.png" id="7_floor_tex"]
+[ext_resource type="Texture2D" uid="uid://ctdbnwn62rety" path="res://assets/backgrounds/bg_fog.png" id="8_fog_tex"]
 
-[node name="game" type="Node2D" unique_id=1112172902]
+[node name="game" type="Node2D" unique_id=1112172902 groups=["game_root"]]
 script = ExtResource("1_yqjtg")
 enemy_scene = ExtResource("3_lnu2h")
 power_scene = ExtResource("3_lbhrr")
+phase = ExtResource("6_phase")
+
+[node name="Background" type="Node2D" parent="." unique_id=1198486878]
+
+[node name="FloorLayer" type="Parallax2D" parent="Background" unique_id=997973976]
+scroll_scale = Vector2(0, 0.85)
+repeat_size = Vector2(1024, 1024)
+repeat_times = 20
+
+[node name="FloorTexture" type="Sprite2D" parent="Background/FloorLayer" unique_id=1611754693]
+texture_repeat = 1
+position = Vector2(538, -1013)
+texture = ExtResource("7_floor_tex")
+centered = false
+region_enabled = true
+region_rect = Rect2(0, 0, 1024, 1024)
+
+[node name="SkyLayer" type="Parallax2D" parent="Background" unique_id=57981295]
+scroll_scale = Vector2(0, 0.15)
+repeat_size = Vector2(900, 1200)
+repeat_times = 40
+
+[node name="SkyTexture" type="Sprite2D" parent="Background/SkyLayer" unique_id=991534390]
+modulate = Color(0.7137255, 0.68235296, 0.827451, 0.5)
+texture_repeat = 1
+position = Vector2(430, 0)
+texture = ExtResource("8_fog_tex")
+region_enabled = true
+region_rect = Rect2(0, 0, 900, 1200)
 
 [node name="Player" parent="." unique_id=1186022545 instance=ExtResource("1_uwrxv")]
 position = Vector2(407.00003, -398.99994)

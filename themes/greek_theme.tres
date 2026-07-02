@@ -1,0 +1,35 @@
+[gd_resource type="Theme" format=3 uid="uid://dvya5ilbjmtc3"]
+
+[ext_resource type="Texture2D" uid="uid://dey3tc0wj30kx" path="res://assets/backgrounds/parchment.png" id="1_parchment"]
+[ext_resource type="FontFile" uid="uid://dxh8ow3oero0j" path="res://assets/fonts/CormorantGaramond-VariableFont_wght.ttf" id="2_body_font"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_separator"]
+content_margin_top = 1.0
+content_margin_bottom = 1.0
+bg_color = Color(0.7137255, 0.5568628, 0.14509805, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_panel"]
+content_margin_left = 14.0
+content_margin_top = 14.0
+content_margin_right = 14.0
+content_margin_bottom = 14.0
+texture = ExtResource("1_parchment")
+texture_margin_left = 32.0
+texture_margin_top = 32.0
+texture_margin_right = 32.0
+texture_margin_bottom = 32.0
+modulate_color = Color(1, 0.9647059, 0.90588236, 1)
+
+[resource]
+default_font = ExtResource("2_body_font")
+default_font_size = 20
+HSeparator/styles/separator = SubResource("StyleBoxFlat_separator")
+Label/colors/font_color = Color(0.24313726, 0.15294118, 0.078431375, 1)
+Label/colors/font_shadow_color = Color(0.9137255, 0.8509804, 0.7137255, 0.4)
+Label/constants/shadow_offset_x = 1
+Label/constants/shadow_offset_y = 1
+Label/font_sizes/font_size = 20
+PanelContainer/styles/panel = SubResource("StyleBoxTexture_panel")
+TitleLabel/base_type = &"Label"
+TitleLabel/colors/font_color = Color(0.42352942, 0.19607843, 0.078431375, 1)
+TitleLabel/font_sizes/font_size = 24

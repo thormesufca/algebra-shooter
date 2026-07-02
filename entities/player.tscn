@@ -3,10 +3,10 @@
 [ext_resource type="Script" uid="uid://cjus3rqquaujb" path="res://scripts/player.gd" id="1_merdl"]
 [ext_resource type="PackedScene" uid="uid://c0jlq3i4yiars" path="res://entities/bullet.tscn" id="2_b0kkn"]
 [ext_resource type="AudioStream" uid="uid://b31e7ounu3yhd" path="res://assets/sounds/bow-release.mp3" id="4_qly61"]
-[ext_resource type="Texture2D" uid="uid://dj8ffij2ddwah" path="res://sprites/player/archer_shoot_8dir_grid.png" id="4_rfe5m"]
+[ext_resource type="Texture2D" uid="uid://dj8ffij2ddwah" path="res://assets/sprites/player/archer_shoot_8dir_grid.png" id="4_rfe5m"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_u3f3p"]
-size = Vector2(18, 18)
+size = Vector2(12, 13)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e4p34"]
 atlas = ExtResource("4_rfe5m")
@@ -389,11 +389,19 @@ animations = [{
 
 [node name="Player" type="CharacterBody2D" unique_id=1186022545 groups=["player"]]
 collision_layer = 2
-collision_mask = 52
+collision_mask = 48
 script = ExtResource("1_merdl")
 bullet_scene = ExtResource("2_b0kkn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1784385982]
+shape = SubResource("RectangleShape2D_u3f3p")
+
+[node name="HurtArea" type="Area2D" parent="." unique_id=1784385983]
+collision_layer = 0
+collision_mask = 4
+monitorable = false
+
+[node name="HurtAreaShape" type="CollisionShape2D" parent="HurtArea" unique_id=1784385984]
 shape = SubResource("RectangleShape2D_u3f3p")
 
 [node name="ShootTimer" type="Timer" parent="." unique_id=613720373]

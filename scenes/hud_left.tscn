@@ -1,0 +1,131 @@
+[gd_scene format=3 uid="uid://dxk8h2q5m1a01"]
+
+[ext_resource type="Script" uid="uid://bx5ae8t8cgsb5" path="res://scripts/hud_left.gd" id="1_hudl"]
+
+[node name="HUDLeft" type="PanelContainer" unique_id=1835122339]
+custom_minimum_size = Vector2(330, 860)
+size_flags_horizontal = 0
+script = ExtResource("1_hudl")
+
+[node name="Margin" type="MarginContainer" parent="." unique_id=1111880738]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="VBox" type="VBoxContainer" parent="Margin" unique_id=235319841]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Margin/VBox" unique_id=964381300]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+text = "STATUS"
+
+[node name="HSeparator" type="HSeparator" parent="Margin/VBox" unique_id=516086259]
+layout_mode = 2
+
+[node name="DamageRow" type="HBoxContainer" parent="Margin/VBox" unique_id=425116847]
+layout_mode = 2
+
+[node name="DamageLabel" type="Label" parent="Margin/VBox/DamageRow" unique_id=1561024588]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dano"
+
+[node name="DamageValue" type="Label" parent="Margin/VBox/DamageRow" unique_id=686654301]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="SpeedRow" type="HBoxContainer" parent="Margin/VBox" unique_id=46027230]
+layout_mode = 2
+
+[node name="SpeedLabel" type="Label" parent="Margin/VBox/SpeedRow" unique_id=1846906447]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Velocidade"
+
+[node name="SpeedValue" type="Label" parent="Margin/VBox/SpeedRow" unique_id=571911183]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="FireRateRow" type="HBoxContainer" parent="Margin/VBox" unique_id=105926489]
+layout_mode = 2
+
+[node name="FireRateLabel" type="Label" parent="Margin/VBox/FireRateRow" unique_id=474182431]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Cadência"
+
+[node name="FireRateValue" type="Label" parent="Margin/VBox/FireRateRow" unique_id=1668878090]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0.00s"
+
+[node name="ShieldRow" type="HBoxContainer" parent="Margin/VBox" unique_id=407036076]
+layout_mode = 2
+
+[node name="ShieldLabel" type="Label" parent="Margin/VBox/ShieldRow" unique_id=328645004]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Escudo"
+
+[node name="ShieldIcons" type="HBoxContainer" parent="Margin/VBox/ShieldRow" unique_id=1055958183]
+unique_name_in_owner = true
+layout_mode = 2
+theme_override_constants/separation = 2
+
+[node name="ShieldMaxRow" type="HBoxContainer" parent="Margin/VBox" unique_id=694714031]
+layout_mode = 2
+
+[node name="ShieldMaxLabel" type="Label" parent="Margin/VBox/ShieldMaxRow" unique_id=548522224]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vida Máxima"
+
+[node name="ShieldMaxValue" type="Label" parent="Margin/VBox/ShieldMaxRow" unique_id=1423978928]
+unique_name_in_owner = true
+layout_mode = 2
+text = "3"
+
+[node name="MagnetRow" type="HBoxContainer" parent="Margin/VBox" unique_id=270092324]
+layout_mode = 2
+
+[node name="MagnetLabel" type="Label" parent="Margin/VBox/MagnetRow" unique_id=1817351762]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Magnetismo"
+
+[node name="MagnetValue" type="Label" parent="Margin/VBox/MagnetRow" unique_id=1150352109]
+unique_name_in_owner = true
+layout_mode = 2
+text = "1.0"
+
+[node name="ScoreRow" type="HBoxContainer" parent="Margin/VBox" unique_id=2081179420]
+layout_mode = 2
+
+[node name="ScoreLabel" type="Label" parent="Margin/VBox/ScoreRow" unique_id=266268695]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Pontuação"
+
+[node name="ScoreValue" type="Label" parent="Margin/VBox/ScoreRow" unique_id=2067118829]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="MultiplicadorRow" type="HBoxContainer" parent="Margin/VBox" unique_id=2142964768]
+layout_mode = 2
+
+[node name="MultiplicadorLabel" type="Label" parent="Margin/VBox/MultiplicadorRow" unique_id=918623763]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Multiplicador"
+
+[node name="MultiplicadorValue" type="Label" parent="Margin/VBox/MultiplicadorRow" unique_id=1955791563]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"

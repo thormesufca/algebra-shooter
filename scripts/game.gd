@@ -3,6 +3,7 @@ extends Node2D
 @export var enemy_scene: PackedScene
 @export var power_scene: PackedScene
 @export var powerup_enemy_index: int = 5
+@export var phase: PhaseData
 
 var _spawn_count: int = 0
 
@@ -19,17 +20,25 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func _ready() -> void:
-	pass
-	#var power = power_scene.instantiate()
-	#var x_pos = get_viewport_rect().size.x / 2
-	#power.position = Vector2(x_pos, 10)
-	#add_child(power)
+	if phase != null:
+		_apply_phase(phase)
+
+func _apply_phase(data: PhaseData) -> void:
+	if data.enemy_scene != null:
+		enemy_scene = data.enemy_scene
+	if data.power_scene != null:
+		power_scene = data.power_scene
+	powerup_enemy_index = data.powerup_enemy_index
+	$SpawnTimer.wait_time = data.spawn_interval
+	#$Background/SkyLayer/SkyTexture.modulate = data.sky_color
+	#$Background/FloorLayer/FloorTexture.modulate = data.floor_color
 
 func _on_powerup_enemy_died(death_position: Vector2) -> void:
 	call_deferred("_spawn_powerup", death_position)
 	
 func _spawn_powerup(death_position: Vector2)->void:
 	var power := power_scene.instantiate()
+	power.data = PowerupGenerator.generate()
 	add_child(power)
 	power.global_position = death_position
 	
