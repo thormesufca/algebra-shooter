@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://d4f6l8lkjg8tu"
-path="res://.godot/imported/archer_shoot_8dir_strip.png-e2b0780707a2514e570ff8fc94a346de.ctex"
+uid="uid://bgvacsw5n1lh5"
+path="res://.godot/imported/Magnet.png-c66b11fa5cfbb205080bf417b53d9f73.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/player/archer_shoot_8dir_strip.png"
-dest_files=["res://.godot/imported/archer_shoot_8dir_strip.png-e2b0780707a2514e570ff8fc94a346de.ctex"]
+source_file="res://assets/sprites/powers/Magnet.png"
+dest_files=["res://.godot/imported/Magnet.png-c66b11fa5cfbb205080bf417b53d9f73.ctex"]
 
 [params]
 

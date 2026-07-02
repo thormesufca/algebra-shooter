@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dh7uf3a54nyaw"
-path="res://.godot/imported/Archer.png-922d7ce643f4bf803cba3187d2c10c7a.ctex"
+uid="uid://4gu6w6p3ciy6"
+path="res://.godot/imported/Quiver.png-a75894bbf2771defe66f98f20c86ec58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/player/Archer.png"
-dest_files=["res://.godot/imported/Archer.png-922d7ce643f4bf803cba3187d2c10c7a.ctex"]
+source_file="res://assets/sprites/powers/Quiver.png"
+dest_files=["res://.godot/imported/Quiver.png-a75894bbf2771defe66f98f20c86ec58.ctex"]
 
 [params]
 

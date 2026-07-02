@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cs2p1kox8jju3"
-path="res://.godot/imported/health bar under.png-9504b71eda492de21577c3d7c8dc94d7.ctex"
+uid="uid://chvjtv56bqdrr"
+path="res://.godot/imported/bg_maze_floor.png-1c4597fe27550e7faec5307756e1cb3c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/others/health bar under.png"
-dest_files=["res://.godot/imported/health bar under.png-9504b71eda492de21577c3d7c8dc94d7.ctex"]
+source_file="res://assets/backgrounds/bg_maze_floor.png"
+dest_files=["res://.godot/imported/bg_maze_floor.png-1c4597fe27550e7faec5307756e1cb3c.ctex"]
 
 [params]
 

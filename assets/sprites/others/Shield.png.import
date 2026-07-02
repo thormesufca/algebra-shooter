@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://7psvc0eskggw"
-path="res://.godot/imported/health bar progress.png-c41e14dc4ac4563c9797d99231a82131.ctex"
+uid="uid://bkeyc3xpymkii"
+path="res://.godot/imported/Shield.png-57361a55abecfc5f692b249a505e55e1.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/others/health bar progress.png"
-dest_files=["res://.godot/imported/health bar progress.png-c41e14dc4ac4563c9797d99231a82131.ctex"]
+source_file="res://assets/sprites/others/Shield.png"
+dest_files=["res://.godot/imported/Shield.png-57361a55abecfc5f692b249a505e55e1.ctex"]
 
 [params]
 

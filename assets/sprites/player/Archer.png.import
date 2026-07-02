@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dqjoxgpssd50y"
-path="res://.godot/imported/arrow.png-7e29d1b54870a16dc68dfa877693afec.ctex"
+uid="uid://dh7uf3a54nyaw"
+path="res://.godot/imported/Archer.png-b4acc6bf5db2c3a5c01709e239dac08c.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/flecha/arrow.png"
-dest_files=["res://.godot/imported/arrow.png-7e29d1b54870a16dc68dfa877693afec.ctex"]
+source_file="res://assets/sprites/player/Archer.png"
+dest_files=["res://.godot/imported/Archer.png-b4acc6bf5db2c3a5c01709e239dac08c.ctex"]
 
 [params]
 

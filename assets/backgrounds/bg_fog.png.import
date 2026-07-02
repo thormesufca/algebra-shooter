@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cnnromatbf6pg"
-path="res://.godot/imported/anim_rat.png-5111f0043ea1dec5d76b67acdc9b14ed.ctex"
+uid="uid://ctdbnwn62rety"
+path="res://.godot/imported/bg_fog.png-4f78e71ae654e200f4d01c7535a0f382.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://sprites/enemies/anim_rat.png"
-dest_files=["res://.godot/imported/anim_rat.png-5111f0043ea1dec5d76b67acdc9b14ed.ctex"]
+source_file="res://assets/backgrounds/bg_fog.png"
+dest_files=["res://.godot/imported/bg_fog.png-4f78e71ae654e200f4d01c7535a0f382.ctex"]
 
 [params]
 
