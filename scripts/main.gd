@@ -11,7 +11,7 @@ var player: Player = null
 
 func _ready() -> void:
 	if game.phase != null:
-		hud_right.update_phase({"operadores": game.phase.operators_unlocked})
+		hud_right.update_phase({"operadores": game.phase.operators_unlocked, "limite_upgrade": "[-%d, %d]" % [game.bonus_range, game.bonus_range], "upgrades": game.digit_level})
 
 func _process(_delta: float) -> void:
 	if player == null:

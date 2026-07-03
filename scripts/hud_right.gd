@@ -6,5 +6,6 @@ extends PanelContainer
 
 func update_phase(data: Dictionary) -> void:
 	operators_label.text = str(data.get("operadores", "+ -"))
-	upgrades_label.text = str(data.get("upgrades", 0))
+	var txtupgrades = ", ".join(range(1, data.get("upgrades", 1) + 1))
+	upgrades_label.text = txtupgrades #str(data.get("upgrades", 0))
 	upgrade_limit_label.text = str(data.get("limite_upgrade", "[-4, 4]"))

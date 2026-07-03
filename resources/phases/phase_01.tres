@@ -6,7 +6,7 @@
 
 [resource]
 script = ExtResource("1_phase")
-operators_unlocked = "+ - * /"
+operators_unlocked = "+ - * / ^ sqrt"
 enemy_scene = ExtResource("2_enemy")
 power_scene = ExtResource("3_power")
 walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)
