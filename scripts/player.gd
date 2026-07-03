@@ -4,6 +4,8 @@ class_name Player
 
 signal died
 
+const PowerupResultLabelScene := preload("res://entities/PowerupResultLabel.tscn")
+
 @export var speed: float = 400.0
 @export var bullet_scene: PackedScene
 @export var bullet_amount: float = 1
@@ -139,7 +141,9 @@ func set_fire_rate(new_wait_time: float) -> void:
 ## valor já inteiro — Shield só reflete no jogo na próxima fase,
 ## BulletAmount reflete na hora.
 func apply_powerup(data: PowerupData) -> void:
-	var factor :float = 1.0 + (data.result * multiplicador / 100.0)
+	var effective_value :float = data.result * multiplicador
+	var factor :float = 1.0 + (effective_value / 100.0)
+	_show_result_popup(data, multiplicador)
 	multiplicador = 1
 	match data.attribute:
 		PowerupData.Attribute.DAMAGE:
@@ -161,6 +165,12 @@ func apply_powerup(data: PowerupData) -> void:
 		PowerupData.Attribute.BULLET_AMOUNT:
 			bullet_amount_progress = max(bullet_amount_progress * factor, 1.0)
 			bullet_amount = floor(bullet_amount_progress)
+
+func _show_result_popup(data: PowerupData, effective_value: float) -> void:
+	var popup := PowerupResultLabelScene.instantiate()
+	popup.global_position = global_position
+	get_tree().get_first_node_in_group("game_root").add_child(popup)
+	popup.setup(data, effective_value)
 
 # Player não pegou algum powerup, incrementa multiplicador
 func giveup_powerup() -> void:

@@ -118,7 +118,7 @@ func _on_body_entered(body: Node) -> void:
 		_alive = false
 		_apply_powerup_effect(body)
 		queue_free()
-		
+
 func _apply_powerup_effect(player: Node) -> void:
 	if player.has_method("apply_powerup"):
 		player.apply_powerup(data)
