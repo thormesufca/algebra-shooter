@@ -3,11 +3,10 @@ extends RefCounted
 class_name PowerupGenerator
 
 ## Operadores de combinação (entre termos) liberados por nível.
-## Nível 3 também libera ^ e sqrt() dentro de cada termo (ver _random_term).
 const COMBINE_OPERATORS_BY_LEVEL := {
 	1: ["+", "-"],
 	2: ["+", "-", "*", "/"],
-	3: ["+", "-", "*", "/"],
+	3: ["+", "-", "*", "/"], ## Nível 3 libera ^ e sqrt() dentro de cada termo (ver _random_term).
 }
 
 const MAX_ATTEMPTS := 30

@@ -13,7 +13,7 @@ signal died
 @export var shield: int = 3
 @export var magnet: float = 1.0
 @export var score = 0
-@export var coins: int = 0
+@export var gold: int = 0
 var multiplicador: int = 1
 
 ## Acumulador float da "vida máxima" (mesma lógica percentual dos demais
@@ -56,7 +56,7 @@ func _physics_process(delta: float) -> void:
 
 	# Mantém o jogador dentro da tela
 	position.x = clamp(position.x, 20, 840)
-	position.y = clamp(position.y, -10000000, -400)
+	position.y = clamp(position.y, -10000000, -10)
 
 	move_and_slide()
 
@@ -74,11 +74,11 @@ func _on_hit_by_enemy(enemy: Node) -> void:
 	knockback = push_dir * KNOCKBACK_FORCE
 	if enemy.has_method("apply_knockback"):
 		enemy.apply_knockback(-push_dir, ENEMY_KNOCKBACK_FORCE)
-
-	shield = max(shield - 1, 0)
-	if shield < 0:
+	
+	if shield <= 0:
 		died.emit()
 		return
+	shield = max(shield - 1, 0)
 	is_invulnerable = true
 	_blink_while_invulnerable()
 
@@ -127,8 +127,8 @@ func shoot() -> void:
 func _on_bullet_enemy_hit() -> void:
 	score += 1
 
-func add_coins(amount: int) -> void:
-	coins += amount
+func add_gold(amount: int) -> void:
+	gold += amount
 
 func set_fire_rate(new_wait_time: float) -> void:
 	$ShootTimer.wait_time = new_wait_time

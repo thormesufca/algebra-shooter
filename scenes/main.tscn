@@ -6,7 +6,7 @@
 [ext_resource type="PackedScene" uid="uid://cxk8h2q5m1b02" path="res://scenes/hud_right.tscn" id="4_hudr"]
 [ext_resource type="Theme" uid="uid://dvya5ilbjmtc3" path="res://themes/greek_theme.tres" id="5_theme"]
 [ext_resource type="Texture2D" uid="uid://cvrrryg4a2j2f" path="res://assets/backgrounds/game_over.png" id="6_game_over"]
-[ext_resource type="Script" path="res://scripts/pause_layer.gd" id="7_pause"]
+[ext_resource type="Script" uid="uid://b37oa86okh3cn" path="res://scripts/pause_layer.gd" id="7_pause"]
 
 [node name="Main" type="Control" unique_id=921976985]
 layout_mode = 3
@@ -60,7 +60,7 @@ grow_vertical = 2
 texture = ExtResource("6_game_over")
 expand_mode = 1
 
-[node name="PauseLayer" type="Control" parent="."]
+[node name="PauseLayer" type="Control" parent="." unique_id=71737576]
 process_mode = 3
 visible = false
 layout_mode = 1
@@ -71,7 +71,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("7_pause")
 
-[node name="Dim" type="ColorRect" parent="PauseLayer"]
+[node name="Dim" type="ColorRect" parent="PauseLayer" unique_id=1510166541]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -80,7 +80,7 @@ grow_horizontal = 2
 grow_vertical = 2
 color = Color(0, 0, 0, 0.6)
 
-[node name="Center" type="CenterContainer" parent="PauseLayer"]
+[node name="Center" type="CenterContainer" parent="PauseLayer" unique_id=106445657]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -88,7 +88,7 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="PauseLabel" type="Label" parent="PauseLayer/Center"]
+[node name="PauseLabel" type="Label" parent="PauseLayer/Center" unique_id=215797806]
 layout_mode = 2
 theme_type_variation = &"TitleLabel"
 theme_override_font_sizes/font_size = 56

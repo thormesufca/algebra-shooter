@@ -4,6 +4,10 @@ extends Node2D
 @export var power_scene: PackedScene
 @export var powerup_enemy_index: int = 5
 @export var phase: PhaseData
+@export var operator_level: int = 1
+@export var digit_level: int = 4
+@export var range: float = 4
+
 
 var _spawn_count: int = 0
 
@@ -20,6 +24,10 @@ func _on_spawn_timer_timeout() -> void:
 
 
 func _ready() -> void:
+	if GameConfig.configured:
+		operator_level = GameConfig.operator_level
+		digit_level = GameConfig.digit_level
+		range = GameConfig.range_value
 	if phase != null:
 		_apply_phase(phase)
 
@@ -38,7 +46,8 @@ func _on_powerup_enemy_died(death_position: Vector2) -> void:
 	
 func _spawn_powerup(death_position: Vector2)->void:
 	var power := power_scene.instantiate()
-	power.data = PowerupGenerator.generate()
+	power.data = PowerupGenerator.generate(operator_level, digit_level, -range, range)
+	print(power.data.expression, " = ", power.data.result)
 	add_child(power)
 	power.global_position = death_position
 	

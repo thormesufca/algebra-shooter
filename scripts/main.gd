@@ -29,7 +29,8 @@ func _process(_delta: float) -> void:
 		"escudo_max": player.max_shield,
 		"magnetismo": player.magnet,
 		"pontuacao": player.score,
-		"multiplicador": player.multiplicador
+		"multiplicador": player.multiplicador,
+		"gold": player.gold
 	})
 
 func _on_player_died() -> void:

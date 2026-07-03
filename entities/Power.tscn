@@ -18,6 +18,8 @@ corner_radius_top_right = 3
 corner_radius_bottom_right = 3
 corner_radius_bottom_left = 3
 
+[sub_resource type="SpriteFrames" id="SpriteFrames_r61fr"]
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8cmnm"]
 size = Vector2(97.5, 22.75)
 
@@ -40,7 +42,7 @@ autowrap_mode = 0
 [node name="Icon" type="AnimatedSprite2D" parent="." unique_id=787574084]
 texture_filter = 1
 position = Vector2(13, 13)
-autoplay = "animated"
+sprite_frames = SubResource("SpriteFrames_r61fr")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=218395959]
 position = Vector2(51.25, 13)

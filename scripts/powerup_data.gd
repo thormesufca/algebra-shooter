@@ -13,9 +13,9 @@ enum Attribute { DAMAGE, SPEED, FIRE_RATE, SHIELD, MAGNET, BULLET_AMOUNT }
 ## Resultado numérico da expressão — é o valor percentual aplicado ao atributo.
 @export var result: float = 0.0
 ## Nível de operadores desbloqueado no momento da geração (1: + -, 2: + - x /, 3: + - x / ^ sqrt).
-@export var operator_level: int = 1
+@export var operator_level: int = 3
 ## Maior dígito disponível no momento da geração (inicia em 4, compra até 9).
-@export var digit_level: int = 4
+@export var digit_level: int = 6
 
 ## Layout de cada spritesheet: tamanho do frame e quantas colunas/linhas ele
 ## ocupa (frames lidos em ordem linha a linha, esquerda->direita).

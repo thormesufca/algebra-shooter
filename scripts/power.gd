@@ -54,7 +54,8 @@ func _align_icon_to_box() -> void:
 	var box_center_y := label.position.y + label.size.y / 2.0
 	var icon_pos := Vector2(label.position.x + ICON_LEFT_PADDING + icon_half_size.x, box_center_y)
 	icon.position = icon_pos
-	icon_collision.position = icon_pos
+	icon_collision.shape.size = label.size
+	icon_collision.position = label.position + label.size / 2.0
 
 ## Depois que o ícone e o label têm posição/tamanho definitivos, garante que
 ## o card inteiro (ícone + texto da expressão) caiba na tela — a expressão

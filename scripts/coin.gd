@@ -40,7 +40,7 @@ func _process(delta: float) -> void:
 		global_position += direction * base_attract_speed * player.magnet * delta
 
 func _on_body_entered(body: Node) -> void:
-	if body.is_in_group("player") and body.has_method("add_coins"):
+	if body.is_in_group("player") and body.has_method("add_gold"):
 		_alive = false
-		body.add_coins(value)
+		body.add_gold(value)
 		queue_free()
