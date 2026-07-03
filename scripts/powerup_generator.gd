@@ -34,8 +34,8 @@ static func generate(
 	data.digit_level = digit_level
 
 	if attribute == -1:
-		attribute = GENERATABLE_ATTRIBUTES[randi() % GENERATABLE_ATTRIBUTES.size()]
-	data.attribute = attribute
+		attribute = GENERATABLE_ATTRIBUTES[randi() % GENERATABLE_ATTRIBUTES.size()] 
+	data.attribute = attribute as PowerupData.Attribute
 
 	var built := _build_expression(operator_level, digit_level, range_min, range_max)
 	data.expression = built.display

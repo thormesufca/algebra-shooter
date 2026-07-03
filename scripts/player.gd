@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 	move_and_slide()
 
 	# Mantém o jogador dentro da tela
-	position.x = clamp(position.x, 20, 840)
+	position.x = clamp(position.x, 60, 800)
 	position.y = clamp(position.y, -10000000, -10)
 
 	move_and_slide()
@@ -93,7 +93,7 @@ func _blink_while_invulnerable() -> void:
 	sprite.visible = true
 	is_invulnerable = false
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 		var dir := (get_global_mouse_position() - global_position).normalized()
 		var angle := fmod(PI / 2 - dir.angle() + TAU, TAU)  # normaliza para 0..2π
 		var index := int(round(angle / (TAU / 8.0))) % 8

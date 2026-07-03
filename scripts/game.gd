@@ -6,7 +6,7 @@ extends Node2D
 @export var phase: PhaseData
 @export var operator_level: int = 1
 @export var digit_level: int = 4
-@export var range: float = 4
+@export var bonus_range: float = 4
 
 
 var _spawn_count: int = 0
@@ -27,7 +27,7 @@ func _ready() -> void:
 	if GameConfig.configured:
 		operator_level = GameConfig.operator_level
 		digit_level = GameConfig.digit_level
-		range = GameConfig.range_value
+		bonus_range = GameConfig.range_value
 	if phase != null:
 		_apply_phase(phase)
 
@@ -46,7 +46,7 @@ func _on_powerup_enemy_died(death_position: Vector2) -> void:
 	
 func _spawn_powerup(death_position: Vector2)->void:
 	var power := power_scene.instantiate()
-	power.data = PowerupGenerator.generate(operator_level, digit_level, -range, range)
+	power.data = PowerupGenerator.generate(operator_level, digit_level, -bonus_range, bonus_range)
 	print(power.data.expression, " = ", power.data.result)
 	add_child(power)
 	power.global_position = death_position
@@ -56,5 +56,6 @@ func _get_spawn_position() -> Vector2:
 	var viewport_size := get_viewport_rect().size
 	var cam_pos := camera.global_position if camera else Vector2.ZERO
 	var spawn_x := randf_range(cam_pos.x - viewport_size.x / 2, cam_pos.x + viewport_size.x / 2)
+	spawn_x = max(min(spawn_x, 800), 60)
 	var spawn_y := cam_pos.y - viewport_size.y / 2 - 20.0
 	return Vector2(spawn_x, spawn_y)

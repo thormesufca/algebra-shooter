@@ -34,12 +34,12 @@ func update_stats(stats: Dictionary) -> void:
 
 func _update_multiplier_label(value: int) -> void:
 	multiplicador_label.text = str(value)
-	var size := clampi(
+	var m_size := clampi(
 		MULTIPLIER_BASE_FONT_SIZE + (value - 1) * MULTIPLIER_FONT_STEP,
 		MULTIPLIER_BASE_FONT_SIZE,
 		MULTIPLIER_FONT_MAX
 	)
-	multiplicador_label.add_theme_font_size_override("font_size", size)
+	multiplicador_label.add_theme_font_size_override("font_size", m_size)
 
 func _update_shield_icons(count: int) -> void:
 	var current := shield_icons.get_child_count()
