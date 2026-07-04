@@ -25,6 +25,7 @@ const ICON_LAYOUT := {
 	Attribute.BULLET_AMOUNT: {"texture": "res://assets/sprites/powers/Quiver.png", "frame_size": Vector2i(24, 24), "columns": 4, "rows": 1},
 	Attribute.SHIELD: {"texture": "res://assets/sprites/powers/Shield.png", "frame_size": Vector2i(24, 24), "columns": 2, "rows": 2},
 	Attribute.MAGNET: {"texture": "res://assets/sprites/powers/Magnet.png", "frame_size": Vector2i(48, 48), "columns": 4, "rows": 1},
+	Attribute.SPEED: {"texture": "res://assets/sprites/powers/Speed.png", "frame_size": Vector2i(48,48), "columns": 4, "rows": 1}
 }
 
 ## Monta um SpriteFrames com a animação "animated" para o atributo, lendo o

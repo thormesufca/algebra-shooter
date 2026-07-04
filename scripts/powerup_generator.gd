@@ -18,6 +18,7 @@ const GENERATABLE_ATTRIBUTES := [
 	PowerupData.Attribute.SHIELD,
 	PowerupData.Attribute.MAGNET,
 	PowerupData.Attribute.BULLET_AMOUNT,
+	PowerupData.Attribute.SPEED
 ]
 
 ## Gera um PowerupData com expressão/resultado dentro de [range_min, range_max],
