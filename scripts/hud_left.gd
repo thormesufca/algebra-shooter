@@ -10,6 +10,7 @@ const SHIELD_ICON_SIZE := Vector2(20, 20)
 @onready var fire_rate_label: Label = %FireRateValue
 @onready var shield_icons: HBoxContainer = %ShieldIcons
 @onready var shield_max_label: Label = %ShieldMaxValue
+@onready var arrow_max_label: Label = %ArrowMaxValue
 @onready var magnet_label: Label = %MagnetValue
 @onready var score_label: Label = %ScoreValue
 @onready var multiplicador_label: Label = %MultiplicadorValue
@@ -26,7 +27,8 @@ func update_stats(stats: Dictionary) -> void:
 	speed_label.text = "%.0f" % stats.get("velocidade", 0)
 	fire_rate_label.text = "%.2fs" % stats.get("cadencia", 0.0)
 	_update_shield_icons(int(stats.get("escudo", 0)))
-	shield_max_label.text = str(int(floor(stats.get("escudo_max", 0.0))))
+	shield_max_label.text = "%.2f" % stats.get("escudo_max", 0.0)
+	arrow_max_label.text = "%.2f" % stats.get("arrow_max", 0.0)
 	magnet_label.text = "%.1f" % stats.get("magnetismo", 1.0)
 	score_label.text = str(stats.get("pontuacao", 0))
 	gold_label.text = str(stats.get("gold", 0))

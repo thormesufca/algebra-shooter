@@ -1,0 +1,74 @@
+[gd_scene format=3 uid="uid://dp5ncudt2tae2"]
+
+[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="1_base"]
+[ext_resource type="Texture2D" uid="uid://ctcong0wapp56" path="res://assets/sprites/enemies/boss_minotaur.png" id="2_tex"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_mino"]
+size = Vector2(48, 50)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino0"]
+atlas = ExtResource("2_tex")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino1"]
+atlas = ExtResource("2_tex")
+region = Rect2(64, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino2"]
+atlas = ExtResource("2_tex")
+region = Rect2(128, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino3"]
+atlas = ExtResource("2_tex")
+region = Rect2(192, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino4"]
+atlas = ExtResource("2_tex")
+region = Rect2(256, 0, 64, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mino5"]
+atlas = ExtResource("2_tex")
+region = Rect2(320, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_mino"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mino5")
+}],
+"loop": true,
+"name": &"moving",
+"speed": 5.0
+}]
+
+[node name="EnemyMinotaur" unique_id=1324135721 instance=ExtResource("1_base")]
+max_health = 20
+reward_value = 5
+
+[node name="CollisionShape2D" parent="." index="0" unique_id=551160329]
+shape = SubResource("RectangleShape2D_mino")
+
+[node name="AnimatedSprite2D" parent="." index="1" unique_id=2003927357]
+sprite_frames = SubResource("SpriteFrames_mino")
+
+[node name="TextureProgressBar" parent="." index="2" unique_id=1974213384]
+offset_left = -17.0
+offset_top = -15.0
+offset_right = 12.0
+offset_bottom = 4.0
+rotation = 1.5707964

@@ -3,10 +3,41 @@
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="2_enemy"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
+[ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/enemy_minotaur.tscn" id="5_minotaur"]
+
+[sub_resource type="Resource" id="SpawnStage_inicio"]
+script = ExtResource("4_1lehk")
+spawn_interval = 1.5
+enemy_scene = ExtResource("2_enemy")
+
+[sub_resource type="Resource" id="SpawnStage_rapido"]
+script = ExtResource("4_1lehk")
+distance_threshold = 10000.0
+spawn_interval = 1.2
+enemy_scene = ExtResource("2_enemy")
+
+[sub_resource type="Resource" id="SpawnStage_forte"]
+script = ExtResource("4_1lehk")
+distance_threshold = 20000.0
+spawn_interval = 0.8
+enemy_scene = ExtResource("2_enemy")
+enemy_health = 8
+
+[sub_resource type="Resource" id="SpawnStage_minotauro"]
+script = ExtResource("4_1lehk")
+distance_threshold = 24900.0
+spawn_interval = 240.0
+enemy_scene = ExtResource("5_minotaur")
+enemy_health = 700
+enemy_reward = 1000
 
 [resource]
 script = ExtResource("1_phase")
-operators_unlocked = "+ - * / ^ sqrt"
 enemy_scene = ExtResource("2_enemy")
 power_scene = ExtResource("3_power")
+spawn_interval = 1.5
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+camera_speed = 25.0
+phase_distance = 25000.0
 walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)

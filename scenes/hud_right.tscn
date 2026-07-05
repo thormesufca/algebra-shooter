@@ -64,3 +64,28 @@ text = "Limite"
 unique_name_in_owner = true
 layout_mode = 2
 text = "--"
+
+[node name="PhaseProgressLabel" type="Label" parent="Margin/VBox" unique_id=1094810213]
+layout_mode = 2
+text = "Progresso da fase"
+
+[node name="PhaseProgressBar" type="ProgressBar" parent="Margin/VBox" unique_id=1094810214]
+unique_name_in_owner = true
+layout_mode = 2
+min_value = 0.0
+max_value = 100.0
+value = 0.0
+show_percentage = true
+
+[node name="DebugDistanceRow" type="HBoxContainer" parent="Margin/VBox" unique_id=1094810215]
+layout_mode = 2
+
+[node name="DebugDistanceLabel" type="Label" parent="Margin/VBox/DebugDistanceRow" unique_id=1094810216]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Distância (debug)"
+
+[node name="DebugDistanceValue" type="Label" parent="Margin/VBox/DebugDistanceRow" unique_id=1094810217]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0 / 0"

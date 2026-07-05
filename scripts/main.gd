@@ -21,12 +21,18 @@ func _process(_delta: float) -> void:
 			player.died.connect(_on_player_died)
 		return
 
+	if game.camera != null and game.camera.travel_distance > 0.0:
+		var percent :float = game.camera.distance_traveled / game.camera.travel_distance * 100.0
+		hud_right.update_phase_progress(percent)
+		hud_right.update_debug_distance(game.camera.distance_traveled, game.camera.travel_distance)
+
 	hud_left.update_stats({
 		"dano": player.damage,
 		"velocidade": player.speed,
 		"cadencia": player.get_node("ShootTimer").wait_time,
 		"escudo": player.shield,
 		"escudo_max": player.max_shield,
+		"arrow_max": player.bullet_amount_progress,
 		"magnetismo": player.magnet,
 		"pontuacao": player.score,
 		"multiplicador": player.multiplicador,

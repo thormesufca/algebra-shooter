@@ -22,10 +22,10 @@ const COLOR_ZERO := Color(0.7, 0.7, 0.7)
 ## `data` fornece o ícone; `effective_value` é o percentual efetivamente
 ## aplicado ao atributo (data.result * multiplicador do player), que pode
 ## divergir do resultado bruto da expressão.
-func setup(data: PowerupData, multiplier: int) -> void:
+func setup(data: PowerupData, multiplier: int, _applied_value: float) -> void:
 	var value := data.result  * multiplier
 	var sign_prefix := "+" if value > 0 else ""
-	label.text = "%s%.1f%%" % [sign_prefix,value]
+	label.text = "%s%.0f" % [sign_prefix, data.result]
 	if value > 0:
 		label.modulate = COLOR_POSITIVE
 	elif value < 0:

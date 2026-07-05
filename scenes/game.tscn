@@ -15,9 +15,6 @@ enemy_scene = ExtResource("3_lnu2h")
 power_scene = ExtResource("3_lbhrr")
 powerup_enemy_index = 10
 phase = ExtResource("6_phase")
-operator_level = 3
-digit_level = 9
-bonus_range = 10.0
 
 [node name="Background" type="Node2D" parent="." unique_id=1198486878]
 

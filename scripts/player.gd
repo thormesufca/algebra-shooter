@@ -11,7 +11,7 @@ const PowerupResultLabelScene := preload("res://entities/PowerupResultLabel.tscn
 @export var bullet_amount: float = 1
 @export var bullet_speed: float = 400.0
 @export var bullet_size: float = 10.0
-@export var damage: float = 3.0
+@export var damage: float = 4.0
 @export var shield: int = 3
 @export var magnet: float = 1.0
 @export var score = 0
@@ -40,6 +40,9 @@ const HIT_BLINK_INTERVAL := 0.1
 const KNOCKBACK_FRICTION := 600.0
 const KNOCKBACK_FORCE := 220.0
 const ENEMY_KNOCKBACK_FORCE := 280.0
+const SCREEN_MARGIN := 40.0
+const MIN_X := 60.0
+const MAX_X := 800.0
 
 var is_invulnerable: bool = false
 var knockback: Vector2 = Vector2.ZERO
@@ -56,11 +59,18 @@ func _physics_process(delta: float) -> void:
 	knockback = knockback.move_toward(Vector2.ZERO, KNOCKBACK_FRICTION * delta)
 	move_and_slide()
 
-	# Mantém o jogador dentro da tela
-	position.x = clamp(position.x, 60, 800)
-	position.y = clamp(position.y, -10000000, -10)
+	_clamp_to_camera_view()
 
-	move_and_slide()
+func _clamp_to_camera_view() -> void:
+	position.x = clamp(position.x, MIN_X, MAX_X)
+
+	var camera := get_viewport().get_camera_2d()
+	if camera == null:
+		return
+	var half_height := get_viewport_rect().size.y / 2.0
+	var min_y := camera.global_position.y - half_height + SCREEN_MARGIN
+	var max_y := camera.global_position.y + half_height - SCREEN_MARGIN
+	position.y = clamp(position.y, min_y, max_y)
 
 func _on_hurt_area_body_entered(body: Node) -> void:
 	if is_invulnerable:
@@ -135,42 +145,52 @@ func add_gold(amount: int) -> void:
 func set_fire_rate(new_wait_time: float) -> void:
 	$ShootTimer.wait_time = new_wait_time
 
-## Aplica um PowerupData: acréscimo/decréscimo percentual sobre o atributo
-## indicado. Shield e BulletAmount usam acumuladores float com floor
+## Aplica um PowerupData: acréscimo/decréscimo aditivo sobre o atributo
+## indicado, a partir de value = resultado da expressão * multiplicador.
+## Todos os atributos somam value/100, exceto Velocidade (soma value direto).
+## Shield e BulletAmount usam acumuladores float com floor
 ## (max_shield/bullet_amount_progress) em vez de aplicar direto sobre um
 ## valor já inteiro — Shield só reflete no jogo na próxima fase,
 ## BulletAmount reflete na hora.
 func apply_powerup(data: PowerupData) -> void:
-	var effective_value :float = data.result * multiplicador
-	var factor :float = 1.0 + (effective_value / 100.0)
-	_show_result_popup(data, multiplicador)
-	multiplicador = 1
+	var value :float = data.result * multiplicador
 	match data.attribute:
 		PowerupData.Attribute.DAMAGE:
-			damage = max(damage * factor, 0.0)
+			damage = max(damage + value / 100.0, 0.0)
+			_show_result_popup(data, multiplicador, value / 100)
 		PowerupData.Attribute.SPEED:
-			speed = max(speed * factor, 0.0)
+			speed = max(speed + value, 0.0)
+			_show_result_popup(data, multiplicador, value)
 		PowerupData.Attribute.FIRE_RATE:
-			# Cadência positiva deve acelerar o disparo, então o fator
-			# percentual reduz o wait_time em vez de aumentá-lo.
+			# Cadência positiva deve acelerar o disparo, então reduz o
+			# wait_time em vez de aumentá-lo.
 			var shoot_timer: Timer = $ShootTimer
-			shoot_timer.wait_time = max(shoot_timer.wait_time / factor, 0.05)
+			_show_result_popup(data, multiplicador, value / 1000)
+			shoot_timer.wait_time = max(shoot_timer.wait_time - value / 1000.0, 0.05)
 		PowerupData.Attribute.SHIELD:
-			max_shield = max(max_shield * factor, 0.0)
+			var old_shield = int(floor(max_shield))
+			max_shield = max(max_shield + value / 100.0, 0.0)
+				
 			# Perdas no máximo já refletem no escudo atual; ganhos só
 			# valem a partir da próxima fase (start_new_phase()).
 			shield = min(shield, int(floor(max_shield)))
+			# Se aumentou a quantidade de shields máxima, adiciona um shield de imediato
+			if int(floor(max_shield)) > old_shield:
+				shield += 1
+			_show_result_popup(data, multiplicador, value / 100)
 		PowerupData.Attribute.MAGNET:
-			magnet = max(magnet * factor, 0.0)
+			magnet = max(magnet + value / 100.0, 0.0)
+			_show_result_popup(data, multiplicador, value / 100)
 		PowerupData.Attribute.BULLET_AMOUNT:
-			bullet_amount_progress = max(bullet_amount_progress * factor, 1.0)
+			bullet_amount_progress = max(bullet_amount_progress + value / 100.0, 1.0)
 			bullet_amount = floor(bullet_amount_progress)
-
-func _show_result_popup(data: PowerupData, effective_value: float) -> void:
+			_show_result_popup(data, multiplicador, value / 100)
+	multiplicador = 1
+func _show_result_popup(data: PowerupData, multiplier: int, effective_value: float) -> void:
 	var popup := PowerupResultLabelScene.instantiate()
 	popup.global_position = global_position
 	get_tree().get_first_node_in_group("game_root").add_child(popup)
-	popup.setup(data, effective_value)
+	popup.setup(data, multiplier, effective_value)
 
 # Player não pegou algum powerup, incrementa multiplicador
 func giveup_powerup() -> void:

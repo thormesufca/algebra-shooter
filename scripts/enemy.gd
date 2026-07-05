@@ -9,7 +9,7 @@ signal died(death_position: Vector2)
 @export var reward_value: int = 1
 
 var player: Player = null
-var speed: float = 100.0
+@export var speed: float = 100.0
 var direction := Vector2.ZERO
 
 const KNOCKBACK_FRICTION := 600.0
@@ -21,6 +21,7 @@ func apply_knockback(push_direction: Vector2, force: float) -> void:
 
 
 var health:int
+var _dying := false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -48,12 +49,20 @@ func _process(_delta: float) -> void:
 	look_at(player.global_position)
 
 func take_damage(amount: int)->void:
+	if _dying:
+		return
 	health -= amount
 	progress_bar.value = health
 	if health <= 0:
 		die()
 
 func die()->void:
+	# queue_free() só remove o nó no fim do frame: sem essa guarda, vários
+	# projéteis atingindo o inimigo no mesmo frame chamariam die() mais de
+	# uma vez, emitindo "died" (e portanto gerando powerup) repetidamente.
+	if _dying:
+		return
+	_dying = true
 	died.emit(global_position)
 	call_deferred("_spawn_reward")
 	queue_free()
