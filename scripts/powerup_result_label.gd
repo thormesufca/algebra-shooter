@@ -7,8 +7,8 @@ extends Node2D
 @onready var label: Label = $Label
 @onready var icon: AnimatedSprite2D = $Icon
 
-const DURATION := 1.0
-const START_SCALE := 4.2
+const DURATION := 1.5
+const START_SCALE := 4
 const END_SCALE := 0.7
 const FADE_START_RATIO := 0.6
 ## Mesmo tamanho alvo usado no card do powerup (ver power.gd), pra manter a

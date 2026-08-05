@@ -24,6 +24,12 @@ const BodyFont := preload("res://assets/fonts/CormorantGaramond-VariableFont_wgh
 
 var _alive := true
 
+func _process(delta: float) -> void:
+	# Powerup sobe para não ficar perdido em fases mais rápidas
+	var camera := get_viewport().get_camera_2d()
+	if camera != null and "scroll_speed" in camera:
+		position.y -= camera.scroll_speed * 0.5 * delta
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if data == null:
