@@ -44,7 +44,7 @@ O gameplay é baseado em um ciclo principal de sobrevivência e decisão:
 ### Progressão e dificuldade
 - O jogo possui fases com configurações próprias de spawn, câmera e inimigos.
 - A dificuldade pode aumentar conforme a câmera percorre a fase.
-- O sistema de powerups também introduz um elemento de risco, já que ignorar um item pode aumentar um multiplicador para as próximas decisões.
+- O sistema de powerups também introduz um elemento de risco/recompensa (cashout), já que ignorar um item pode aumentar um multiplicador para as próximas decisões.
 
 ---
 
