@@ -1,9 +1,7 @@
 [gd_scene format=3 uid="uid://c0jlq3i4yiars"]
 
 [ext_resource type="Script" uid="uid://bimq3aia52e5t" path="res://scripts/bullet.gd" id="1_j06he"]
-
-[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_j06he"]
-load_path = "res://.godot/imported/arrow.png-bca7a1a978dc2bce9d3a95d4cea157b6.ctex"
+[ext_resource type="Texture2D" uid="uid://dqjoxgpssd50y" path="res://assets/sprites/flecha/arrow.png" id="2_opdhh"]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_hht6g"]
 radius = 1.4142135
@@ -16,7 +14,7 @@ script = ExtResource("1_j06he")
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=940501818]
 texture_filter = 1
 scale = Vector2(0.1, 0.1)
-texture = SubResource("CompressedTexture2D_j06he")
+texture = ExtResource("2_opdhh")
 region_enabled = true
 region_rect = Rect2(-0.2930336, -0.09126592, 32.49296, 31.868767)
 
