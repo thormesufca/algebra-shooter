@@ -73,20 +73,34 @@ func _clamp_to_camera_view() -> void:
 	position.y = clamp(position.y, min_y, max_y)
 
 func _on_hurt_area_body_entered(body: Node) -> void:
-	if is_invulnerable:
-		return
 	if body.is_in_group("enemy"):
 		_on_hit_by_enemy(body)
 
 func _on_hit_by_enemy(enemy: Node) -> void:
+	if is_invulnerable:
+		return
 	var push_dir : Vector2 = (global_position - enemy.global_position)
 	if push_dir == Vector2.ZERO:
 		push_dir = Vector2.UP
 	push_dir = push_dir.normalized()
-	knockback = push_dir * KNOCKBACK_FORCE
 	if enemy.has_method("apply_knockback"):
 		enemy.apply_knockback(-push_dir, ENEMY_KNOCKBACK_FORCE)
-	
+	take_damage_from(enemy.global_position, push_dir)
+
+## Ponto de entrada genérico para dano: usado tanto por hits corpo-a-corpo
+## (_on_hit_by_enemy, acima) quanto por ataques à distância de boss (ex.:
+## rock_projectile.gd). push_dir, se omitido, é calculado a partir de
+## source_position.
+func take_damage_from(source_position: Vector2, push_dir: Vector2 = Vector2.ZERO) -> void:
+	if is_invulnerable:
+		return
+	if push_dir == Vector2.ZERO:
+		push_dir = (global_position - source_position)
+		if push_dir == Vector2.ZERO:
+			push_dir = Vector2.UP
+		push_dir = push_dir.normalized()
+	knockback = push_dir * KNOCKBACK_FORCE
+
 	if shield <= 0:
 		died.emit()
 		return
@@ -173,7 +187,7 @@ func apply_powerup(data: PowerupData) -> void:
 			# wait_time em vez de aumentá-lo.
 			var shoot_timer: Timer = $ShootTimer
 			_show_result_popup(data, multiplicador, value / 1000)
-			shoot_timer.wait_time = max(shoot_timer.wait_time - value / 1000.0, 0.05)
+			shoot_timer.wait_time = max(shoot_timer.wait_time - value / 10000.0, 0.05)
 		PowerupData.Attribute.SHIELD:
 			var old_shield = int(floor(max_shield))
 			max_shield = max(max_shield + value / 100.0, 0.0)

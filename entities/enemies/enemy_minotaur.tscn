@@ -2,6 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://ctcong0wapp56" path="res://assets/sprites/enemies/boss_minotaur.png" id="2_tex"]
+[ext_resource type="Script" path="res://scripts/boss_minotaur.gd" id="3_boss_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mino"]
 size = Vector2(48, 50)
@@ -57,8 +58,9 @@ animations = [{
 }]
 
 [node name="EnemyMinotaur" unique_id=1324135721 instance=ExtResource("1_base")]
-max_health = 20
-reward_value = 5
+script = ExtResource("3_boss_script")
+max_health = 300
+reward_value = 100
 
 [node name="CollisionShape2D" parent="." index="0" unique_id=551160329]
 shape = SubResource("RectangleShape2D_mino")
@@ -69,3 +71,9 @@ sprite_frames = SubResource("SpriteFrames_mino")
 [node name="TextureProgressBar" parent="." index="2" unique_id=1974213384]
 offset_left = -17.0
 offset_right = 12.0
+
+[node name="AttackTimer" type="Timer" parent="."]
+wait_time = 2.2
+autostart = true
+
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

@@ -1,5 +1,10 @@
 extends Node2D
 
+## Emitido depois que o progresso da fase já foi salvo, com os atributos do
+## jogador antes e depois da fase (mesmo formato de Player.get_save_data()) —
+## main.gd usa isso pra mostrar a tela de resultado antes de voltar ao menu.
+signal phase_results(before: Dictionary, after: Dictionary)
+
 @export var enemy_scene: PackedScene
 @export var power_scene: PackedScene
 @export var powerup_enemy_index: int = 5
@@ -12,9 +17,14 @@ extends Node2D
 var _spawn_count: int = 0
 var _current_stage: SpawnStage = null
 var _enemy_pool: Array[PackedScene] = []
+var boss_scene: PackedScene = null
 ## Se o jogador morrer, o save de fim de fase deve ser cancelado mesmo que os
 ## inimigos restantes já estejam mortos (ver _finish_phase()).
 var _player_died: bool = false
+## Atributos do jogador no início da fase (mesma fonte que alimenta
+## player.apply_save_data em _ready()), guardados para calcular os deltas
+## mostrados na tela de resultado — ver _finish_phase().
+var _phase_start_player: Dictionary = {}
 
 @onready var camera: Camera2D = $Camera
 
@@ -68,8 +78,7 @@ func _update_spawn_stage() -> void:
 	# start() reinicia a contagem já com o novo intervalo; só ajustar
 	# wait_time não bastaria, pois o Timer já rearma o próximo ciclo com o
 	# valor antigo antes de emitir este próprio "timeout" — na prática, um
-	# tick a mais dispararia com o intervalo antigo (visível no estágio do
-	# minotauro: um segundo boss surgindo antes do fim da fase).
+	# tick a mais dispararia com o intervalo antigo de um estágio anterior.
 	$SpawnTimer.start(best.spawn_interval)
 	if not best.enemy_scenes.is_empty():
 		_enemy_pool = best.enemy_scenes
@@ -79,31 +88,80 @@ func _update_spawn_stage() -> void:
 
 func _on_phase_completed() -> void:
 	$SpawnTimer.stop()
-	_finish_phase_when_enemies_cleared()
+	_run_boss_sequence()
 
-## A câmera já percorreu toda a distância da fase, mas podem sobrar
-## inimigos em campo: espera todos morrerem antes de considerar a fase
-## concluída e salvar o progresso do jogador.
+## A câmera já percorreu toda a distância da fase, mas podem sobrar inimigos
+## comuns em campo: espera todos morrerem, depois — se a fase tiver um boss
+## dedicado (data.boss_scene) — mostra o aviso e spawna o boss como um
+## confronto isolado, e só então (esperando o boss e eventuais aliados que
+## ele invoque também morrerem) considera a fase concluída.
+func _run_boss_sequence() -> void:
+	await _wait_until_enemies_cleared()
+	if not is_inside_tree():
+		return
+	if boss_scene != null:
+		await _spawn_boss()
+		if not is_inside_tree():
+			return
+		await _wait_until_enemies_cleared()
+		if not is_inside_tree():
+			return
+	_collect_remaining_coins()
+	_finish_phase()
+
+## O jogador pode não ter tido tempo/chance de chegar perto de moedas soltas
+## pelos últimos inimigos (em especial a do boss, que agora ataca parado à
+## distância — ver boss.gd), então a fase termina recolhendo o que sobrou em
+## vez de deixar o ouro se perder.
+func _collect_remaining_coins() -> void:
+	var player := get_tree().get_first_node_in_group("player")
+	if player == null:
+		return
+	for coin in get_tree().get_nodes_in_group("coin"):
+		if coin.has_method("collect"):
+			coin.collect(player)
+
 ## Guarda a SceneTree numa variável local e confere is_inside_tree() a cada
 ## volta: se o jogador morrer nesse meio-tempo (main.gd reload_current_scene
 ## depois de 3s), este nó pode sair da árvore antes do loop terminar —
 ## get_tree() passaria a retornar null.
-func _finish_phase_when_enemies_cleared() -> void:
+func _wait_until_enemies_cleared() -> void:
 	var tree := get_tree()
 	while not tree.get_nodes_in_group("enemy").is_empty():
 		await tree.create_timer(0.5).timeout
 		if not is_inside_tree():
 			return
-	_finish_phase()
 
-const MainMenuScene := "res://scenes/main_menu.tscn"
-const PHASE_COMPLETE_DELAY := 1.5
+const BossWarningLabelScene := preload("res://entities/BossWarningLabel.tscn")
+const BOSS_WARNING_DELAY := 1.5
+
+## Mostra o aviso de boss por BOSS_WARNING_DELAY segundos e só então spawna o
+## boss, parado no topo da área visível da câmera (que já não se move mais,
+## já que a fase terminou — ver camera.gd).
+func _spawn_boss() -> void:
+	var tree := get_tree()
+	var warning := BossWarningLabelScene.instantiate()
+	warning.global_position = _get_boss_spawn_position()
+	get_tree().get_first_node_in_group("game_root").add_child(warning)
+	await tree.create_timer(BOSS_WARNING_DELAY).timeout
+	if not is_inside_tree():
+		return
+	var boss := boss_scene.instantiate()
+	boss.global_position = _get_boss_spawn_position()
+	get_tree().get_first_node_in_group("game_root").add_child(boss)
+
+func _get_boss_spawn_position() -> Vector2:
+	var local_camera := get_viewport().get_camera_2d()
+	var viewport_size := get_viewport_rect().size
+	var cam_pos := local_camera.global_position if local_camera else Vector2.ZERO
+	return Vector2(cam_pos.x, cam_pos.y - viewport_size.y / 2 + 120.0)
 
 ## Persiste o progresso do jogo (níveis de operadores/dígitos, range dos
-## powerups e atributos do jogador) ao final da fase e volta ao menu, onde o
-## ouro ganho pode ser gasto na loja. Se o jogador morreu no meio do
-## caminho, o save é pulado e o progresso salvo anteriormente permanece
-## intacto.
+## powerups e atributos do jogador) ao final da fase e avisa main.gd (via
+## phase_results) para mostrar a tela de resultado — a troca de cena pro
+## menu só acontece quando o jogador clica em Continuar nela, não mais
+## automaticamente aqui. Se o jogador morreu no meio do caminho, o save é
+## pulado e o progresso salvo anteriormente permanece intacto.
 func _finish_phase() -> void:
 	if _player_died:
 		return
@@ -116,12 +174,7 @@ func _finish_phase() -> void:
 	data.bonus_range = bonus_range
 	data.player = player.get_save_data()
 	GameSave.save(data)
-	var tree := get_tree()
-	await tree.create_timer(PHASE_COMPLETE_DELAY).timeout
-	# Se o jogador morrer bem nesse intervalo, main.gd também tenta trocar de
-	# cena (reload) — evita disputar a troca com um nó que já saiu da árvore.
-	if is_inside_tree():
-		tree.change_scene_to_file(MainMenuScene)
+	phase_results.emit(_phase_start_player, data.player)
 
 func _on_player_died() -> void:
 	_player_died = true
@@ -147,6 +200,7 @@ func _ready() -> void:
 		bonus_range = save_data.bonus_range
 	if phase != null:
 		_apply_phase(phase)
+	_phase_start_player = save_data.player.duplicate()
 	var player := get_tree().get_first_node_in_group("player") as Player
 	if player != null:
 		player.apply_save_data(save_data.player)
@@ -160,6 +214,7 @@ func _apply_phase(data: PhaseData) -> void:
 	if data.power_scene != null:
 		power_scene = data.power_scene
 	powerup_enemy_index = data.powerup_enemy_index
+	boss_scene = data.boss_scene
 	$SpawnTimer.wait_time = data.spawn_interval
 	camera.configure(data.camera_speed, data.phase_distance)
 	camera.phase_completed.connect(_on_phase_completed)

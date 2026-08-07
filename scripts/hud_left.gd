@@ -3,34 +3,30 @@ extends PanelContainer
 ## Selecione qual quadrante do spritesheet (Shield.png, grade 2x2) usar
 ## clicando neste campo no Inspector — abre o editor de região de textura.
 @export var shield_icon: Texture2D = preload("res://resources/ui/shield_icon.tres")
-const SHIELD_ICON_SIZE := Vector2(20, 20)
+const SHIELD_ICON_SIZE := Vector2(48, 48)
 
 @onready var damage_label: Label = %DamageValue
 @onready var speed_label: Label = %SpeedValue
 @onready var fire_rate_label: Label = %FireRateValue
 @onready var shield_icons: HBoxContainer = %ShieldIcons
-@onready var shield_max_label: Label = %ShieldMaxValue
-@onready var arrow_max_label: Label = %ArrowMaxValue
 @onready var magnet_label: Label = %MagnetValue
-@onready var score_label: Label = %ScoreValue
 @onready var multiplicador_label: Label = %MultiplicadorValue
 @onready var gold_label: Label = %GoldValue
 
 ## Tamanho de fonte do multiplicador: cresce com o valor, limitado a um teto
 ## pra não estourar a largura fixa do painel (330px).
-const MULTIPLIER_BASE_FONT_SIZE := 20
+const MULTIPLIER_BASE_FONT_SIZE := 32
 const MULTIPLIER_FONT_STEP := 6
-const MULTIPLIER_FONT_MAX := 48
+const MULTIPLIER_FONT_MAX := 64
 
 func update_stats(stats: Dictionary) -> void:
 	damage_label.text = "%.2f" % stats.get("dano", 0)
 	speed_label.text = "%.0f" % stats.get("velocidade", 0)
-	fire_rate_label.text = "%.2fs" % stats.get("cadencia", 0.0)
+	var wait_time : float = stats.get("cadencia", 0.0)
+	var shots_per_second := 1.0 / wait_time if wait_time > 0.0 else 0.0
+	fire_rate_label.text = "%.2f/s" % shots_per_second
 	_update_shield_icons(int(stats.get("escudo", 0)))
-	shield_max_label.text = "%.2f" % stats.get("escudo_max", 0.0)
-	arrow_max_label.text = "%.2f" % stats.get("arrow_max", 0.0)
 	magnet_label.text = "%.1f" % stats.get("magnetismo", 1.0)
-	score_label.text = str(stats.get("pontuacao", 0))
 	gold_label.text = str(stats.get("gold", 0))
 	_update_multiplier_label(int(stats.get("multiplicador", 1)))
 

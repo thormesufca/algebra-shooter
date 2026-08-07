@@ -25,6 +25,13 @@ class_name PhaseData
 ## Distância total (px) que a câmera percorre até a fase ser concluída.
 @export var phase_distance: float = 50000.0
 
+@export_group("Boss")
+## Cena do boss da fase: spawna depois que a câmera termina o percurso E os
+## inimigos comuns restantes morrem (ver game.gd/_run_boss_sequence). Se
+## null, a fase não tem boss dedicado (ainda usa o boss antigo via
+## spawn_stages, ou não tem boss).
+@export var boss_scene: PackedScene
+
 @export_group("Fundo")
 ## Tint aplicado sobre a névoa (bg_fog.png) — mantenha alpha baixo, é uma
 ## camada translúcida, não um fundo sólido.

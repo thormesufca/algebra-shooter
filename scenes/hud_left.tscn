@@ -1,6 +1,31 @@
 [gd_scene format=3 uid="uid://dxk8h2q5m1a01"]
 
 [ext_resource type="Script" uid="uid://bx5ae8t8cgsb5" path="res://scripts/hud_left.gd" id="1_hudl"]
+[ext_resource type="Texture2D" uid="uid://7de0rk7y0sln" path="res://assets/sprites/powers/Muscle.png" id="2_nja6c"]
+[ext_resource type="Texture2D" uid="uid://cd7h7uqa2nole" path="res://assets/sprites/powers/Speed.png" id="3_5g883"]
+[ext_resource type="Texture2D" uid="uid://wms4r80r1mk8" path="res://assets/sprites/powers/Arrow Dash.png" id="4_5dsdx"]
+[ext_resource type="Texture2D" uid="uid://bgvacsw5n1lh5" path="res://assets/sprites/powers/Magnet.png" id="5_k4ko1"]
+[ext_resource type="Texture2D" uid="uid://b4xuseisvjaij" path="res://assets/sprites/others/coin.png" id="6_1tlr2"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s6j3o"]
+atlas = ExtResource("2_nja6c")
+region = Rect2(0, 0, 24, 24)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aneck"]
+atlas = ExtResource("3_5g883")
+region = Rect2(8, 6, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_os3qq"]
+atlas = ExtResource("4_5dsdx")
+region = Rect2(50, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cb1b7"]
+atlas = ExtResource("5_k4ko1")
+region = Rect2(0, 0, 48, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_plunx"]
+atlas = ExtResource("6_1tlr2")
+region = Rect2(0, 0, 16, 16)
 
 [node name="HUDLeft" type="PanelContainer" unique_id=1835122339]
 custom_minimum_size = Vector2(330, 860)
@@ -29,119 +54,82 @@ layout_mode = 2
 [node name="DamageRow" type="HBoxContainer" parent="Margin/VBox" unique_id=425116847]
 layout_mode = 2
 
-[node name="DamageLabel" type="Label" parent="Margin/VBox/DamageRow" unique_id=1561024588]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/DamageRow" unique_id=276084378]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Dano"
+texture = SubResource("AtlasTexture_s6j3o")
 
 [node name="DamageValue" type="Label" parent="Margin/VBox/DamageRow" unique_id=686654301]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "0"
+horizontal_alignment = 2
+autowrap_trim_flags = 128
 
 [node name="SpeedRow" type="HBoxContainer" parent="Margin/VBox" unique_id=46027230]
 layout_mode = 2
 
-[node name="SpeedLabel" type="Label" parent="Margin/VBox/SpeedRow" unique_id=1846906447]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/SpeedRow" unique_id=2090731406]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Velocidade"
+texture = SubResource("AtlasTexture_aneck")
 
 [node name="SpeedValue" type="Label" parent="Margin/VBox/SpeedRow" unique_id=571911183]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "0"
+horizontal_alignment = 2
 
 [node name="FireRateRow" type="HBoxContainer" parent="Margin/VBox" unique_id=105926489]
 layout_mode = 2
 
-[node name="FireRateLabel" type="Label" parent="Margin/VBox/FireRateRow" unique_id=474182431]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/FireRateRow" unique_id=2136017319]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Cadência"
+texture = SubResource("AtlasTexture_os3qq")
 
 [node name="FireRateValue" type="Label" parent="Margin/VBox/FireRateRow" unique_id=1668878090]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "0.00s"
-
-[node name="ShieldRow" type="HBoxContainer" parent="Margin/VBox" unique_id=407036076]
-layout_mode = 2
-
-[node name="ShieldLabel" type="Label" parent="Margin/VBox/ShieldRow" unique_id=328645004]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Escudo"
-
-[node name="ShieldIcons" type="HBoxContainer" parent="Margin/VBox/ShieldRow" unique_id=1055958183]
-unique_name_in_owner = true
-layout_mode = 2
-theme_override_constants/separation = 2
-
-[node name="ShieldMaxRow" type="HBoxContainer" parent="Margin/VBox" unique_id=694714031]
-layout_mode = 2
-
-[node name="ShieldMaxLabel" type="Label" parent="Margin/VBox/ShieldMaxRow" unique_id=548522224]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Máximo Escudos (inteiro)"
-
-[node name="ShieldMaxValue" type="Label" parent="Margin/VBox/ShieldMaxRow" unique_id=1423978928]
-unique_name_in_owner = true
-layout_mode = 2
-text = "3"
-
-[node name="ArrowMaxRow" type="HBoxContainer" parent="Margin/VBox" unique_id=1058448792]
-layout_mode = 2
-
-[node name="ArrowMaxLabel" type="Label" parent="Margin/VBox/ArrowMaxRow" unique_id=1957859659]
-layout_mode = 2
-size_flags_horizontal = 3
-text = "Flechas (inteiro)"
-
-[node name="ArrowMaxValue" type="Label" parent="Margin/VBox/ArrowMaxRow" unique_id=1624820570]
-unique_name_in_owner = true
-layout_mode = 2
-text = "3"
+horizontal_alignment = 2
 
 [node name="MagnetRow" type="HBoxContainer" parent="Margin/VBox" unique_id=270092324]
 layout_mode = 2
 
-[node name="MagnetLabel" type="Label" parent="Margin/VBox/MagnetRow" unique_id=1817351762]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/MagnetRow" unique_id=1038975265]
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Magnetismo"
+texture = SubResource("AtlasTexture_cb1b7")
 
 [node name="MagnetValue" type="Label" parent="Margin/VBox/MagnetRow" unique_id=1150352109]
 unique_name_in_owner = true
 layout_mode = 2
-text = "1.0"
-
-[node name="ScoreRow" type="HBoxContainer" parent="Margin/VBox" unique_id=2081179420]
-layout_mode = 2
-
-[node name="ScoreLabel" type="Label" parent="Margin/VBox/ScoreRow" unique_id=266268695]
-layout_mode = 2
 size_flags_horizontal = 3
-text = "Pontuação"
-
-[node name="ScoreValue" type="Label" parent="Margin/VBox/ScoreRow" unique_id=2067118829]
-unique_name_in_owner = true
-layout_mode = 2
-text = "0"
+theme_override_font_sizes/font_size = 32
+text = "1.0"
+horizontal_alignment = 2
 
 [node name="GoldRow" type="HBoxContainer" parent="Margin/VBox" unique_id=686938321]
 layout_mode = 2
 
-[node name="GoldLabel" type="Label" parent="Margin/VBox/GoldRow" unique_id=171380176]
+[node name="TextureRect" type="TextureRect" parent="Margin/VBox/GoldRow" unique_id=138106110]
+custom_minimum_size = Vector2(48, 48)
 layout_mode = 2
-size_flags_horizontal = 3
-text = "Ouro"
+texture = SubResource("AtlasTexture_plunx")
 
 [node name="GoldValue" type="Label" parent="Margin/VBox/GoldRow" unique_id=733748921]
 unique_name_in_owner = true
 layout_mode = 2
+size_flags_horizontal = 3
+theme_override_font_sizes/font_size = 32
 text = "0"
+horizontal_alignment = 2
 
 [node name="MultiplicadorRow" type="HBoxContainer" parent="Margin/VBox" unique_id=2142964768]
 layout_mode = 2
@@ -155,3 +143,12 @@ text = "Multiplicador"
 unique_name_in_owner = true
 layout_mode = 2
 text = "0"
+
+[node name="ShieldRow" type="HBoxContainer" parent="Margin/VBox" unique_id=407036076]
+layout_mode = 2
+
+[node name="ShieldIcons" type="HBoxContainer" parent="Margin/VBox/ShieldRow" unique_id=1055958183]
+unique_name_in_owner = true
+custom_minimum_size = Vector2(288, 48)
+layout_mode = 2
+theme_override_constants/separation = 2

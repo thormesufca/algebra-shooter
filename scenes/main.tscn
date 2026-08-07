@@ -7,6 +7,7 @@
 [ext_resource type="Theme" uid="uid://dvya5ilbjmtc3" path="res://themes/greek_theme.tres" id="5_theme"]
 [ext_resource type="Texture2D" uid="uid://cvrrryg4a2j2f" path="res://assets/backgrounds/game_over.png" id="6_game_over"]
 [ext_resource type="Script" uid="uid://b37oa86okh3cn" path="res://scripts/pause_layer.gd" id="7_pause"]
+[ext_resource type="PackedScene" path="res://scenes/phase_results_layer.tscn" id="8_results"]
 
 [node name="Main" type="Control" unique_id=921976985]
 layout_mode = 3
@@ -60,6 +61,12 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("6_game_over")
 expand_mode = 1
+
+[node name="PhaseResultsLayer" parent="." instance=ExtResource("8_results")]
+unique_name_in_owner = true
+process_mode = 3
+visible = false
+layout_mode = 1
 
 [node name="PauseLayer" type="Control" parent="." unique_id=71737576]
 process_mode = 3

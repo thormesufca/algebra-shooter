@@ -48,6 +48,13 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player") and body.has_method("add_gold"):
-		_alive = false
-		body.add_gold(value)
-		queue_free()
+		collect(body)
+
+## Coleta forçada, sem exigir colisão — usada por game.gd para recolher
+## moedas restantes quando a fase termina antes do jogador chegar até elas.
+func collect(collector: Node) -> void:
+	if not _alive:
+		return
+	_alive = false
+	collector.add_gold(value)
+	queue_free()

@@ -34,22 +34,14 @@ enemy_health = 13
 enemy_reward = 1
 enemy_speed = 130.0
 
-[sub_resource type="Resource" id="SpawnStage_minotauro"]
-script = ExtResource("4_1lehk")
-distance_threshold = 9900.0
-spawn_interval = 240.0
-enemy_scene = ExtResource("5_minotaur")
-enemy_health = 300
-enemy_reward = 100
-enemy_speed = 90.0
-
 [resource]
 script = ExtResource("1_phase")
 enemy_scene = ExtResource("6_worm")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.5
 powerup_enemy_index = 3
-spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte")])
 camera_speed = 75.0
 phase_distance = 10000.0
+boss_scene = ExtResource("5_minotaur")
 walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)

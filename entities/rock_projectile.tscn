@@ -1,0 +1,114 @@
+[gd_scene format=3 uid="uid://dowr40o7nt7b2"]
+
+[ext_resource type="Script" uid="uid://iujye6gd8g1" path="res://scripts/rock_projectile.gd" id="1_rock"]
+[ext_resource type="Texture2D" uid="uid://du32h3vsnh7fu" path="res://assets/sprites/others/rock_round.png" id="2_4vwrf"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_rock"]
+radius = 8.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5324"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pspkx"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bxoi1"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wdl7f"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_clj8j"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(0, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wbn1c"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(32, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lkhhm"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(64, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yit4e"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(96, 32, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bsq87"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(0, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sthih"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(32, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sy6vo"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(64, 64, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8bdnb"]
+atlas = ExtResource("2_4vwrf")
+region = Rect2(96, 64, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nthsl"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5324")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pspkx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bxoi1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wdl7f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_clj8j")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wbn1c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lkhhm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yit4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bsq87")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sthih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sy6vo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8bdnb")
+}],
+"loop": true,
+"name": &"default",
+"speed": 8.0
+}]
+
+[node name="RockProjectile" type="Area2D" unique_id=836741616]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_rock")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=491514977]
+shape = SubResource("CircleShape2D_rock")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=181199534]
+sprite_frames = SubResource("SpriteFrames_nthsl")
+autoplay = "default"
+frame_progress = 0.1886085
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

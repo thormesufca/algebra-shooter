@@ -3,7 +3,7 @@ extends Control
 const MainMenuScene := "res://scenes/main_menu.tscn"
 const GameScene := "res://scenes/main.tscn"
 
-## Fases jogáveis, na ordem de exibição/dificuldade.
+
 const PHASE_PATHS := [
 	"res://resources/phases/phase_01.tres",
 	"res://resources/phases/phase_02.tres",

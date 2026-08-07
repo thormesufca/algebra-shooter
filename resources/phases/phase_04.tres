@@ -34,15 +34,6 @@ enemy_health = 29
 enemy_reward = 4
 enemy_speed = 285.6
 
-[sub_resource type="Resource" id="SpawnStage_minotauro"]
-script = ExtResource("4_1lehk")
-distance_threshold = 15800.0
-spawn_interval = 240.0
-enemy_scene = ExtResource("8_medusa")
-enemy_health = 659
-enemy_reward = 400
-enemy_speed = 197.7
-
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 4"
@@ -51,6 +42,7 @@ enemy_scene = ExtResource("5_centipede")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.0
 powerup_enemy_index = 5
-spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte")])
 camera_speed = 105.0
 phase_distance = 16000.0
+boss_scene = ExtResource("8_medusa")

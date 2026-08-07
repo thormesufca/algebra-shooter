@@ -6,12 +6,14 @@ const GAME_OVER_RESTART_DELAY := 3.0
 @onready var hud_right: PanelContainer = %HUDRight
 @onready var game: Node2D = $HBoxContainer/ViewportContainer/SubViewport/Game
 @onready var game_over_layer: TextureRect = %GameOverLayer
+@onready var phase_results_layer: Control = %PhaseResultsLayer
 
 var player: Player = null
 
 func _ready() -> void:
 	if game.phase != null:
 		hud_right.update_phase({"operadores": game.phase.operators_unlocked, "limite_upgrade": "[-%d, %d]" % [game.bonus_range, game.bonus_range], "upgrades": game.digit_level})
+	game.phase_results.connect(_on_phase_results)
 
 func _process(_delta: float) -> void:
 	if player == null:
@@ -38,6 +40,11 @@ func _process(_delta: float) -> void:
 		"multiplicador": player.multiplicador,
 		"gold": player.gold
 	})
+
+func _on_phase_results(before: Dictionary, after: Dictionary) -> void:
+	get_tree().paused = true
+	phase_results_layer.visible = true
+	phase_results_layer.show_results(before, after)
 
 func _on_player_died() -> void:
 	game_over_layer.visible = true
