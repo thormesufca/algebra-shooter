@@ -15,3 +15,6 @@ export_credentials.cfg
 .mono/
 data_*/
 mono_crash.*.json
+
+# Save data (generated locally on first launch, not shipped with the repo)
+/save/
