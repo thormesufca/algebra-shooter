@@ -1,0 +1,158 @@
+[gd_scene format=3]
+
+[ext_resource type="Theme" path="res://themes/greek_theme.tres" id="1_theme"]
+[ext_resource type="Script" path="res://scripts/shop.gd" id="2_script"]
+
+[node name="Shop" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("1_theme")
+script = ExtResource("2_script")
+
+[node name="Center" type="CenterContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Panel" type="PanelContainer" parent="Center"]
+layout_mode = 2
+custom_minimum_size = Vector2(520, 0)
+
+[node name="Margin" type="MarginContainer" parent="Center/Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 28
+theme_override_constants/margin_top = 28
+theme_override_constants/margin_right = 28
+theme_override_constants/margin_bottom = 28
+
+[node name="VBox" type="VBoxContainer" parent="Center/Panel/Margin"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="Title" type="Label" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_type_variation = &"TitleLabel"
+horizontal_alignment = 1
+text = "LOJA"
+
+[node name="GoldRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="GoldLabel" type="Label" parent="Center/Panel/Margin/VBox/GoldRow"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Ouro"
+
+[node name="GoldValue" type="Label" parent="Center/Panel/Margin/VBox/GoldRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "0"
+
+[node name="HSeparator" type="HSeparator" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="ShieldRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ShieldInfo" type="Label" parent="Center/Panel/Margin/VBox/ShieldRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Vidas (escudo máx.): 3"
+
+[node name="ShieldCost" type="Label" parent="Center/Panel/Margin/VBox/ShieldRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "50 ouro"
+
+[node name="ShieldBuyButton" type="Button" parent="Center/Panel/Margin/VBox/ShieldRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Comprar"
+
+[node name="ArrowRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="ArrowInfo" type="Label" parent="Center/Panel/Margin/VBox/ArrowRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Flechas: 1"
+
+[node name="ArrowCost" type="Label" parent="Center/Panel/Margin/VBox/ArrowRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "60 ouro"
+
+[node name="ArrowBuyButton" type="Button" parent="Center/Panel/Margin/VBox/ArrowRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Comprar"
+
+[node name="DigitRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="DigitInfo" type="Label" parent="Center/Panel/Margin/VBox/DigitRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Dígitos: até 4 (próximo: 5)"
+
+[node name="DigitCost" type="Label" parent="Center/Panel/Margin/VBox/DigitRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "100 ouro"
+
+[node name="DigitBuyButton" type="Button" parent="Center/Panel/Margin/VBox/DigitRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Comprar"
+
+[node name="OperatorRow" type="HBoxContainer" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="OperatorInfo" type="Label" parent="Center/Panel/Margin/VBox/OperatorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Operadores: nível 1 (+ -)"
+
+[node name="OperatorCost" type="Label" parent="Center/Panel/Margin/VBox/OperatorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "300 ouro"
+
+[node name="OperatorBuyButton" type="Button" parent="Center/Panel/Margin/VBox/OperatorRow"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "Comprar"
+
+[node name="HSeparator2" type="HSeparator" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+
+[node name="StatusLabel" type="Label" parent="Center/Panel/Margin/VBox"]
+unique_name_in_owner = true
+layout_mode = 2
+horizontal_alignment = 1
+text = ""
+
+[node name="BackButton" type="Button" parent="Center/Panel/Margin/VBox"]
+layout_mode = 2
+text = "Voltar"
+
+[connection signal="pressed" from="Center/Panel/Margin/VBox/ShieldRow/ShieldBuyButton" to="." method="_on_shield_buy_button_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/ArrowRow/ArrowBuyButton" to="." method="_on_arrow_buy_button_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/DigitRow/DigitBuyButton" to="." method="_on_digit_buy_button_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/OperatorRow/OperatorBuyButton" to="." method="_on_operator_buy_button_pressed"]
+[connection signal="pressed" from="Center/Panel/Margin/VBox/BackButton" to="." method="_on_back_button_pressed"]

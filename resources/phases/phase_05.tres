@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="PhaseData" format=3]
+
+[ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
+[ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
+[ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_lizard.tscn" id="5_lizard"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_scorpion.tscn" id="6_scorpion"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_centipede.tscn" id="7_centipede"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_kraken.tscn" id="8_kraken"]
+
+[sub_resource type="Resource" id="SpawnStage_inicio"]
+script = ExtResource("4_1lehk")
+spawn_interval = 0.9
+enemy_scene = ExtResource("5_lizard")
+enemy_health = 17
+enemy_reward = 5
+enemy_speed = 285.6
+
+[sub_resource type="Resource" id="SpawnStage_rapido"]
+script = ExtResource("4_1lehk")
+distance_threshold = 6000.0
+spawn_interval = 0.7
+enemy_scene = ExtResource("6_scorpion")
+enemy_health = 26
+enemy_reward = 5
+enemy_speed = 328.5
+
+[sub_resource type="Resource" id="SpawnStage_forte"]
+script = ExtResource("4_1lehk")
+distance_threshold = 12000.0
+spawn_interval = 0.5
+enemy_scene = ExtResource("7_centipede")
+enemy_health = 37
+enemy_reward = 5
+enemy_speed = 371.3
+
+[sub_resource type="Resource" id="SpawnStage_minotauro"]
+script = ExtResource("4_1lehk")
+distance_threshold = 17800.0
+spawn_interval = 240.0
+enemy_scene = ExtResource("8_kraken")
+enemy_health = 857
+enemy_reward = 500
+enemy_speed = 257.0
+
+[resource]
+script = ExtResource("1_phase")
+phase_name = "Fase 5"
+operators_unlocked = "+ - × ÷ ^ √"
+enemy_scene = ExtResource("5_lizard")
+power_scene = ExtResource("3_power")
+spawn_interval = 0.9
+powerup_enemy_index = 5
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+camera_speed = 115.0
+phase_distance = 18000.0

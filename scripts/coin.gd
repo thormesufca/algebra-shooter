@@ -19,15 +19,22 @@ func _ready() -> void:
 	_start_lifetime()
 
 func _start_lifetime() -> void:
-	await get_tree().create_timer(LIFETIME - BLINK_DURATION).timeout
-	if not _alive:
+	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
+	# enquanto esta moeda ainda está na tela (ver game.gd._finish_phase()), a
+	# cena troca para o menu e este nó sai da árvore — get_tree() passaria a
+	# retornar null nos awaits seguintes.
+	var tree := get_tree()
+	await tree.create_timer(LIFETIME - BLINK_DURATION).timeout
+	if not _alive or not is_inside_tree():
 		return
 	var elapsed := 0.0
 	while elapsed < BLINK_DURATION and _alive:
 		visible = not visible
-		await get_tree().create_timer(BLINK_INTERVAL).timeout
+		await tree.create_timer(BLINK_INTERVAL).timeout
+		if not is_inside_tree():
+			return
 		elapsed += BLINK_INTERVAL
-	if _alive:
+	if _alive and is_inside_tree():
 		queue_free()
 
 func _process(delta: float) -> void:

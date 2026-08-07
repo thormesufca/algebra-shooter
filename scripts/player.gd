@@ -95,10 +95,17 @@ func _on_hit_by_enemy(enemy: Node) -> void:
 	_blink_while_invulnerable()
 
 func _blink_while_invulnerable() -> void:
+	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
+	# durante o piscar (ver game.gd._finish_phase()), a cena troca para o
+	# menu e este nó sai da árvore — get_tree() passaria a retornar null nos
+	# awaits seguintes.
+	var tree := get_tree()
 	var elapsed := 0.0
 	while elapsed < HIT_INVULNERABILITY_DURATION:
 		sprite.visible = not sprite.visible
-		await get_tree().create_timer(HIT_BLINK_INTERVAL).timeout
+		await tree.create_timer(HIT_BLINK_INTERVAL).timeout
+		if not is_inside_tree():
+			return
 		elapsed += HIT_BLINK_INTERVAL
 	sprite.visible = true
 	is_invulnerable = false
@@ -198,6 +205,38 @@ func giveup_powerup() -> void:
 	
 
 ## Sincroniza o escudo em jogo com a vida máxima acumulada. Deve ser chamado
-## no início de cada fase (ainda não há transição de fase implementada).
+## no início de cada fase.
 func start_new_phase() -> void:
 	shield = int(floor(max_shield))
+
+## Atributos ganhos via powerups (não os valores base do @export), para
+## persistir entre fases como o campo `player` de um GameData — ver
+## game.gd/GameSave. Só deve ser chamado quando a fase é concluída com
+## sucesso.
+func get_save_data() -> Dictionary:
+	return {
+		"damage": damage,
+		"speed": speed,
+		"fire_rate": $ShootTimer.wait_time,
+		"max_shield": max_shield,
+		"bullet_amount_progress": bullet_amount_progress,
+		"magnet": magnet,
+		"score": score,
+		"gold": gold,
+	}
+
+## Restaura os atributos salvos por get_save_data() (campo `player` do
+## GameData carregado). Chamado por game.gd no início de cada fase; se ainda
+## não houver save, o dicionário vem vazio e os valores padrão do @export
+## são mantidos.
+func apply_save_data(data: Dictionary) -> void:
+	damage = data.get("damage", damage)
+	speed = data.get("speed", speed)
+	max_shield = data.get("max_shield", max_shield)
+	bullet_amount_progress = data.get("bullet_amount_progress", bullet_amount_progress)
+	bullet_amount = floor(bullet_amount_progress)
+	magnet = data.get("magnet", magnet)
+	score = data.get("score", score)
+	gold = data.get("gold", gold)
+	set_fire_rate(data.get("fire_rate", $ShootTimer.wait_time))
+	start_new_phase()

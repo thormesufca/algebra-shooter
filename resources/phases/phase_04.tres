@@ -1,0 +1,56 @@
+[gd_resource type="Resource" script_class="PhaseData" format=3]
+
+[ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
+[ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
+[ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_centipede.tscn" id="5_centipede"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_beetle.tscn" id="6_beetle"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_spider.tscn" id="7_spider"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_medusa.tscn" id="8_medusa"]
+
+[sub_resource type="Resource" id="SpawnStage_inicio"]
+script = ExtResource("4_1lehk")
+spawn_interval = 1.0
+enemy_scene = ExtResource("5_centipede")
+enemy_health = 13
+enemy_reward = 4
+enemy_speed = 219.7
+
+[sub_resource type="Resource" id="SpawnStage_rapido"]
+script = ExtResource("4_1lehk")
+distance_threshold = 5000.0
+spawn_interval = 0.8
+enemy_scene = ExtResource("6_beetle")
+enemy_health = 20
+enemy_reward = 4
+enemy_speed = 252.7
+
+[sub_resource type="Resource" id="SpawnStage_forte"]
+script = ExtResource("4_1lehk")
+distance_threshold = 10500.0
+spawn_interval = 0.55
+enemy_scene = ExtResource("7_spider")
+enemy_health = 29
+enemy_reward = 4
+enemy_speed = 285.6
+
+[sub_resource type="Resource" id="SpawnStage_minotauro"]
+script = ExtResource("4_1lehk")
+distance_threshold = 15800.0
+spawn_interval = 240.0
+enemy_scene = ExtResource("8_medusa")
+enemy_health = 659
+enemy_reward = 400
+enemy_speed = 197.7
+
+[resource]
+script = ExtResource("1_phase")
+phase_name = "Fase 4"
+operators_unlocked = "+ - × ÷ ^ √"
+enemy_scene = ExtResource("5_centipede")
+power_scene = ExtResource("3_power")
+spawn_interval = 1.0
+powerup_enemy_index = 5
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+camera_speed = 105.0
+phase_distance = 16000.0

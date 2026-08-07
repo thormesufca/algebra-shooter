@@ -82,16 +82,23 @@ func _clamp_to_screen() -> void:
 		global_position.x = clamp(global_position.x, min_x, max_x)
 
 func _start_lifetime() -> void:
-	await get_tree().create_timer(LIFETIME - BLINK_DURATION).timeout
-	if not _alive:
+	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
+	# enquanto este powerup ainda está na tela (ver game.gd._finish_phase()),
+	# a cena troca para o menu e este nó sai da árvore — get_tree() passaria
+	# a retornar null nos awaits seguintes.
+	var tree := get_tree()
+	await tree.create_timer(LIFETIME - BLINK_DURATION).timeout
+	if not _alive or not is_inside_tree():
 		return
 	var elapsed := 0.0
 	while elapsed < BLINK_DURATION and _alive:
 		visible = not visible
-		await get_tree().create_timer(BLINK_INTERVAL).timeout
+		await tree.create_timer(BLINK_INTERVAL).timeout
+		if not is_inside_tree():
+			return
 		elapsed += BLINK_INTERVAL
-	if _alive:
-		var player = get_tree().get_first_node_in_group("player")
+	if _alive and is_inside_tree():
+		var player = tree.get_first_node_in_group("player")
 		if player.has_method("giveup_powerup"):
 			player.giveup_powerup()
 		queue_free()

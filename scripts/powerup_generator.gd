@@ -12,12 +12,12 @@ const COMBINE_OPERATORS_BY_LEVEL := {
 const MAX_ATTEMPTS := 30
 
 ## Atributos sorteáveis. SPEED fica de fora até ter ícone/animação próprios.
+## SHIELD e BULLET_AMOUNT ficam de fora porque agora são comprados na loja
+## (ver shop.gd), não mais ganhos via powerup em jogo.
 const GENERATABLE_ATTRIBUTES := [
 	PowerupData.Attribute.DAMAGE,
 	PowerupData.Attribute.FIRE_RATE,
-	PowerupData.Attribute.SHIELD,
 	PowerupData.Attribute.MAGNET,
-	PowerupData.Attribute.BULLET_AMOUNT,
 	PowerupData.Attribute.SPEED
 ]
 

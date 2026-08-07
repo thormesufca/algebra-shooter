@@ -41,7 +41,13 @@ func _process(_delta: float) -> void:
 
 func _on_player_died() -> void:
 	game_over_layer.visible = true
-	get_tree().paused = true
-	await get_tree().create_timer(GAME_OVER_RESTART_DELAY).timeout
-	get_tree().paused = false
-	get_tree().reload_current_scene()
+	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
+	# enquanto este await ainda está suspenso (ver game.gd._finish_phase()),
+	# a cena troca para o menu e este nó sai da árvore — get_tree() passaria
+	# a retornar null.
+	var tree := get_tree()
+	tree.paused = true
+	await tree.create_timer(GAME_OVER_RESTART_DELAY).timeout
+	tree.paused = false
+	if is_inside_tree():
+		tree.reload_current_scene()

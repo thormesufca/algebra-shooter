@@ -11,13 +11,14 @@ config_version=5
 [application]
 
 config/name="AlgebraShooter"
-run/main_scene="res://scenes/main.tscn"
-config/features=PackedStringArray("4.7", "Mobile")
+run/main_scene="res://scenes/main_menu.tscn"
+config/features=PackedStringArray("4.6", "Mobile")
 config/icon="res://icon.svg"
 
 [autoload]
 
 GameConfig="*res://scripts/game_config.gd"
+GameSave="*res://scripts/game_save.gd"
 
 [display]
 

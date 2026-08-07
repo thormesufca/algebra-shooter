@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cnl6d2dgiqgd7" path="res://entities/player.tscn" id="1_uwrxv"]
 [ext_resource type="Script" uid="uid://bukto4x8p0yiq" path="res://scripts/game.gd" id="1_yqjtg"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_lbhrr"]
-[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="3_lnu2h"]
+[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="3_lnu2h"]
 [ext_resource type="Texture2D" uid="uid://cs11asnq7dni" path="res://assets/backgrounds/bg_maze.png" id="5_gee14"]
 [ext_resource type="PackedScene" uid="uid://j1f3qxwod0wg" path="res://entities/camera.tscn" id="5_iywne"]
 [ext_resource type="Resource" uid="uid://0w66td5y6oqx" path="res://resources/phases/phase_01.tres" id="6_phase"]
@@ -50,9 +50,6 @@ scale = Vector2(2.5, 2.5)
 
 [node name="SpawnTimer" type="Timer" parent="." unique_id=1432857948]
 autostart = true
-
-[node name="Enemy" parent="." unique_id=1564927833 instance=ExtResource("3_lnu2h")]
-position = Vector2(408, -763)
 
 [node name="Camera" parent="." unique_id=422637489 instance=ExtResource("5_iywne")]
 

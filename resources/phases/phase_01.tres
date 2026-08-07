@@ -1,40 +1,51 @@
 [gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://0w66td5y6oqx"]
 
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
-[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemy.tscn" id="2_enemy"]
+[ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="2_enemy"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
-[ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/enemy_minotaur.tscn" id="5_minotaur"]
+[ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/enemies/enemy_minotaur.tscn" id="5_minotaur"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_worm.tscn" id="6_worm"]
+[ext_resource type="PackedScene" path="res://entities/enemies/enemy_beetle.tscn" id="7_beetle"]
 
 [sub_resource type="Resource" id="SpawnStage_inicio"]
 script = ExtResource("4_1lehk")
 spawn_interval = 1.5
-enemy_scene = ExtResource("2_enemy")
+enemy_scene = ExtResource("6_worm")
+enemy_health = 6
+enemy_reward = 1
+enemy_speed = 100.0
 
 [sub_resource type="Resource" id="SpawnStage_rapido"]
 script = ExtResource("4_1lehk")
 distance_threshold = 3000.0
 spawn_interval = 1.2
 enemy_scene = ExtResource("2_enemy")
+enemy_health = 9
+enemy_reward = 1
+enemy_speed = 115.0
 
 [sub_resource type="Resource" id="SpawnStage_forte"]
 script = ExtResource("4_1lehk")
 distance_threshold = 7000.0
 spawn_interval = 0.8
-enemy_scene = ExtResource("2_enemy")
-enemy_health = 8
+enemy_scene = ExtResource("7_beetle")
+enemy_health = 13
+enemy_reward = 1
+enemy_speed = 130.0
 
 [sub_resource type="Resource" id="SpawnStage_minotauro"]
 script = ExtResource("4_1lehk")
 distance_threshold = 9900.0
 spawn_interval = 240.0
 enemy_scene = ExtResource("5_minotaur")
-enemy_health = 700
-enemy_reward = 1000
+enemy_health = 300
+enemy_reward = 100
+enemy_speed = 90.0
 
 [resource]
 script = ExtResource("1_phase")
-enemy_scene = ExtResource("2_enemy")
+enemy_scene = ExtResource("6_worm")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.5
 powerup_enemy_index = 3
