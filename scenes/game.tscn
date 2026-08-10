@@ -8,13 +8,15 @@
 [ext_resource type="PackedScene" uid="uid://j1f3qxwod0wg" path="res://entities/camera.tscn" id="5_iywne"]
 [ext_resource type="Resource" uid="uid://0w66td5y6oqx" path="res://resources/phases/phase_01.tres" id="6_phase"]
 [ext_resource type="Texture2D" uid="uid://ctdbnwn62rety" path="res://assets/backgrounds/bg_fog.png" id="8_fog_tex"]
+[ext_resource type="AudioStream" uid="uid://b3bi2pwsacntd" path="res://assets/sounds/music/Las Vegas.mp3" id="9_0tnpc"]
 
-[node name="game" type="Node2D" unique_id=1112172902 groups=["game_root"]]
+[node name="game" type="Node2D" unique_id=1112172902 node_paths=PackedStringArray("audio_player") groups=["game_root"]]
 script = ExtResource("1_yqjtg")
 enemy_scene = ExtResource("3_lnu2h")
 power_scene = ExtResource("3_lbhrr")
 powerup_enemy_index = 10
 phase = ExtResource("6_phase")
+audio_player = NodePath("AudioStreamPlayer")
 
 [node name="Background" type="Node2D" parent="." unique_id=1198486878]
 
@@ -52,5 +54,9 @@ scale = Vector2(2.5, 2.5)
 autostart = true
 
 [node name="Camera" parent="." unique_id=422637489 instance=ExtResource("5_iywne")]
+
+[node name="AudioStreamPlayer" type="AudioStreamPlayer" parent="." unique_id=1773224879]
+stream = ExtResource("9_0tnpc")
+parameters/looping = true
 
 [connection signal="timeout" from="SpawnTimer" to="." method="_on_spawn_timer_timeout"]

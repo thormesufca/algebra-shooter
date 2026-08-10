@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://b3bi2pwsacntd"
+path="res://.godot/imported/Las Vegas.mp3-5df38fc73db44d7d36251ee2e2021aa2.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Las Vegas.mp3"
+dest_files=["res://.godot/imported/Las Vegas.mp3-5df38fc73db44d7d36251ee2e2021aa2.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

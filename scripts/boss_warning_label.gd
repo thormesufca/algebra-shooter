@@ -8,7 +8,7 @@ extends Node2D
 
 const DURATION := 2.5
 const START_SCALE := 0.6
-const PEAK_SCALE := 1.8
+const PEAK_SCALE := 2.8
 const FADE_START_RATIO := 0.6
 
 func _ready() -> void:

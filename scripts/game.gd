@@ -12,6 +12,7 @@ signal phase_results(before: Dictionary, after: Dictionary)
 @export var operator_level: int = 1
 @export var digit_level: int = 4
 @export var bonus_range: float = 4
+@export var audio_player: AudioStreamPlayer
 
 
 var _spawn_count: int = 0
@@ -89,6 +90,7 @@ func _update_spawn_stage() -> void:
 func _on_phase_completed() -> void:
 	$SpawnTimer.stop()
 	_run_boss_sequence()
+	
 
 ## A câmera já percorreu toda a distância da fase, mas podem sobrar inimigos
 ## comuns em campo: espera todos morrerem, depois — se a fase tiver um boss
@@ -175,9 +177,11 @@ func _finish_phase() -> void:
 	data.player = player.get_save_data()
 	GameSave.save(data)
 	phase_results.emit(_phase_start_player, data.player)
+	audio_player.stop()
 
 func _on_player_died() -> void:
 	_player_died = true
+	
 
 
 func _ready() -> void:
@@ -218,6 +222,7 @@ func _apply_phase(data: PhaseData) -> void:
 	$SpawnTimer.wait_time = data.spawn_interval
 	camera.configure(data.camera_speed, data.phase_distance)
 	camera.phase_completed.connect(_on_phase_completed)
+	audio_player.play()
 	#$Background/SkyLayer/SkyTexture.modulate = data.sky_color
 	#$Background/FloorLayer/FloorTexture.modulate = data.floor_color
 

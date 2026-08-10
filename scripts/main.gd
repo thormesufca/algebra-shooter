@@ -7,6 +7,8 @@ const GAME_OVER_RESTART_DELAY := 3.0
 @onready var game: Node2D = $HBoxContainer/ViewportContainer/SubViewport/Game
 @onready var game_over_layer: TextureRect = %GameOverLayer
 @onready var phase_results_layer: Control = %PhaseResultsLayer
+@onready var win_sound: AudioStreamPlayer = %WinSound
+@onready var lose_sound: AudioStreamPlayer = %LoseSound
 
 var player: Player = null
 
@@ -43,11 +45,13 @@ func _process(_delta: float) -> void:
 
 func _on_phase_results(before: Dictionary, after: Dictionary) -> void:
 	get_tree().paused = true
+	win_sound.play()
 	phase_results_layer.visible = true
 	phase_results_layer.show_results(before, after)
 
 func _on_player_died() -> void:
 	game_over_layer.visible = true
+	lose_sound.play()
 	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
 	# enquanto este await ainda está suspenso (ver game.gd._finish_phase()),
 	# a cena troca para o menu e este nó sai da árvore — get_tree() passaria
