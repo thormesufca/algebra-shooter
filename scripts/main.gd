@@ -1,6 +1,7 @@
 extends Control
 
 const GAME_OVER_RESTART_DELAY := 3.0
+const PhaseSelectScene := "res://scenes/phase_select.tscn"
 
 @onready var hud_left: PanelContainer = %HUDLeft
 @onready var hud_right: PanelContainer = %HUDRight
@@ -14,7 +15,8 @@ var player: Player = null
 
 func _ready() -> void:
 	if game.phase != null:
-		hud_right.update_phase({"operadores": game.phase.operators_unlocked, "limite_upgrade": "[-%d, %d]" % [game.bonus_range, game.bonus_range], "upgrades": game.digit_level})
+		var r: float = game._effective_range()
+		hud_right.update_phase({"operadores": PowerupGenerator.describe_operators(game.operator_level), "limite_upgrade": "±%d" % r, "upgrades": game.digit_level})
 	game.phase_results.connect(_on_phase_results)
 
 func _process(_delta: float) -> void:
@@ -61,4 +63,4 @@ func _on_player_died() -> void:
 	await tree.create_timer(GAME_OVER_RESTART_DELAY).timeout
 	tree.paused = false
 	if is_inside_tree():
-		tree.reload_current_scene()
+		tree.change_scene_to_file(PhaseSelectScene)

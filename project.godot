@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameConfig="*res://scripts/game_config.gd"
 GameSave="*res://scripts/game_save.gd"
+Sfx="*res://scripts/sfx.gd"
 
 [display]
 

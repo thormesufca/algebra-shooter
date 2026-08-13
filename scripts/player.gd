@@ -6,7 +6,7 @@ signal died
 
 const PowerupResultLabelScene := preload("res://entities/PowerupResultLabel.tscn")
 
-@export var speed: float = 400.0
+@export var speed: float = 200.0
 @export var bullet_scene: PackedScene
 @export var bullet_amount: float = 1
 @export var bullet_speed: float = 400.0
@@ -17,6 +17,8 @@ const PowerupResultLabelScene := preload("res://entities/PowerupResultLabel.tscn
 @export var score = 0
 @export var gold: int = 0
 var multiplicador: int = 1
+## Teto do multiplicador nesta fase, definido por game.gd a partir do PhaseData.
+var max_multiplier: int = 3
 
 ## Acumulador float da "vida máxima" (mesma lógica percentual dos demais
 ## atributos). `shield` (a quantidade em jogo) vira floor(max_shield) no
@@ -29,6 +31,8 @@ var bullet_amount_progress: float = 1.0
 @onready var shoot_sound: AudioStreamPlayer2D = $ShootSound
 @onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
 @onready var hurt_area: Area2D = $HurtArea
+
+var sfx = preload("res://assets/sounds/effects/Strong Hit.wav")
 
 const DIRECTIONS := [
 	"south", "se", "east", "ne",
@@ -94,6 +98,7 @@ func _on_hit_by_enemy(enemy: Node) -> void:
 func take_damage_from(source_position: Vector2, push_dir: Vector2 = Vector2.ZERO) -> void:
 	if is_invulnerable:
 		return
+	Sfx.play(sfx)
 	if push_dir == Vector2.ZERO:
 		push_dir = (global_position - source_position)
 		if push_dir == Vector2.ZERO:
@@ -213,9 +218,9 @@ func _show_result_popup(data: PowerupData, multiplier: int, effective_value: flo
 	get_tree().get_first_node_in_group("game_root").add_child(popup)
 	popup.setup(data, multiplier, effective_value)
 
-# Player não pegou algum powerup, incrementa multiplicador
+# Player não pegou algum powerup, incrementa multiplicador (até o teto da fase).
 func giveup_powerup() -> void:
-	multiplicador += 1
+	multiplicador = min(multiplicador + 1, max_multiplier)
 	
 
 ## Sincroniza o escudo em jogo com a vida máxima acumulada. Deve ser chamado

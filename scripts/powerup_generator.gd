@@ -11,6 +11,22 @@ const COMBINE_OPERATORS_BY_LEVEL := {
 
 const MAX_ATTEMPTS := 30
 
+## Range de desbloqueio: magnitude derivada do progresso da loja (dígitos e
+## operadores). É o piso natural do range; a fase impõe o teto via range_max
+## (ver game.gd/_spawn_powerup). Operador pesa muito mais que dígito, então
+## subir de nível de operador é o grande salto de poder.
+const RANGE_BASE := 4.0
+const RANGE_PER_DIGIT := 1.0
+const RANGE_PER_OPERATOR := 6.0
+const DIGIT_START := 4
+
+## Magnitude do range que o progresso desbloqueado permite, antes do teto da
+## fase. Vai de RANGE_BASE (cru) até o máximo com tudo comprado.
+static func unlock_range(operator_level: int, digit_level: int) -> float:
+	return RANGE_BASE \
+		+ RANGE_PER_DIGIT * float(digit_level - DIGIT_START) \
+		+ RANGE_PER_OPERATOR * float(operator_level - 1)
+
 ## Atributos sorteáveis. SPEED fica de fora até ter ícone/animação próprios.
 ## SHIELD e BULLET_AMOUNT ficam de fora porque agora são comprados na loja
 ## (ver shop.gd), não mais ganhos via powerup em jogo.
@@ -97,3 +113,9 @@ static func _strip_outer_parens(expr: String) -> String:
 	if expr.begins_with("(") and expr.ends_with(")"):
 		return expr.substr(1, expr.length() - 2)
 	return expr
+	
+static func describe_operators(operator_level: int) -> String:
+	var ops: Array = COMBINE_OPERATORS_BY_LEVEL.get(operator_level, ["+", "-"]).duplicate()
+	if operator_level >= 3:
+		ops.append_array(["^", "√"])
+	return " ".join(ops).replace("*", "×").replace("/", "÷")

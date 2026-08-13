@@ -11,6 +11,8 @@ const START_SCALE := 0.6
 const PEAK_SCALE := 2.8
 const FADE_START_RATIO := 0.6
 
+const sfxWarning = preload("res://assets/sounds/effects/Alert.wav")
+
 func _ready() -> void:
 	scale = Vector2.ONE * START_SCALE
 	var grow_tween := create_tween()
@@ -18,6 +20,6 @@ func _ready() -> void:
 	var fade_tween := create_tween()
 	fade_tween.tween_interval(DURATION * FADE_START_RATIO)
 	fade_tween.tween_property(label, "modulate:a", 0.0, DURATION * (1.0 - FADE_START_RATIO))
-
+	Sfx.play(sfxWarning)
 	await get_tree().create_timer(DURATION).timeout
 	queue_free()

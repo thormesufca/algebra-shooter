@@ -22,6 +22,13 @@ const ExprToBBCode := preload("res://scripts/ExprToBBCode.gd")
 const RichTextRaiseEffect := preload("res://scripts/raise.gd")
 const BodyFont := preload("res://assets/fonts/CormorantGaramond-VariableFont_wght.ttf")
 
+## Sons tocados via autoload Sfx (não como filhos deste nó, que se auto-libera
+## ao ser pego — ver _on_body_entered).
+const PowerupSfx := preload("res://assets/sounds/effects/powerup.wav")
+const PowerdownSfx := preload("res://assets/sounds/effects/powerdown.wav")
+
+
+
 var _alive := true
 
 func _process(delta: float) -> void:
@@ -134,4 +141,8 @@ func _on_body_entered(body: Node) -> void:
 
 func _apply_powerup_effect(player: Node) -> void:
 	if player.has_method("apply_powerup"):
+		if data.result > 0:
+			Sfx.play(PowerupSfx)
+		elif data.result < 0:
+			Sfx.play(PowerdownSfx)
 		player.apply_powerup(data)

@@ -15,7 +15,7 @@
 script = ExtResource("4_1lehk")
 spawn_interval = 1.5
 enemy_scene = ExtResource("6_worm")
-enemy_health = 6
+enemy_health = 4
 enemy_reward = 1
 enemy_speed = 100.0
 
@@ -24,7 +24,7 @@ script = ExtResource("4_1lehk")
 distance_threshold = 3000.0
 spawn_interval = 1.2
 enemy_scene = ExtResource("2_enemy")
-enemy_health = 9
+enemy_health = 4
 enemy_reward = 1
 enemy_speed = 115.0
 
@@ -33,9 +33,13 @@ script = ExtResource("4_1lehk")
 distance_threshold = 7000.0
 spawn_interval = 0.8
 enemy_scene = ExtResource("7_beetle")
-enemy_health = 13
+enemy_health = 4
 enemy_reward = 1
 enemy_speed = 130.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ddtb"]
+atlas = ExtResource("3_taauu")
+region = Rect2(76, 24, 320, 240)
 
 [resource]
 script = ExtResource("1_phase")
@@ -49,5 +53,6 @@ phase_distance = 10000.0
 boss_scene = ExtResource("5_minotaur")
 walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)
 imagem = ExtResource("3_taauu")
+thumbnail = SubResource("AtlasTexture_1ddtb")
 phase_music = ExtResource("5_0yllx")
 boss_music = ExtResource("1_1ddtb")

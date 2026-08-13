@@ -5,6 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://ch3ccctitxcjt" path="res://assets/backgrounds/bg_cerberus.png" id="3_8y578"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="AudioStream" uid="uid://bokr5dgxd5pos" path="res://assets/sounds/music/Paranoid.mp3" id="4_8y578"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_centipede.tscn" id="5_centipede"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_beetle.tscn" id="6_beetle"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_spider.tscn" id="7_spider"]
@@ -34,10 +35,17 @@ enemy_health = 29
 enemy_reward = 4
 enemy_speed = 285.6
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqec0"]
+atlas = ExtResource("3_8y578")
+region = Rect2(48, 476, 320, 240)
+
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 4"
 operators_unlocked = "+ - × ÷ ^ √"
+phase_number = 4
+range_max = 17.0
+max_multiplier = 6
 enemy_scene = ExtResource("5_centipede")
 power_scene = ExtResource("3_power")
 spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte")])
@@ -45,3 +53,5 @@ camera_speed = 105.0
 phase_distance = 16000.0
 boss_scene = ExtResource("1_pqec0")
 imagem = ExtResource("3_8y578")
+thumbnail = SubResource("AtlasTexture_pqec0")
+phase_music = ExtResource("4_8y578")

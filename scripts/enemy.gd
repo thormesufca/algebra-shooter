@@ -68,7 +68,7 @@ func die()->void:
 	queue_free()
 
 func _spawn_reward() -> void:
-	if coin_scene == null:
+	if coin_scene == null or reward_value < 1:
 		return
 	var coin := coin_scene.instantiate()
 	coin.value = reward_value

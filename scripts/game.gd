@@ -181,6 +181,11 @@ func _finish_phase() -> void:
 	data.operator_level = operator_level
 	data.digit_level = digit_level
 	data.bonus_range = bonus_range
+	# Concluir a fase N libera a N+1; o max evita "desdesbloquear" ao rejogar
+	# uma fase anterior. prev é o save antes desta escrita.
+	if phase != null:
+		var prev := GameSave.load_data()
+		data.unlocked_phase = max(prev.unlocked_phase, phase.phase_number + 1)
 	data.player = player.get_save_data()
 	GameSave.save(data)
 	phase_results.emit(_phase_start_player, data.player)
@@ -214,6 +219,8 @@ func _ready() -> void:
 	_phase_start_player = save_data.player.duplicate()
 	var player := get_tree().get_first_node_in_group("player") as Player
 	if player != null:
+		if phase != null:
+			player.max_multiplier = phase.max_multiplier
 		player.apply_save_data(save_data.player)
 		player.died.connect(_on_player_died)
 
@@ -241,11 +248,8 @@ func _apply_phase(data: PhaseData) -> void:
 		var tile_height: float = data.imagem.get_size().y * fx.scale.y
 		background.repeat_size = Vector2(0, tile_height)
 		background.repeat_times = ceil(data.phase_distance / tile_height) + 1
-		
-	
-		
-	#$Background/SkyLayer/SkyTexture.modulate = data.sky_color
-	#$Background/FloorLayer/FloorTexture.modulate = data.floor_color
+		$Background/SkyLayer/SkyTexture.modulate = data.sky_color
+		#$Background/FloorLayer/FloorTexture.modulate = data.floor_color
 
 func _on_powerup_enemy_died(death_position: Vector2) -> void:
 	call_deferred("_spawn_powerup", death_position)
@@ -253,9 +257,19 @@ func _on_powerup_enemy_died(death_position: Vector2) -> void:
 const POWERUP_OVERLAP_RADIUS := 30.0
 const POWERUP_STACK_OFFSET := 40.0
 
+## Range efetivo desta fase: a magnitude que o progresso desbloqueou, limitada
+## pelo teto da fase (range_max) — impede grind em fases fáceis sem tornar a
+## loja inútil, já que na fronteira o desbloqueio fica abaixo do teto.
+func _effective_range() -> float:
+	var unlocked := PowerupGenerator.unlock_range(operator_level, digit_level)
+	if phase != null:
+		return minf(unlocked, phase.range_max)
+	return unlocked
+
 func _spawn_powerup(death_position: Vector2)->void:
 	var power := power_scene.instantiate()
-	power.data = PowerupGenerator.generate(operator_level, digit_level, -bonus_range, bonus_range)
+	var r := _effective_range()
+	power.data = PowerupGenerator.generate(operator_level, digit_level, -r, r)
 	print(power.data.expression, " = ", power.data.result)
 	power.add_to_group("powerup")
 	add_child(power)

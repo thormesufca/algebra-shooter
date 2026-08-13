@@ -10,6 +10,9 @@ class_name GameData
 var operator_level: int = 1
 var digit_level: int = 4
 var bonus_range: float = 4.0
+## Maior fase liberada (jogável). A fase 1 está sempre disponível; concluir a
+## fase N libera a N+1 (ver game.gd/_finish_phase).
+var unlocked_phase: int = 1
 var player: Dictionary = {}
 
 ## Espelha os @export defaults de player.gd — usado como fallback quando uma
@@ -37,6 +40,7 @@ func to_dict() -> Dictionary:
 		"operator_level": operator_level,
 		"digit_level": digit_level,
 		"bonus_range": bonus_range,
+		"unlocked_phase": unlocked_phase,
 		"player": player,
 	}
 
@@ -45,5 +49,6 @@ static func from_dict(data: Dictionary) -> GameData:
 	result.operator_level = data.get("operator_level", result.operator_level)
 	result.digit_level = data.get("digit_level", result.digit_level)
 	result.bonus_range = data.get("bonus_range", result.bonus_range)
+	result.unlocked_phase = int(data.get("unlocked_phase", result.unlocked_phase))
 	result.player = data.get("player", {})
 	return result

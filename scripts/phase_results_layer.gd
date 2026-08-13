@@ -41,6 +41,7 @@ func _shots_per_second(wait_time: float) -> float:
 
 func _show_delta(row: HBoxContainer, before_value: float, after_value: float, format: String) -> void:
 	var label: Label = row.get_node("Value")
+	label.add_theme_font_size_override("font_size", 26)
 	var delta := after_value - before_value
 	var sign_prefix := "+" if delta > 0 else ""
 	label.text = "%s → %s (%s%s)" % [

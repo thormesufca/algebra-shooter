@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://b0jtd20ii0ufr" path="res://assets/backgrounds/bg_kraken.png" id="3_6vmqp"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="AudioStream" uid="uid://b3bi2pwsacntd" path="res://assets/sounds/music/Las Vegas.mp3" id="4_iegf8"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_lizard.tscn" id="5_lizard"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_scorpion.tscn" id="6_scorpion"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_centipede.tscn" id="7_centipede"]
@@ -44,10 +45,17 @@ enemy_health = 857
 enemy_reward = 500
 enemy_speed = 257.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_6vmqp"]
+atlas = ExtResource("3_6vmqp")
+region = Rect2(98, 264, 320, 240)
+
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 5"
 operators_unlocked = "+ - × ÷ ^ √"
+phase_number = 5
+range_max = 21.0
+max_multiplier = 8
 enemy_scene = ExtResource("5_lizard")
 power_scene = ExtResource("3_power")
 spawn_interval = 0.9
@@ -56,3 +64,5 @@ camera_speed = 115.0
 phase_distance = 18000.0
 boss_scene = ExtResource("8_kraken")
 imagem = ExtResource("3_6vmqp")
+thumbnail = SubResource("AtlasTexture_6vmqp")
+phase_music = ExtResource("4_iegf8")

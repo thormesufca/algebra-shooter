@@ -23,9 +23,6 @@ const OPERATOR_COSTS := {2: 300, 3: 600}
 const MAX_OPERATOR_LEVEL := 3
 const OPERATOR_NAMES := {1: "+ -", 2: "+ - × ÷", 3: "+ - × ÷ ^ √"}
 
-const RANGE_PER_DIGIT := 1.0
-const RANGE_PER_OPERATOR := 20.0
-
 var _data: GameData
 
 @onready var gold_value: Label = %GoldValue
@@ -134,7 +131,6 @@ func _on_digit_buy_button_pressed() -> void:
 	if not _spend(cost):
 		return
 	_data.digit_level = next_digit
-	_data.bonus_range += RANGE_PER_DIGIT
 	status_label.text = "Dígito %d desbloqueado!" % next_digit
 	_save_and_refresh()
 
@@ -146,7 +142,6 @@ func _on_operator_buy_button_pressed() -> void:
 	if not _spend(cost):
 		return
 	_data.operator_level = next_operator
-	_data.bonus_range += RANGE_PER_OPERATOR
 	status_label.text = "Operadores nível %d desbloqueados!" % next_operator
 	_save_and_refresh()
 

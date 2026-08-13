@@ -4,6 +4,10 @@ class_name PhaseData
 
 @export var phase_name: String = "Fase 1"
 @export var operators_unlocked: String = "+ -"
+## Posição da fase na progressão (1-based). Usado no gate de desbloqueio do
+## menu de seleção: concluir a fase N libera a N+1 (ver game.gd/_finish_phase
+## e phase_select.gd).
+@export var phase_number: int = 1
 
 @export_group("Spawn")
 @export var enemy_scene: PackedScene
@@ -25,6 +29,16 @@ class_name PhaseData
 ## Distância total (px) que a câmera percorre até a fase ser concluída.
 @export var phase_distance: float = 50000.0
 
+@export_group("Limites")
+## Teto da magnitude do range dos powerups nesta fase. O range efetivo é
+## min(PowerupGenerator.unlock_range(...), range_max) e a expressão é gerada
+## dentro de [-range_efetivo, +range_efetivo] — ver game.gd/_spawn_powerup.
+## Corta o grind: mesmo com tudo desbloqueado, fases fáceis mantêm o teto baixo.
+@export var range_max: float = 6.0
+## Teto do multiplicador de risco (cresce ao pular powerups) nesta fase — ver
+## player.gd/giveup_powerup.
+@export var max_multiplier: int = 3
+
 @export_group("Boss")
 ## Cena do boss da fase: spawna depois que a câmera termina o percurso E os
 ## inimigos comuns restantes morrem (ver game.gd/_run_boss_sequence). Se
@@ -39,6 +53,7 @@ class_name PhaseData
 @export var walls_color: Color = Color(0.24705882, 0.19607843, 0.15686275, 0.85)
 @export var floor_color: Color = Color(0.41960785, 0.3372549, 0.24313726, 1)
 @export var imagem: Texture2D
+@export var thumbnail: Texture2D
 
 @export_group("Audio")
 @export var phase_music: AudioStream

@@ -2,7 +2,7 @@
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
 [ext_resource type="Texture2D" uid="uid://ctcong0wapp56" path="res://assets/sprites/enemies/boss_minotaur.png" id="2_tex"]
-[ext_resource type="Script" path="res://scripts/boss_minotaur.gd" id="3_boss_script"]
+[ext_resource type="Script" uid="uid://iwxvlc8xnan0" path="res://scripts/boss_minotaur.gd" id="3_boss_script"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_mino"]
 size = Vector2(48, 50)
@@ -59,7 +59,16 @@ animations = [{
 
 [node name="EnemyMinotaur" unique_id=1324135721 instance=ExtResource("1_base")]
 script = ExtResource("3_boss_script")
-max_health = 300
+volley_size = 5
+spread_degrees = 60.0
+rock_speed = 260.0
+wave_health_thresholds = Array[float]([1.0, 0.5, 0.25, 0.1])
+wave_amounts = Array[int]([2, 3, 4, 6])
+wave_interval = 0.3
+patrol_left_x = 100.0
+patrol_right_x = 760.0
+patrol_duration = 2.5
+max_health = 100
 reward_value = 100
 
 [node name="CollisionShape2D" parent="." index="0" unique_id=551160329]
@@ -72,7 +81,7 @@ sprite_frames = SubResource("SpriteFrames_mino")
 offset_left = -17.0
 offset_right = 12.0
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." index="3" unique_id=895939621]
 wait_time = 2.2
 autostart = true
 

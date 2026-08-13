@@ -12,6 +12,8 @@ const BLINK_INTERVAL := 0.15
 var player: Player = null
 var _alive := true
 
+const CoinSfx := preload("res://assets/sounds/effects/Coin.wav")
+
 func _ready() -> void:
 	var nodes := get_tree().get_nodes_in_group("player")
 	if nodes.size() > 0:
@@ -48,6 +50,7 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player") and body.has_method("add_gold"):
+		Sfx.play(CoinSfx)
 		collect(body)
 
 ## Coleta forçada, sem exigir colisão — usada por game.gd para recolher

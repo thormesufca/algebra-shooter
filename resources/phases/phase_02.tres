@@ -1,10 +1,11 @@
 [gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://cd4i3xttc1x2f"]
 
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_medusa.tscn" id="1_itkv8"]
+[ext_resource type="PackedScene" uid="uid://befh1hhfwdg77" path="res://entities/enemies/enemy_medusa.tscn" id="1_itkv8"]
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
 [ext_resource type="Texture2D" uid="uid://x4oeimtrtn8k" path="res://assets/backgrounds/bg_meduza.png" id="3_aekv3"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="AudioStream" uid="uid://syl63gleiclj" path="res://assets/sounds/music/Born to Be Wild.mp3" id="4_aekv3"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_slime.tscn" id="5_slime"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_spider.tscn" id="6_spider"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_scorpion.tscn" id="7_scorpion"]
@@ -44,10 +45,17 @@ enemy_health = 390
 enemy_reward = 200
 enemy_speed = 117.0
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_itkv8"]
+atlas = ExtResource("3_aekv3")
+region = Rect2(86, 256, 320, 240)
+
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 2"
 operators_unlocked = "+ - × ÷"
+phase_number = 2
+range_max = 9.0
+max_multiplier = 4
 enemy_scene = ExtResource("5_slime")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.3
@@ -56,4 +64,7 @@ spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), 
 camera_speed = 85.0
 phase_distance = 12000.0
 boss_scene = ExtResource("1_itkv8")
+sky_color = Color(0.18039216, 0.8352941, 0.4392157, 0.15686275)
 imagem = ExtResource("3_aekv3")
+thumbnail = SubResource("AtlasTexture_itkv8")
+phase_music = ExtResource("4_aekv3")
