@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="PhaseData" format=3]
+[gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://botc0kgcom38g"]
 
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
+[ext_resource type="Texture2D" uid="uid://b6x05oqr4b7n" path="res://assets/backgrounds/bg_cyclop.png" id="3_ggblb"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_bat.tscn" id="5_bat"]
@@ -54,3 +55,5 @@ powerup_enemy_index = 4
 spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
 camera_speed = 95.0
 phase_distance = 14000.0
+boss_scene = ExtResource("8_cyclops")
+imagem = ExtResource("3_ggblb")

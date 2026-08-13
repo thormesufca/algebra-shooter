@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://syl63gleiclj"
+path="res://.godot/imported/Born to Be Wild.mp3-d58b7eece6bb6e0a2047e4b7cff4d5b6.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Born to Be Wild.mp3"
+dest_files=["res://.godot/imported/Born to Be Wild.mp3-d58b7eece6bb6e0a2047e4b7cff4d5b6.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

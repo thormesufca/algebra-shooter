@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://c2hurmobrgtej"
+path="res://.godot/imported/Bad to the Bone.mp3-a319289ba5efb3d02b7365678a8a6c59.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Bad to the Bone.mp3"
+dest_files=["res://.godot/imported/Bad to the Bone.mp3-a319289ba5efb3d02b7365678a8a6c59.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

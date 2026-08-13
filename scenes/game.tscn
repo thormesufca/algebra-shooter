@@ -26,12 +26,13 @@ repeat_times = 20
 
 [node name="FloorTexture" type="Sprite2D" parent="Background/FloorLayer" unique_id=1611754693]
 texture_repeat = 1
-position = Vector2(1, -800)
+position = Vector2(1, -816)
 scale = Vector2(1.698, 2.05)
 texture = ExtResource("5_gee14")
 centered = false
 region_enabled = true
 region_rect = Rect2(0, 0, 512, 816)
+region_filter_clip_enabled = true
 
 [node name="SkyLayer" type="Parallax2D" parent="Background" unique_id=57981295]
 scroll_scale = Vector2(0, 0.15)

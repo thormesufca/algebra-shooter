@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://d1pxupfoe2hht"
+path="res://.godot/imported/Final Fantasy 7 Boss battle.mp3-23bfccab044188e2e2178e0372f5a288.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Final Fantasy 7 Boss battle.mp3"
+dest_files=["res://.godot/imported/Final Fantasy 7 Boss battle.mp3-23bfccab044188e2e2178e0372f5a288.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4

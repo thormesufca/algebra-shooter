@@ -142,6 +142,13 @@ const BOSS_WARNING_DELAY := 1.5
 ## já que a fase terminou — ver camera.gd).
 func _spawn_boss() -> void:
 	var tree := get_tree()
+	if phase != null and phase.boss_music != null:
+		var tw := create_tween()
+		tw.tween_property(audio_player, "volume_db", -40.0, 0.5)
+		await tw.finished
+		audio_player.stream = phase.boss_music
+		audio_player.play()
+		create_tween().tween_property(audio_player, "volume_db", 0.0, 0.5)
 	var warning := BossWarningLabelScene.instantiate()
 	warning.global_position = _get_boss_spawn_position()
 	get_tree().get_first_node_in_group("game_root").add_child(warning)
@@ -222,7 +229,21 @@ func _apply_phase(data: PhaseData) -> void:
 	$SpawnTimer.wait_time = data.spawn_interval
 	camera.configure(data.camera_speed, data.phase_distance)
 	camera.phase_completed.connect(_on_phase_completed)
+	if data.phase_music != null:
+		audio_player.stream = data.phase_music
 	audio_player.play()
+	if data.imagem != null:
+		var background: Parallax2D = $Background/FloorLayer
+		var fx: Sprite2D = $Background/FloorLayer/FloorTexture
+		fx.texture = data.imagem
+		fx.region_rect = Rect2(Vector2.ZERO, data.imagem.get_size())
+		background.scroll_scale = Vector2(1,1)
+		var tile_height: float = data.imagem.get_size().y * fx.scale.y
+		background.repeat_size = Vector2(0, tile_height)
+		background.repeat_times = ceil(data.phase_distance / tile_height) + 1
+		
+	
+		
 	#$Background/SkyLayer/SkyTexture.modulate = data.sky_color
 	#$Background/FloorLayer/FloorTexture.modulate = data.floor_color
 

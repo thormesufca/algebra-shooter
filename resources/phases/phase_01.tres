@@ -1,9 +1,12 @@
 [gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://0w66td5y6oqx"]
 
+[ext_resource type="AudioStream" uid="uid://d1pxupfoe2hht" path="res://assets/sounds/music/Final Fantasy 7 Boss battle.mp3" id="1_1ddtb"]
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="2_enemy"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
+[ext_resource type="Texture2D" uid="uid://cs11asnq7dni" path="res://assets/backgrounds/bg_maze.png" id="3_taauu"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
+[ext_resource type="AudioStream" uid="uid://c2hurmobrgtej" path="res://assets/sounds/music/Bad to the Bone.mp3" id="5_0yllx"]
 [ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/enemies/enemy_minotaur.tscn" id="5_minotaur"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_worm.tscn" id="6_worm"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_beetle.tscn" id="7_beetle"]
@@ -45,3 +48,6 @@ camera_speed = 75.0
 phase_distance = 10000.0
 boss_scene = ExtResource("5_minotaur")
 walls_color = Color(0.3907545, 0.068895176, 0.018414464, 0.8509804)
+imagem = ExtResource("3_taauu")
+phase_music = ExtResource("5_0yllx")
+boss_music = ExtResource("1_1ddtb")

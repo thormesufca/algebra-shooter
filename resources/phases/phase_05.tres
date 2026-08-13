@@ -1,6 +1,7 @@
-[gd_resource type="Resource" script_class="PhaseData" format=3]
+[gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://cjxe1u7ggv07j"]
 
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
+[ext_resource type="Texture2D" uid="uid://b0jtd20ii0ufr" path="res://assets/backgrounds/bg_kraken.png" id="3_6vmqp"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
 [ext_resource type="PackedScene" path="res://entities/enemies/enemy_lizard.tscn" id="5_lizard"]
@@ -50,7 +51,8 @@ operators_unlocked = "+ - × ÷ ^ √"
 enemy_scene = ExtResource("5_lizard")
 power_scene = ExtResource("3_power")
 spawn_interval = 0.9
-powerup_enemy_index = 5
 spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
 camera_speed = 115.0
 phase_distance = 18000.0
+boss_scene = ExtResource("8_kraken")
+imagem = ExtResource("3_6vmqp")

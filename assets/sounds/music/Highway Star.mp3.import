@@ -1,0 +1,19 @@
+[remap]
+
+importer="mp3"
+type="AudioStreamMP3"
+uid="uid://cfm37lvlfpryg"
+path="res://.godot/imported/Highway Star.mp3-63b86f0aca7069164f53428fed58a3ea.mp3str"
+
+[deps]
+
+source_file="res://assets/sounds/music/Highway Star.mp3"
+dest_files=["res://.godot/imported/Highway Star.mp3-63b86f0aca7069164f53428fed58a3ea.mp3str"]
+
+[params]
+
+loop=false
+loop_offset=0
+bpm=0
+beat_count=0
+bar_beats=4
