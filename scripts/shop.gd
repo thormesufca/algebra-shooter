@@ -1,25 +1,23 @@
 extends Control
 
-## Loja: gasta o ouro acumulado pelo jogador (persistido em GameData, campo
-## `player`) para comprar melhorias permanentes. Lê/escreve direto no save
-## (GameSave) — não há instância de Player em cena aqui.
+#Configurações da Loja
 
 const MainMenuScene := "res://scenes/main_menu.tscn"
 
 const SHIELD_BASE_LEVEL := 3
-const SHIELD_BASE_COST := 100
-const SHIELD_COST_STEP := 2
+const SHIELD_BASE_COST := 400 #Custo base para escudo inicial extra
+const SHIELD_COST_STEP := 2 #Potência para incremento dos próximos escudos
 
 const ARROW_BASE_LEVEL := 1
-const ARROW_BASE_COST := 600
-const ARROW_COST_STEP := 3
+const ARROW_BASE_COST := 1000 #Custo base para flecha extra
+const ARROW_COST_STEP := 3 #Potência para incremento das próximas flechas
 
-## Custo para desbloquear cada dígito (chave = digit_level alvo).
-const DIGIT_COSTS := {5: 100, 6: 200, 7: 350, 8: 550, 9: 800}
+## Custo para desbloquear cada dígito.
+const DIGIT_COSTS := {5: 200, 6: 300, 7: 450, 8: 650, 9: 1000}
 const MAX_DIGIT_LEVEL := 9
 
 ## Custo para desbloquear cada nível de operador (chave = operator_level alvo).
-const OPERATOR_COSTS := {2: 300, 3: 600}
+const OPERATOR_COSTS := {2: 900, 3: 1800}
 const MAX_OPERATOR_LEVEL := 3
 const OPERATOR_NAMES := {1: "+ -", 2: "+ - × ÷", 3: "+ - × ÷ ^ √"}
 
@@ -40,13 +38,17 @@ var _data: GameData
 @onready var operator_buy_button: Button = %OperatorBuyButton
 @onready var status_label: Label = %StatusLabel
 
+
+#Carrega os dados do save
 func _ready() -> void:
 	_data = GameSave.load_data()
 	_refresh()
 
+#Ouro do jogador
 func _gold() -> int:
 	return int(_data.player_field("gold"))
 
+#Atualiza os dados com o ouro gasto
 func _spend(cost: int) -> bool:
 	if _gold() < cost:
 		status_label.text = "Ouro insuficiente."
@@ -54,6 +56,7 @@ func _spend(cost: int) -> bool:
 	_data.set_player_field("gold", _gold() - cost)
 	return true
 
+#Salva os novos dados
 func _save_and_refresh() -> void:
 	GameSave.save(_data)
 	_refresh()
@@ -61,15 +64,18 @@ func _save_and_refresh() -> void:
 func _shield_level() -> int:
 	return int(floor(_data.player_field("max_shield")))
 
+#Calcula o custo de liberar o próximo escudo (Custo base * (Delta ^ Potência (2)))
 func _shield_next_cost() -> int:
 	return SHIELD_BASE_COST * (_shield_level() - SHIELD_BASE_LEVEL + 1) ** SHIELD_COST_STEP
 
 func _arrow_level() -> int:
 	return int(floor(_data.player_field("bullet_amount_progress")))
 
+#Calcula o custo de liberar a próxima flecha (Custo base * (Delta ^ Potência (2)))
 func _arrow_next_cost() -> int:
 	return ARROW_BASE_COST * (_arrow_level() - ARROW_BASE_LEVEL + 1) ** ARROW_COST_STEP
 
+#Atualiza os dados na tela
 func _refresh() -> void:
 	gold_value.text = str(_gold())
 
@@ -107,6 +113,7 @@ func _refresh() -> void:
 		operator_cost.text = "%d ouro" % operator_price
 		operator_buy_button.disabled = _gold() < operator_price
 
+#Comprar escudos
 func _on_shield_buy_button_pressed() -> void:
 	var cost := _shield_next_cost()
 	if not _spend(cost):
@@ -115,6 +122,7 @@ func _on_shield_buy_button_pressed() -> void:
 	status_label.text = "Vida extra adquirida!"
 	_save_and_refresh()
 
+#Comprar flechas
 func _on_arrow_buy_button_pressed() -> void:
 	var cost := _arrow_next_cost()
 	if not _spend(cost):
@@ -123,6 +131,7 @@ func _on_arrow_buy_button_pressed() -> void:
 	status_label.text = "Flecha extra adquirida!"
 	_save_and_refresh()
 
+#Comprar dígito
 func _on_digit_buy_button_pressed() -> void:
 	var next_digit := _data.digit_level + 1
 	if next_digit > MAX_DIGIT_LEVEL:
@@ -134,6 +143,7 @@ func _on_digit_buy_button_pressed() -> void:
 	status_label.text = "Dígito %d desbloqueado!" % next_digit
 	_save_and_refresh()
 
+#Comprar Operador
 func _on_operator_buy_button_pressed() -> void:
 	var next_operator := _data.operator_level + 1
 	if next_operator > MAX_OPERATOR_LEVEL:
@@ -145,5 +155,6 @@ func _on_operator_buy_button_pressed() -> void:
 	status_label.text = "Operadores nível %d desbloqueados!" % next_operator
 	_save_and_refresh()
 
+#Voltar
 func _on_back_button_pressed() -> void:
 	get_tree().change_scene_to_file(MainMenuScene)

@@ -13,6 +13,8 @@ var player: Player = null
 var _alive := true
 
 const CoinSfx := preload("res://assets/sounds/effects/Coin.wav")
+## Variação de pitch por moeda coletada, pra várias moedas seguidas não soarem sempre idênticas.
+const COIN_PITCH_VARIATION := 0.1
 
 func _ready() -> void:
 	var nodes := get_tree().get_nodes_in_group("player")
@@ -20,11 +22,8 @@ func _ready() -> void:
 		player = nodes[0] as Player
 	_start_lifetime()
 
+#Calcular a duração da moeda na cena
 func _start_lifetime() -> void:
-	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
-	# enquanto esta moeda ainda está na tela (ver game.gd._finish_phase()), a
-	# cena troca para o menu e este nó sai da árvore — get_tree() passaria a
-	# retornar null nos awaits seguintes.
 	var tree := get_tree()
 	await tree.create_timer(LIFETIME - BLINK_DURATION).timeout
 	if not _alive or not is_inside_tree():
@@ -50,11 +49,11 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node) -> void:
 	if body.is_in_group("player") and body.has_method("add_gold"):
-		Sfx.play(CoinSfx)
+		var pitch := randf_range(1.0 - COIN_PITCH_VARIATION, 1.0 + COIN_PITCH_VARIATION)
+		Sfx.play(CoinSfx, 0.0, "Master", pitch)
 		collect(body)
 
-## Coleta forçada, sem exigir colisão — usada por game.gd para recolher
-## moedas restantes quando a fase termina antes do jogador chegar até elas.
+#Função separada para coletar moeda. Permite que no final da fase, após matar o chefão, a recompensa seja recolhida independentemente da distância
 func collect(collector: Node) -> void:
 	if not _alive:
 		return

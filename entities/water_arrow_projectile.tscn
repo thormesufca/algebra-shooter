@@ -1,0 +1,91 @@
+[gd_scene format=3 uid="uid://dop7xjrc5gpr7"]
+
+[ext_resource type="Script" uid="uid://iujye6gd8g1" path="res://scripts/rock_projectile.gd" id="1_rock"]
+[ext_resource type="Texture2D" uid="uid://cudpau85r1cso" path="res://assets/sprites/enemies/Boss Projectiles Edited.png" id="2_fxccn"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_arrow"]
+radius = 17.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwmqo"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(0, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iw5x7"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(271, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ulv8e"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(542, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e57mb"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(813, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mwynw"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(1084, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_3wa6i"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(1355, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qe1o1"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(1626, 482, 271, 241)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ym54l"]
+atlas = ExtResource("2_fxccn")
+region = Rect2(1897, 482, 271, 241)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_hklfj"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwmqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iw5x7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ulv8e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e57mb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mwynw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_3wa6i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qe1o1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ym54l")
+}],
+"loop": false,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="WaterArrowProjectile" type="Area2D" unique_id=1779858486]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_rock")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1812921099]
+shape = SubResource("CircleShape2D_arrow")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=1520862167]
+modulate = Color(0.3, 0.65, 1, 1)
+position = Vector2(-19, -5.0000005)
+rotation = 3.7524579
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_hklfj")
+autoplay = "default"
+frame = 7
+frame_progress = 1.0
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

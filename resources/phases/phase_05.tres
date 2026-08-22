@@ -1,49 +1,42 @@
 [gd_resource type="Resource" script_class="PhaseData" format=3 uid="uid://cjxe1u7ggv07j"]
 
+[ext_resource type="AudioStream" uid="uid://2kv0hcphfcyo" path="res://assets/sounds/music/Final Battle.mp3" id="1_axs4n"]
 [ext_resource type="Script" uid="uid://0qo6ex5i7ppo" path="res://scripts/phase_data.gd" id="1_phase"]
 [ext_resource type="Texture2D" uid="uid://b0jtd20ii0ufr" path="res://assets/backgrounds/bg_kraken.png" id="3_6vmqp"]
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
 [ext_resource type="AudioStream" uid="uid://b3bi2pwsacntd" path="res://assets/sounds/music/Las Vegas.mp3" id="4_iegf8"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_lizard.tscn" id="5_lizard"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_scorpion.tscn" id="6_scorpion"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_centipede.tscn" id="7_centipede"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_kraken.tscn" id="8_kraken"]
+[ext_resource type="PackedScene" uid="uid://cnnx5sthkqbb5" path="res://entities/enemies/enemy_lizard.tscn" id="5_lizard"]
+[ext_resource type="PackedScene" uid="uid://c5g8ywll8a086" path="res://entities/enemies/enemy_scorpion.tscn" id="6_scorpion"]
+[ext_resource type="PackedScene" uid="uid://dqtxuu0frl7e2" path="res://entities/enemies/enemy_centipede.tscn" id="7_centipede"]
+[ext_resource type="PackedScene" uid="uid://belt52pl4m441" path="res://entities/bosses/boss_kraken.tscn" id="8_kraken"]
+[ext_resource type="AudioStream" uid="uid://cmdhiqbp0fo4p" path="res://assets/sounds/effects/kraken_awaken.mp3" id="9_kraken_awaken"]
 
 [sub_resource type="Resource" id="SpawnStage_inicio"]
 script = ExtResource("4_1lehk")
 spawn_interval = 0.9
 enemy_scene = ExtResource("5_lizard")
-enemy_health = 17
+enemy_health = 12
 enemy_reward = 5
-enemy_speed = 285.6
-
-[sub_resource type="Resource" id="SpawnStage_rapido"]
-script = ExtResource("4_1lehk")
-distance_threshold = 6000.0
-spawn_interval = 0.7
-enemy_scene = ExtResource("6_scorpion")
-enemy_health = 26
-enemy_reward = 5
-enemy_speed = 328.5
+enemy_speed = 215.0
 
 [sub_resource type="Resource" id="SpawnStage_forte"]
 script = ExtResource("4_1lehk")
-distance_threshold = 12000.0
+distance_threshold = 6000.0
 spawn_interval = 0.5
 enemy_scene = ExtResource("7_centipede")
-enemy_health = 37
+enemy_health = 15
 enemy_reward = 5
-enemy_speed = 371.3
+enemy_speed = 230.0
 
-[sub_resource type="Resource" id="SpawnStage_minotauro"]
+[sub_resource type="Resource" id="SpawnStage_rapido"]
 script = ExtResource("4_1lehk")
-distance_threshold = 17800.0
-spawn_interval = 240.0
-enemy_scene = ExtResource("8_kraken")
-enemy_health = 857
-enemy_reward = 500
-enemy_speed = 257.0
+distance_threshold = 12000.0
+spawn_interval = 0.7
+enemy_scene = ExtResource("6_scorpion")
+enemy_health = 12
+enemy_reward = 5
+enemy_speed = 250.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_6vmqp"]
 atlas = ExtResource("3_6vmqp")
@@ -52,17 +45,17 @@ region = Rect2(98, 264, 320, 240)
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 5"
-operators_unlocked = "+ - × ÷ ^ √"
 phase_number = 5
-range_max = 21.0
-max_multiplier = 8
-enemy_scene = ExtResource("5_lizard")
 power_scene = ExtResource("3_power")
 spawn_interval = 0.9
-spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_rapido")])
 camera_speed = 115.0
 phase_distance = 18000.0
+range_max = 21.0
+max_multiplier = 8
 boss_scene = ExtResource("8_kraken")
+boss_warning_sound = ExtResource("9_kraken_awaken")
 imagem = ExtResource("3_6vmqp")
 thumbnail = SubResource("AtlasTexture_6vmqp")
 phase_music = ExtResource("4_iegf8")
+boss_music = ExtResource("1_axs4n")

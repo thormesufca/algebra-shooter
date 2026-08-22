@@ -2,23 +2,25 @@ extends Resource
 
 class_name PowerupData
 
-## Qual atributo do jogador esse powerup afeta. Também dita o ícone exibido.
-## SPEED (velocidade de movimento do player) ainda não tem sprite/animação
-## própria — ver PowerupGenerator.GENERATABLE_ATTRIBUTES.
 enum Attribute { DAMAGE, SPEED, FIRE_RATE, SHIELD, MAGNET, BULLET_AMOUNT }
 
 @export var attribute: Attribute = Attribute.DAMAGE
-## Texto exibido no card (mesmo formato aceito por ExprToBBCode: ^, sqrt(...)).
 @export var expression: String = ""
-## Resultado numérico da expressão — é o valor percentual aplicado ao atributo.
 @export var result: float = 0.0
-## Nível de operadores desbloqueado no momento da geração (1: + -, 2: + - x /, 3: + - x / ^ sqrt).
 @export var operator_level: int = 3
-## Maior dígito disponível no momento da geração (inicia em 4, compra até 9).
 @export var digit_level: int = 6
 
-## Layout de cada spritesheet: tamanho do frame e quantas colunas/linhas ele
-## ocupa (frames lidos em ordem linha a linha, esquerda->direita).
+#Pitchs para variar quando pegar powerups
+const PITCH_BY_ATTRIBUTE := {
+	Attribute.DAMAGE: 0.9,
+	Attribute.FIRE_RATE: 1.10,
+	Attribute.BULLET_AMOUNT: 1.0,
+	Attribute.SHIELD: 1.0,
+	Attribute.MAGNET: 1.05,
+	Attribute.SPEED: 0.95,
+}
+
+#Dicionário com os ícones de cada powerup
 const ICON_LAYOUT := {
 	Attribute.DAMAGE: {"texture": "res://assets/sprites/powers/Muscle.png", "frame_size": Vector2i(24, 24), "columns": 4, "rows": 1},
 	Attribute.FIRE_RATE: {"texture": "res://assets/sprites/powers/Arrow Dash.png", "frame_size": Vector2i(48, 48), "columns": 4, "rows": 1},
@@ -28,8 +30,7 @@ const ICON_LAYOUT := {
 	Attribute.SPEED: {"texture": "res://assets/sprites/powers/Speed.png", "frame_size": Vector2i(48,48), "columns": 4, "rows": 1}
 }
 
-## Monta um SpriteFrames com a animação "animated" para o atributo, lendo o
-## layout (linhas x colunas) declarado em ICON_LAYOUT.
+#Gerar sprites a partir do powerup
 func get_sprite_frames() -> SpriteFrames:
 	var layout: Dictionary = ICON_LAYOUT[attribute]
 	var atlas: Texture2D = load(layout["texture"])

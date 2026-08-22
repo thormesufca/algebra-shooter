@@ -1,17 +1,6 @@
 extends Node
 
-## Autoload singleton: persiste em disco o progresso do jogo (GameData) —
-## níveis de operadores/dígitos, range dos powerups e os atributos do
-## jogador acumulados via powerups.
-##
-## Fica em res://save/, dentro do projeto, em JSON legível — pensado pra
-## facilitar inspecionar/editar o save durante o desenvolvimento. Por isso a
-## pasta está no .gitignore (não deve ir pro repositório) e o arquivo é
-## recriado automaticamente ao lançar o jogo caso não exista.
-##
-## O save só é escrito ao concluir uma fase (ver game.gd); se o jogador
-## morrer antes de terminar, save() nunca é chamado e o progresso salvo
-## anteriormente permanece intacto.
+## Singleton para salvar em disco os dados do jogo (atributos do jogador e desbloqueios (fase, operadores, dígitos))
 
 const SAVE_DIR := "res://save"
 const SAVE_PATH := "res://save/game_save.json"

@@ -30,7 +30,6 @@ func _process(_delta: float) -> void:
 	if game.camera != null and game.camera.travel_distance > 0.0:
 		var percent :float = game.camera.distance_traveled / game.camera.travel_distance * 100.0
 		hud_right.update_phase_progress(percent)
-		hud_right.update_debug_distance(game.camera.distance_traveled, game.camera.travel_distance)
 
 	hud_left.update_stats({
 		"dano": player.damage,
@@ -54,13 +53,9 @@ func _on_phase_results(before: Dictionary, after: Dictionary) -> void:
 func _on_player_died() -> void:
 	game_over_layer.visible = true
 	lose_sound.play()
-	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
-	# enquanto este await ainda está suspenso (ver game.gd._finish_phase()),
-	# a cena troca para o menu e este nó sai da árvore — get_tree() passaria
-	# a retornar null.
 	var tree := get_tree()
 	tree.paused = true
 	await tree.create_timer(GAME_OVER_RESTART_DELAY).timeout
 	tree.paused = false
-	if is_inside_tree():
+	if is_inside_tree(): #Volta pra seleção de fase ao morrer
 		tree.change_scene_to_file(PhaseSelectScene)

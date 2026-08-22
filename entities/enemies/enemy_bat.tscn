@@ -1,52 +1,66 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://civpiqoftu7nx"]
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
-[ext_resource type="Texture2D" uid="uid://c24ey2813x7xr" path="res://assets/sprites/enemies/anim_bat.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cbetm3e5hquxh" path="res://assets/sprites/enemies/Animais Extended.png" id="2_qk3bx"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f0"]
-atlas = ExtResource("2_tex")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_n1tvt"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(5, 248, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1"]
-atlas = ExtResource("2_tex")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_urvr2"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(152, 248, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2"]
-atlas = ExtResource("2_tex")
-region = Rect2(64, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_i710d"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(299, 248, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3"]
-atlas = ExtResource("2_tex")
-region = Rect2(96, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_hax3v"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(446, 248, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f4"]
-atlas = ExtResource("2_tex")
-region = Rect2(128, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_0rai4"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(593, 248, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5"]
-atlas = ExtResource("2_tex")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_lpaxe"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(740, 248, 147, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cmkvm"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(887, 248, 147, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g7cxx"]
+atlas = ExtResource("2_qk3bx")
+region = Rect2(1034, 248, 147, 124)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_bat"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f0")
+"texture": SubResource("AtlasTexture_n1tvt")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f1")
+"texture": SubResource("AtlasTexture_urvr2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2")
+"texture": SubResource("AtlasTexture_i710d")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f3")
+"texture": SubResource("AtlasTexture_hax3v")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f4")
+"texture": SubResource("AtlasTexture_0rai4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5")
+"texture": SubResource("AtlasTexture_lpaxe")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cmkvm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g7cxx")
 }],
 "loop": true,
 "name": &"moving",
@@ -56,4 +70,8 @@ animations = [{
 [node name="EnemyBat" unique_id=1400000001 instance=ExtResource("1_base")]
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=2003927357]
+rotation = -1.5707964
 sprite_frames = SubResource("SpriteFrames_bat")
+frame = 3
+frame_progress = 0.16430415
+flip_h = false

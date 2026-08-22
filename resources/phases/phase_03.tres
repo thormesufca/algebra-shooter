@@ -5,45 +5,36 @@
 [ext_resource type="PackedScene" uid="uid://bsw5palakqciu" path="res://entities/Power.tscn" id="3_power"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
 [ext_resource type="AudioStream" uid="uid://cfm37lvlfpryg" path="res://assets/sounds/music/Highway Star.mp3" id="4_4nslq"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_bat.tscn" id="5_bat"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_snake.tscn" id="6_snake"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_lizard.tscn" id="7_lizard"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_cyclops.tscn" id="8_cyclops"]
+[ext_resource type="PackedScene" uid="uid://civpiqoftu7nx" path="res://entities/enemies/enemy_bat.tscn" id="5_bat"]
+[ext_resource type="PackedScene" uid="uid://iiao68lm1sji" path="res://entities/enemies/enemy_snake.tscn" id="6_snake"]
+[ext_resource type="PackedScene" uid="uid://cnnx5sthkqbb5" path="res://entities/enemies/enemy_lizard.tscn" id="7_lizard"]
+[ext_resource type="PackedScene" uid="uid://dgmxuybi23qx7" path="res://entities/bosses/boss_cyclops.tscn" id="8_cyclops"]
 
 [sub_resource type="Resource" id="SpawnStage_inicio"]
 script = ExtResource("4_1lehk")
 spawn_interval = 1.1
 enemy_scene = ExtResource("5_bat")
-enemy_health = 10
+enemy_health = 7
 enemy_reward = 3
-enemy_speed = 169.0
+enemy_speed = 150.0
 
 [sub_resource type="Resource" id="SpawnStage_rapido"]
 script = ExtResource("4_1lehk")
 distance_threshold = 4000.0
 spawn_interval = 0.9
 enemy_scene = ExtResource("6_snake")
-enemy_health = 15
+enemy_health = 7
 enemy_reward = 3
-enemy_speed = 194.4
+enemy_speed = 160.0
 
 [sub_resource type="Resource" id="SpawnStage_forte"]
 script = ExtResource("4_1lehk")
 distance_threshold = 9000.0
-spawn_interval = 0.6
+spawn_interval = 0.7
 enemy_scene = ExtResource("7_lizard")
-enemy_health = 22
+enemy_health = 7
 enemy_reward = 3
-enemy_speed = 219.7
-
-[sub_resource type="Resource" id="SpawnStage_minotauro"]
-script = ExtResource("4_1lehk")
-distance_threshold = 13800.0
-spawn_interval = 240.0
-enemy_scene = ExtResource("8_cyclops")
-enemy_health = 507
-enemy_reward = 300
-enemy_speed = 152.1
+enemy_speed = 175.0
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_ggblb"]
 atlas = ExtResource("3_ggblb")
@@ -52,17 +43,15 @@ region = Rect2(96, 266, 320, 240)
 [resource]
 script = ExtResource("1_phase")
 phase_name = "Fase 3"
-operators_unlocked = "+ - × ÷ ^ √"
 phase_number = 3
-range_max = 13.0
-max_multiplier = 5
-enemy_scene = ExtResource("5_bat")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.1
 powerup_enemy_index = 4
-spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte"), SubResource("SpawnStage_minotauro")])
+spawn_stages = Array[ExtResource("4_1lehk")]([SubResource("SpawnStage_inicio"), SubResource("SpawnStage_rapido"), SubResource("SpawnStage_forte")])
 camera_speed = 95.0
 phase_distance = 14000.0
+range_max = 13.0
+max_multiplier = 5
 boss_scene = ExtResource("8_cyclops")
 imagem = ExtResource("3_ggblb")
 thumbnail = SubResource("AtlasTexture_ggblb")

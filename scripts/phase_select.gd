@@ -1,5 +1,7 @@
 extends Control
 
+#Tela de seleção de fases
+
 const MainMenuScene := "res://scenes/main_menu.tscn"
 const GameScene := "res://scenes/main.tscn"
 
@@ -34,9 +36,9 @@ func _make_phase_button(phase: PhaseData, unlocked: bool) -> Control:
 	button.custom_minimum_size = THUMB_SIZE
 	button.ignore_texture_size = true
 	button.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_COVERED
-	button.texture_normal = phase.thumbnail
-	button.disabled = not unlocked
-	if unlocked:
+	button.texture_normal = phase.thumbnail #Coloca o thumbnail como imagem do botão da fase
+	button.disabled = not unlocked #Desabilita se não estiver desbloqueada
+	if unlocked: #Se estiver desbloqueada, conecta os eventos ao botão (click e hover)
 		button.pressed.connect(_on_phase_button_pressed.bind(phase))
 		button.mouse_entered.connect(func(): button.modulate = Color(1.2, 1.2, 1.2))
 		button.mouse_exited.connect(func(): button.modulate = Color.WHITE)
@@ -52,7 +54,7 @@ func _make_phase_button(phase: PhaseData, unlocked: bool) -> Control:
 	label.vertical_alignment = VERTICAL_ALIGNMENT_BOTTOM
 	label.mouse_filter = Control.MOUSE_FILTER_IGNORE
 	label.add_theme_font_size_override("font_size", 28)
-	label.add_theme_color_override("font_outline_color", Color.WHITE)
+	label.add_theme_color_override("font_outline_color", Color.WHITE) #Adicionar outline branco ao label para ficar visível dentro da thumbnail
 	label.add_theme_constant_override("outline_size", 6)
 	button.add_child(label)
 

@@ -1,7 +1,6 @@
 extends Area2D
 
-## Se não for atribuído (ex: instância solta no editor pra teste), um
-## PowerupData é gerado com valores padrão em _ready().
+## Se não for atribuído, é gerado com valores padrão em _ready().
 @export var data: PowerupData
 
 @onready var label: RichTextLabel = $ExpressionLabel
@@ -9,8 +8,6 @@ extends Area2D
 @onready var icon_collision: CollisionShape2D = $CollisionShape2D
 
 const ICON_LEFT_PADDING := 2.0
-## Tamanho final do ícone na tela, independente do tamanho do frame de
-## origem (alguns spritesheets são 24x24, outros 48x48).
 const TARGET_ICON_SIZE := 24.0
 
 const LIFETIME := 10.0
@@ -22,8 +19,7 @@ const ExprToBBCode := preload("res://scripts/ExprToBBCode.gd")
 const RichTextRaiseEffect := preload("res://scripts/raise.gd")
 const BodyFont := preload("res://assets/fonts/CormorantGaramond-VariableFont_wght.ttf")
 
-## Sons tocados via autoload Sfx (não como filhos deste nó, que se auto-libera
-## ao ser pego — ver _on_body_entered).
+## Sons tocados quando pega powerup ou down.
 const PowerupSfx := preload("res://assets/sounds/effects/powerup.wav")
 const PowerdownSfx := preload("res://assets/sounds/effects/powerdown.wav")
 
@@ -37,7 +33,6 @@ func _process(delta: float) -> void:
 	if camera != null and "scroll_speed" in camera:
 		position.y -= camera.scroll_speed * 0.5 * delta
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	if data == null:
 		data = PowerupGenerator.generate()
@@ -55,8 +50,6 @@ func _ready() -> void:
 	label.install_effect(RichTextRaiseEffect.new())
 	label.text = ExprToBBCode.expr_to_bbcode(data.expression)
 	_apply_parchment_style()
-	# fit_content só recalcula o tamanho do label no fim do frame, então
-	# esperamos um frame antes de centralizar o ícone na altura real do box.
 	await get_tree().process_frame
 	_align_icon_to_box()
 	_clamp_to_screen()
@@ -70,10 +63,7 @@ func _align_icon_to_box() -> void:
 	icon_collision.shape.size = label.size
 	icon_collision.position = label.position + label.size / 2.0
 
-## Depois que o ícone e o label têm posição/tamanho definitivos, garante que
-## o card inteiro (ícone + texto da expressão) caiba na tela — a expressão
-## pode ser larga o suficiente pra vazar pra fora se o inimigo morrer perto
-## da borda.
+#Evitar de ser gerado powerup fora da tela
 func _clamp_to_screen() -> void:
 	var icon_half_width: float = icon.sprite_frames.get_frame_texture(icon.animation, 0).get_size().x * icon.scale.x / 2.0
 	var local_left: float = min(label.position.x, icon.position.x - icon_half_width)
@@ -88,39 +78,34 @@ func _clamp_to_screen() -> void:
 	else:
 		global_position.x = clamp(global_position.x, min_x, max_x)
 
+
 func _start_lifetime() -> void:
-	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
-	# enquanto este powerup ainda está na tela (ver game.gd._finish_phase()),
-	# a cena troca para o menu e este nó sai da árvore — get_tree() passaria
-	# a retornar null nos awaits seguintes.
 	var tree := get_tree()
 	await tree.create_timer(LIFETIME - BLINK_DURATION).timeout
 	if not _alive or not is_inside_tree():
 		return
 	var elapsed := 0.0
+	#Piscar o powerup quando estiver perto de desaparecer
 	while elapsed < BLINK_DURATION and _alive:
 		visible = not visible
 		await tree.create_timer(BLINK_INTERVAL).timeout
 		if not is_inside_tree():
 			return
 		elapsed += BLINK_INTERVAL
+	#Se após piscar, o jogador não pegou, chama função do jogador para incrementar o multiplicador
 	if _alive and is_inside_tree():
 		var player = tree.get_first_node_in_group("player")
 		if player.has_method("giveup_powerup"):
 			player.giveup_powerup()
 		queue_free()
 
+#Estilo de fundo do powerup
 func _apply_parchment_style() -> void:
-	# StyleBoxTexture não suporta corner_radius; nessa caixa pequena a
-	# textura de pergaminho quase não aparecia mesmo, então uso uma cor
-	# sólida tom-pergaminho com borda arredondada em vez do 9-slice.
 	var parchment := StyleBoxFlat.new()
 	parchment.bg_color = Color(0.9137255, 0.8509804, 0.7137255, 1)
 	parchment.border_color = Color(0.7137255, 0.5568628, 0.14509805, 1)
 	parchment.set_border_width_all(2)
 	parchment.set_corner_radius_all(8)
-	# Ícone (24px) fica sobreposto à esquerda do card: empurra o texto pra
-	# não ficar escondido atrás dele.
 	parchment.content_margin_left = 30.0
 	parchment.content_margin_top = 4.0
 	parchment.content_margin_right = 8.0
@@ -130,7 +115,6 @@ func _apply_parchment_style() -> void:
 	label.add_theme_font_override("bold_font", BodyFont)
 	label.add_theme_font_size_override("normal_font_size", 24)
 	label.add_theme_font_size_override("bold_font_size", 24)
-	# Cor neutra: o sinal do resultado não deve ser entregue pela cor, faz parte do cálculo.
 	label.add_theme_color_override("default_color", Color(0.24313726, 0.15294118, 0.078431375, 1))
 
 func _on_body_entered(body: Node) -> void:
@@ -141,8 +125,9 @@ func _on_body_entered(body: Node) -> void:
 
 func _apply_powerup_effect(player: Node) -> void:
 	if player.has_method("apply_powerup"):
+		var pitch: float = PowerupData.PITCH_BY_ATTRIBUTE.get(data.attribute, 1.0)
 		if data.result > 0:
-			Sfx.play(PowerupSfx)
+			Sfx.play(PowerupSfx, 0.0, "Master", pitch)
 		elif data.result < 0:
-			Sfx.play(PowerdownSfx)
+			Sfx.play(PowerdownSfx, 0.0, "Master", pitch)
 		player.apply_powerup(data)

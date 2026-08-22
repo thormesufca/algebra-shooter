@@ -1,52 +1,59 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://iiao68lm1sji"]
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
-[ext_resource type="Texture2D" uid="uid://cl7phriicyonw" path="res://assets/sprites/enemies/anim_snake.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cbetm3e5hquxh" path="res://assets/sprites/enemies/Animais Extended.png" id="2_piy73"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f0"]
-atlas = ExtResource("2_tex")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_2p11q"]
+atlas = ExtResource("2_piy73")
+region = Rect2(0, 489, 147, 112)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1"]
-atlas = ExtResource("2_tex")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_q0ir2"]
+atlas = ExtResource("2_piy73")
+region = Rect2(147, 489, 147, 112)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2"]
-atlas = ExtResource("2_tex")
-region = Rect2(64, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ssei2"]
+atlas = ExtResource("2_piy73")
+region = Rect2(294, 489, 147, 112)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3"]
-atlas = ExtResource("2_tex")
-region = Rect2(96, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_6xx8i"]
+atlas = ExtResource("2_piy73")
+region = Rect2(441, 489, 147, 112)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f4"]
-atlas = ExtResource("2_tex")
-region = Rect2(128, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_crp3o"]
+atlas = ExtResource("2_piy73")
+region = Rect2(588, 489, 147, 112)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5"]
-atlas = ExtResource("2_tex")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_p33q7"]
+atlas = ExtResource("2_piy73")
+region = Rect2(735, 489, 147, 112)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e1a4y"]
+atlas = ExtResource("2_piy73")
+region = Rect2(882, 489, 147, 112)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_snake"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f0")
+"texture": SubResource("AtlasTexture_2p11q")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f1")
+"texture": SubResource("AtlasTexture_q0ir2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2")
+"texture": SubResource("AtlasTexture_ssei2")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f3")
+"texture": SubResource("AtlasTexture_6xx8i")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f4")
+"texture": SubResource("AtlasTexture_crp3o")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5")
+"texture": SubResource("AtlasTexture_p33q7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e1a4y")
 }],
 "loop": true,
 "name": &"moving",
@@ -57,3 +64,5 @@ animations = [{
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=2003927357]
 sprite_frames = SubResource("SpriteFrames_snake")
+frame = 1
+frame_progress = 0.50670147

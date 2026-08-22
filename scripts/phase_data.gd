@@ -2,59 +2,40 @@ extends Resource
 
 class_name PhaseData
 
-@export var phase_name: String = "Fase 1"
-@export var operators_unlocked: String = "+ -"
-## Posição da fase na progressão (1-based). Usado no gate de desbloqueio do
-## menu de seleção: concluir a fase N libera a N+1 (ver game.gd/_finish_phase
-## e phase_select.gd).
-@export var phase_number: int = 1
+@export var phase_name: String = "Fase 1" #Nome da fase
+@export var phase_number: int = 1 #Número da fase (para calcular desbloqueio)
 
+#Dados referente ao spawn de inimigos
 @export_group("Spawn")
-@export var enemy_scene: PackedScene
-## Pool de inimigos da fase: se preenchido, cada spawn sorteia uma cena
-## aleatória desta lista em vez de sempre usar enemy_scene, permitindo
-## vários tipos de inimigo convivendo na mesma fase.
-@export var enemy_scenes: Array[PackedScene] = []
-@export var power_scene: PackedScene
-@export var spawn_interval: float = 1.0
-@export var powerup_enemy_index: int = 5
-## Estágios de dificuldade ao longo da fase: conforme a câmera percorre a
-## distância, o estágio com o maior distance_threshold já alcançado passa a
-## valer, trocando spawn_interval e/ou enemy_scene.
-@export var spawn_stages: Array[SpawnStage] = [SpawnStage.new()]
+@export var power_scene: PackedScene #Powerup, único
+@export var spawn_interval: float = 1.0 #Intervalo padrão de spawn de inimigos
+@export var powerup_enemy_index: int = 5 #Intervalo de inimigos para gerar powerup (A cada 5º inimigo gerado, tem powerup)
+@export var spawn_stages: Array[SpawnStage] = [SpawnStage.new()] #Lista de stages de spawn para configurar na fase
 
+#Configurações da Câmera
 @export_group("Câmera")
-## Velocidade constante (px/s) com que a câmera avança automaticamente.
-@export var camera_speed: float = 60.0
-## Distância total (px) que a câmera percorre até a fase ser concluída.
-@export var phase_distance: float = 50000.0
+@export var camera_speed: float = 60.0 #Velocidade da Câmera
+@export var phase_distance: float = 50000.0 #Tamanho total da Fase
 
+#Configurações de Limite
 @export_group("Limites")
-## Teto da magnitude do range dos powerups nesta fase. O range efetivo é
-## min(PowerupGenerator.unlock_range(...), range_max) e a expressão é gerada
-## dentro de [-range_efetivo, +range_efetivo] — ver game.gd/_spawn_powerup.
-## Corta o grind: mesmo com tudo desbloqueado, fases fáceis mantêm o teto baixo.
-@export var range_max: float = 6.0
-## Teto do multiplicador de risco (cresce ao pular powerups) nesta fase — ver
-## player.gd/giveup_powerup.
-@export var max_multiplier: int = 3
+@export var range_max: float = 6.0 #Limite de Range de Bônus para a fase (+- o valor)
+@export var max_multiplier: int = 3 #Valor máximo do multiplicador da fase
 
+#Configuração do Boss da Fase
 @export_group("Boss")
-## Cena do boss da fase: spawna depois que a câmera termina o percurso E os
-## inimigos comuns restantes morrem (ver game.gd/_run_boss_sequence). Se
-## null, a fase não tem boss dedicado (ainda usa o boss antigo via
-## spawn_stages, ou não tem boss).
-@export var boss_scene: PackedScene
+@export var boss_scene: PackedScene #Qual é o boss (cena)
+@export var boss_warning_sound: AudioStream #Som para tocar para o warning do boss (sobrescrever o padrão)
 
+#Configurações da imagem de fundo
 @export_group("Fundo")
-## Tint aplicado sobre a névoa (bg_fog.png) — mantenha alpha baixo, é uma
-## camada translúcida, não um fundo sólido.
-@export var sky_color: Color = Color(0.7137255, 0.68235296, 0.827451, 0.5)
-@export var walls_color: Color = Color(0.24705882, 0.19607843, 0.15686275, 0.85)
-@export var floor_color: Color = Color(0.41960785, 0.3372549, 0.24313726, 1)
-@export var imagem: Texture2D
-@export var thumbnail: Texture2D
+@export var sky_color: Color = Color(0.7137255, 0.68235296, 0.827451, 0.5) #Tint para o layer do céu (transparente)
+@export var walls_color: Color = Color(0.24705882, 0.19607843, 0.15686275, 0.85) #Tint para as paredes
+@export var floor_color: Color = Color(0.41960785, 0.3372549, 0.24313726, 1) #Tint para o chão
+@export var imagem: Texture2D #Imagem de fundo da fase
+@export var thumbnail: Texture2D #Thumbnail para a seleção de fase
 
+#Configurações para áudio da fase
 @export_group("Audio")
-@export var phase_music: AudioStream
-@export var boss_music: AudioStream
+@export var phase_music: AudioStream #Música da fase
+@export var boss_music: AudioStream #Música para o chefão da fase

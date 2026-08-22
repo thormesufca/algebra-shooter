@@ -1,8 +1,6 @@
 extends Area2D
 
-## Projétil de ataque à distância de boss (ex.: leque de pedras do
-## Minotauro). Mesmo padrão de bullet.gd, mas mirando o jogador em vez do
-## inimigo.
+#Projétil de pedra do minotauro.
 
 @export var speed: float = 260.0
 @export var lifetime: float = 6.0

@@ -2,22 +2,15 @@ extends RefCounted
 
 class_name GameData
 
-## Estrutura com todo o progresso persistido entre fases: os dados do próprio
-## jogo (níveis de operadores/dígitos desbloqueados e o range dos powerups)
-## mais os dados do jogador (atributos acumulados via powerups), agrupados
-## no campo `player`. Ver GameSave para a persistência em disco.
+## Singleton para dados do jogo (salvar e carregar)
 
-var operator_level: int = 1
-var digit_level: int = 4
-var bonus_range: float = 4.0
-## Maior fase liberada (jogável). A fase 1 está sempre disponível; concluir a
-## fase N libera a N+1 (ver game.gd/_finish_phase).
-var unlocked_phase: int = 1
+var operator_level: int = 1 #Operador desbloqueado (inicia em 1)
+var digit_level: int = 4 #Digitos desbloqueados (inicia em 1 - 4)
+var bonus_range: float = 4.0 #Limite do valor do powerup (Inicia em 4, progride na loja/fase)
+var unlocked_phase: int = 1 #Fase inicial desbloqueada
 var player: Dictionary = {}
 
-## Espelha os @export defaults de player.gd — usado como fallback quando uma
-## chave ainda não existe em `player` (ex: antes da primeira fase concluída),
-## e por telas sem uma instância de Player em cena, como a loja.
+#Valores padrões para exportação, caso não existam no Player
 const DEFAULT_PLAYER := {
 	"damage": 4.0,
 	"speed": 400.0,
@@ -35,6 +28,7 @@ func player_field(key: String) -> float:
 func set_player_field(key: String, value) -> void:
 	player[key] = value
 
+#Converte dados em dicionário
 func to_dict() -> Dictionary:
 	return {
 		"operator_level": operator_level,
@@ -44,6 +38,7 @@ func to_dict() -> Dictionary:
 		"player": player,
 	}
 
+#Carrega dados de um dicionário
 static func from_dict(data: Dictionary) -> GameData:
 	var result := GameData.new()
 	result.operator_level = data.get("operator_level", result.operator_level)

@@ -1,8 +1,6 @@
 extends Node2D
 
-## Emitido depois que o progresso da fase já foi salvo, com os atributos do
-## jogador antes e depois da fase (mesmo formato de Player.get_save_data()) —
-## main.gd usa isso pra mostrar a tela de resultado antes de voltar ao menu.
+#Sinal para calcular o resultado da fase (delta de atributos no início e no final da fase)
 signal phase_results(before: Dictionary, after: Dictionary)
 
 @export var enemy_scene: PackedScene
@@ -19,13 +17,9 @@ var _spawn_count: int = 0
 var _current_stage: SpawnStage = null
 var _enemy_pool: Array[PackedScene] = []
 var boss_scene: PackedScene = null
-## Se o jogador morrer, o save de fim de fase deve ser cancelado mesmo que os
-## inimigos restantes já estejam mortos (ver _finish_phase()).
-var _player_died: bool = false
-## Atributos do jogador no início da fase (mesma fonte que alimenta
-## player.apply_save_data em _ready()), guardados para calcular os deltas
-## mostrados na tela de resultado — ver _finish_phase().
-var _phase_start_player: Dictionary = {}
+
+var _player_died: bool = false #Ver se jogador morreu
+var _phase_start_player: Dictionary = {} #Atributos do jogador ao iniciar a fase
 
 @onready var camera: Camera2D = $Camera
 
@@ -42,16 +36,12 @@ func _on_spawn_timer_timeout() -> void:
 	if _spawn_count % powerup_enemy_index == 0:
 		enemy.died.connect(_on_powerup_enemy_died)
 
-## Sorteia uma cena de inimigo do pool atual (fase ou estágio), se houver;
-## caso contrário usa o enemy_scene único configurado.
 func _pick_enemy_scene() -> PackedScene:
 	if not _enemy_pool.is_empty():
 		return _enemy_pool[randi() % _enemy_pool.size()]
 	return enemy_scene
 
-## Aplica os overrides de HP/recompensa do estágio atual ao inimigo recém
-## instanciado, antes dele entrar na árvore (max_health precisa ser ajustado
-## antes do _ready() da cena definir health/progress_bar).
+#Aplicar dados da fase (spawn stage) ao inimigo
 func _apply_stage_to_enemy(enemy: Enemy, stage: SpawnStage) -> void:
 	if stage == null:
 		return
@@ -62,8 +52,7 @@ func _apply_stage_to_enemy(enemy: Enemy, stage: SpawnStage) -> void:
 	if stage.enemy_speed >= 0.0:
 		enemy.speed = stage.enemy_speed
 
-## Verifica se, com a distância percorrida pela câmera, um novo estágio de
-## dificuldade (definido em phase.spawn_stages) deve entrar em vigor.
+#Carregar o spawn stage correto de acordo com a distância percorrida na fase
 func _update_spawn_stage() -> void:
 	if phase == null or phase.spawn_stages.is_empty():
 		return
@@ -76,10 +65,8 @@ func _update_spawn_stage() -> void:
 	if best == null or best == _current_stage:
 		return
 	_current_stage = best
-	# start() reinicia a contagem já com o novo intervalo; só ajustar
-	# wait_time não bastaria, pois o Timer já rearma o próximo ciclo com o
-	# valor antigo antes de emitir este próprio "timeout" — na prática, um
-	# tick a mais dispararia com o intervalo antigo de um estágio anterior.
+	
+	#Reinicia o timer de acordo com o passo da fase
 	$SpawnTimer.start(best.spawn_interval)
 	if not best.enemy_scenes.is_empty():
 		_enemy_pool = best.enemy_scenes
@@ -87,34 +74,28 @@ func _update_spawn_stage() -> void:
 		enemy_scene = best.enemy_scene
 		_enemy_pool = []
 
+
+#Quando chegar ao final da fase, inicia sequencia de boss
 func _on_phase_completed() -> void:
 	$SpawnTimer.stop()
 	_run_boss_sequence()
 	
 
-## A câmera já percorreu toda a distância da fase, mas podem sobrar inimigos
-## comuns em campo: espera todos morrerem, depois — se a fase tiver um boss
-## dedicado (data.boss_scene) — mostra o aviso e spawna o boss como um
-## confronto isolado, e só então (esperando o boss e eventuais aliados que
-## ele invoque também morrerem) considera a fase concluída.
+#Sequencia do boss
 func _run_boss_sequence() -> void:
-	await _wait_until_enemies_cleared()
+	await _wait_until_enemies_cleared() #Aguarda todos os inimigos serem mortos
 	if not is_inside_tree():
 		return
 	if boss_scene != null:
-		await _spawn_boss()
+		await _spawn_boss() 
 		if not is_inside_tree():
 			return
 		await _wait_until_enemies_cleared()
 		if not is_inside_tree():
 			return
-	_collect_remaining_coins()
-	_finish_phase()
+	_collect_remaining_coins() #Coletar moedas (provavelmente só a do boss) independentemente da distância
+	_finish_phase() #Finalizar fase após morte do boss
 
-## O jogador pode não ter tido tempo/chance de chegar perto de moedas soltas
-## pelos últimos inimigos (em especial a do boss, que agora ataca parado à
-## distância — ver boss.gd), então a fase termina recolhendo o que sobrou em
-## vez de deixar o ouro se perder.
 func _collect_remaining_coins() -> void:
 	var player := get_tree().get_first_node_in_group("player")
 	if player == null:
@@ -123,10 +104,7 @@ func _collect_remaining_coins() -> void:
 		if coin.has_method("collect"):
 			coin.collect(player)
 
-## Guarda a SceneTree numa variável local e confere is_inside_tree() a cada
-## volta: se o jogador morrer nesse meio-tempo (main.gd reload_current_scene
-## depois de 3s), este nó pode sair da árvore antes do loop terminar —
-## get_tree() passaria a retornar null.
+#Checa se todos os inimigos estão mortos
 func _wait_until_enemies_cleared() -> void:
 	var tree := get_tree()
 	while not tree.get_nodes_in_group("enemy").is_empty():
@@ -135,26 +113,30 @@ func _wait_until_enemies_cleared() -> void:
 			return
 
 const BossWarningLabelScene := preload("res://entities/BossWarningLabel.tscn")
-const BOSS_WARNING_DELAY := 1.5
 
-## Mostra o aviso de boss por BOSS_WARNING_DELAY segundos e só então spawna o
-## boss, parado no topo da área visível da câmera (que já não se move mais,
-## já que a fase terminou — ver camera.gd).
+#Spawn do Boss
 func _spawn_boss() -> void:
-	var tree := get_tree()
-	if phase != null and phase.boss_music != null:
+	if phase != null and phase.boss_music != null: #Tocar música do boss
 		var tw := create_tween()
 		tw.tween_property(audio_player, "volume_db", -40.0, 0.5)
 		await tw.finished
 		audio_player.stream = phase.boss_music
 		audio_player.play()
 		create_tween().tween_property(audio_player, "volume_db", 0.0, 0.5)
+	
+	#Criar o Warning
 	var warning := BossWarningLabelScene.instantiate()
 	warning.global_position = _get_boss_spawn_position()
+	if phase != null:
+		warning.sfx_override = phase.boss_warning_sound
 	get_tree().get_first_node_in_group("game_root").add_child(warning)
-	await tree.create_timer(BOSS_WARNING_DELAY).timeout
+	
+	#Aguarda o warning terminar (som e imagem)
+	await warning.finished
 	if not is_inside_tree():
 		return
+	
+	#Instancia o Boss
 	var boss := boss_scene.instantiate()
 	boss.global_position = _get_boss_spawn_position()
 	get_tree().get_first_node_in_group("game_root").add_child(boss)
@@ -165,12 +147,7 @@ func _get_boss_spawn_position() -> Vector2:
 	var cam_pos := local_camera.global_position if local_camera else Vector2.ZERO
 	return Vector2(cam_pos.x, cam_pos.y - viewport_size.y / 2 + 120.0)
 
-## Persiste o progresso do jogo (níveis de operadores/dígitos, range dos
-## powerups e atributos do jogador) ao final da fase e avisa main.gd (via
-## phase_results) para mostrar a tela de resultado — a troca de cena pro
-## menu só acontece quando o jogador clica em Continuar nela, não mais
-## automaticamente aqui. Se o jogador morreu no meio do caminho, o save é
-## pulado e o progresso salvo anteriormente permanece intacto.
+#Ao matar o boss, salva os atributos atuais em disco
 func _finish_phase() -> void:
 	if _player_died:
 		return
@@ -181,8 +158,8 @@ func _finish_phase() -> void:
 	data.operator_level = operator_level
 	data.digit_level = digit_level
 	data.bonus_range = bonus_range
-	# Concluir a fase N libera a N+1; o max evita "desdesbloquear" ao rejogar
-	# uma fase anterior. prev é o save antes desta escrita.
+	
+	#Liberar a próxima fase (se for uma nova, se rejogar uma antiga, continua no mesmo valor)
 	if phase != null:
 		var prev := GameSave.load_data()
 		data.unlocked_phase = max(prev.unlocked_phase, phase.phase_number + 1)
@@ -197,15 +174,12 @@ func _on_player_died() -> void:
 
 
 func _ready() -> void:
-	# A fase escolhida na tela de seleção (se houver) tem prioridade sobre o
-	# @export configurado na cena, usado para testar a cena direto no editor.
+	#Setar fase atual
 	if GameConfig.selected_phase != null:
 		phase = GameConfig.selected_phase
 
-	# GameConfig (config explícita de uma tela de menu, se houver) tem
-	# prioridade sobre o progresso salvo; na ausência de ambos, valem os
-	# defaults dos @export.
 	var save_data := GameSave.load_data()
+	#Verifica se tem dados salvos para carregar, se não, carrega da configuração
 	if GameConfig.configured:
 		operator_level = GameConfig.operator_level
 		digit_level = GameConfig.digit_level
@@ -224,11 +198,8 @@ func _ready() -> void:
 		player.apply_save_data(save_data.player)
 		player.died.connect(_on_player_died)
 
+#Aplica os dados da fase atual à cena (Som, Imagem de fundo, evento da fase, velocidade de câmera, distância, etc.)
 func _apply_phase(data: PhaseData) -> void:
-	if data.enemy_scene != null:
-		enemy_scene = data.enemy_scene
-	if not data.enemy_scenes.is_empty():
-		_enemy_pool = data.enemy_scenes
 	if data.power_scene != null:
 		power_scene = data.power_scene
 	powerup_enemy_index = data.powerup_enemy_index
@@ -253,31 +224,28 @@ func _apply_phase(data: PhaseData) -> void:
 
 func _on_powerup_enemy_died(death_position: Vector2) -> void:
 	call_deferred("_spawn_powerup", death_position)
-	
-const POWERUP_OVERLAP_RADIUS := 30.0
+
+#Constantes para controlar distância mínima entre powerups
+const POWERUP_OVERLAP_RADIUS := 60.0
 const POWERUP_STACK_OFFSET := 40.0
 
-## Range efetivo desta fase: a magnitude que o progresso desbloqueou, limitada
-## pelo teto da fase (range_max) — impede grind em fases fáceis sem tornar a
-## loja inútil, já que na fronteira o desbloqueio fica abaixo do teto.
+#Calcular o limite de bônus efetivo na fase, com base no que já foi desbloqueado e limite da própria fase
 func _effective_range() -> float:
 	var unlocked := PowerupGenerator.unlock_range(operator_level, digit_level)
 	if phase != null:
 		return minf(unlocked, phase.range_max)
 	return unlocked
 
+#Instancia e gera um valor para o powerup
 func _spawn_powerup(death_position: Vector2)->void:
 	var power := power_scene.instantiate()
 	var r := _effective_range()
 	power.data = PowerupGenerator.generate(operator_level, digit_level, -r, r)
-	print(power.data.expression, " = ", power.data.result)
 	power.add_to_group("powerup")
 	add_child(power)
 	power.global_position = _get_free_powerup_position(death_position)
 
-## Se já existir um powerup perto da posição desejada, empurra o novo (mais
-## recente) para cima até achar um lugar livre, evitando que fiquem
-## sobrepostos quando dois inimigos morrem no mesmo ponto.
+#Modificar um pouco a posição do powerup caso já tem um no mesmo local, para não ficar um escondido atrás do outro
 func _get_free_powerup_position(base_position: Vector2) -> Vector2:
 	var pos := base_position
 	var existing := get_tree().get_nodes_in_group("powerup")
@@ -291,7 +259,9 @@ func _get_free_powerup_position(base_position: Vector2) -> Vector2:
 				pos.y -= POWERUP_STACK_OFFSET
 				moved = true
 	return pos
-	
+
+
+#Calcula a posição onde vai spawnar o inimigo, sempre acima da tela
 func _get_spawn_position() -> Vector2:
 	var local_camera := get_viewport().get_camera_2d()
 	var viewport_size := get_viewport_rect().size

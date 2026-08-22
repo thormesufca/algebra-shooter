@@ -1,0 +1,88 @@
+[gd_scene format=3 uid="uid://bqwuhi747v167"]
+
+[ext_resource type="Script" uid="uid://ckji084jtcegr" path="res://scripts/club_projectile.gd" id="1_club"]
+[ext_resource type="Texture2D" uid="uid://cudpau85r1cso" path="res://assets/sprites/enemies/Boss Projectiles Edited.png" id="2_lcbn4"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_club"]
+radius = 23.0
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_do0c6"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(0, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j5yrk"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(271, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dom3h"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(542, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_auo8i"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(813, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4il2"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(1084, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_cqkgx"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(1355, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_467wa"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(1626, 7, 271, 245)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vc3xw"]
+atlas = ExtResource("2_lcbn4")
+region = Rect2(1897, 7, 271, 245)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_club"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_do0c6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j5yrk")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dom3h")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_auo8i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4il2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_cqkgx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_467wa")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vc3xw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="ClubProjectile" type="Area2D" unique_id=1856104960]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_club")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=223556642]
+shape = SubResource("CircleShape2D_club")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=1100227135]
+position = Vector2(-1.9999999, 14.999999)
+scale = Vector2(0.4, 0.4)
+sprite_frames = SubResource("SpriteFrames_club")
+autoplay = "default"
+frame_progress = 0.28297582
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

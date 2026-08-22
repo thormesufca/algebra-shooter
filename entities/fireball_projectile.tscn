@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://bsme7jp7uwbcc"]
+
+[ext_resource type="Script" uid="uid://qqcr5gevqkrw" path="res://scripts/fireball_projectile.gd" id="1_fireball"]
+[ext_resource type="Texture2D" uid="uid://cudpau85r1cso" path="res://assets/sprites/enemies/Boss Projectiles Edited.png" id="2_u4nrq"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_fireball"]
+radius = 25.179358
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_p8j2x"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(0, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ovgcy"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(271, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_14jxb"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(542, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_bipvh"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(813, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_l4ikl"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(1084, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_aorl5"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(1355, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_228wt"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(1626, 258, 271, 232)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5ldvw"]
+atlas = ExtResource("2_u4nrq")
+region = Rect2(1897, 258, 271, 232)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_60owh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_p8j2x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ovgcy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_14jxb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_bipvh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_l4ikl")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_aorl5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_228wt")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5ldvw")
+}],
+"loop": true,
+"name": &"default",
+"speed": 16.0
+}]
+
+[node name="FireballProjectile" type="Area2D" unique_id=487567228]
+collision_layer = 0
+collision_mask = 2
+script = ExtResource("1_fireball")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=2085497850]
+shape = SubResource("CircleShape2D_fireball")
+
+[node name="Sprite2D" type="AnimatedSprite2D" parent="." unique_id=25978497]
+modulate = Color(1, 0.45, 0.1, 1)
+position = Vector2(-0.9999999, 0)
+rotation = 16.929693
+scale = Vector2(0.3, 0.3)
+sprite_frames = SubResource("SpriteFrames_60owh")
+autoplay = "default"
+frame_progress = 0.7176655
+
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]

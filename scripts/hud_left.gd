@@ -1,7 +1,5 @@
 extends PanelContainer
 
-## Selecione qual quadrante do spritesheet (Shield.png, grade 2x2) usar
-## clicando neste campo no Inspector — abre o editor de região de textura.
 @export var shield_icon: Texture2D = preload("res://resources/ui/shield_icon.tres")
 const SHIELD_ICON_SIZE := Vector2(48, 48)
 

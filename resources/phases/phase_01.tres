@@ -7,9 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://cs11asnq7dni" path="res://assets/backgrounds/bg_maze.png" id="3_taauu"]
 [ext_resource type="Script" uid="uid://kvyo5tdi0ky7" path="res://scripts/spawn_stage.gd" id="4_1lehk"]
 [ext_resource type="AudioStream" uid="uid://c2hurmobrgtej" path="res://assets/sounds/music/Bad to the Bone.mp3" id="5_0yllx"]
-[ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/enemies/enemy_minotaur.tscn" id="5_minotaur"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_worm.tscn" id="6_worm"]
-[ext_resource type="PackedScene" path="res://entities/enemies/enemy_beetle.tscn" id="7_beetle"]
+[ext_resource type="PackedScene" uid="uid://dp5ncudt2tae2" path="res://entities/bosses/boss_minotaur.tscn" id="5_minotaur"]
+[ext_resource type="PackedScene" uid="uid://cqflyqulum1sj" path="res://entities/enemies/enemy_worm.tscn" id="6_worm"]
+[ext_resource type="PackedScene" uid="uid://wwgr363rxwdy" path="res://entities/enemies/enemy_beetle.tscn" id="7_beetle"]
 
 [sub_resource type="Resource" id="SpawnStage_inicio"]
 script = ExtResource("4_1lehk")
@@ -43,7 +43,6 @@ region = Rect2(76, 24, 320, 240)
 
 [resource]
 script = ExtResource("1_phase")
-enemy_scene = ExtResource("6_worm")
 power_scene = ExtResource("3_power")
 spawn_interval = 1.5
 powerup_enemy_index = 3

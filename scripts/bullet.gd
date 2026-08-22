@@ -32,12 +32,10 @@ func _on_body_entered(body: Node2D) -> void:
 			#player.bullet_amount += 1
 		
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	scale = Vector2(bullet_size, bullet_size)
 	lifetime = lifetime * 100/speed
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(_delta: float) -> void:
 	pass

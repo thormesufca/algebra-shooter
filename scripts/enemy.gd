@@ -15,6 +15,9 @@ var direction := Vector2.ZERO
 const KNOCKBACK_FRICTION := 600.0
 var knockback: Vector2 = Vector2.ZERO
 
+const SplatSfx := preload("res://assets/sounds/splat.ogg")
+const SPLAT_PITCH_VARIATION := 0.15 #Variar som de morte
+
 func apply_knockback(push_direction: Vector2, force: float) -> void:
 	knockback = push_direction.normalized() * force
 
@@ -23,7 +26,6 @@ func apply_knockback(push_direction: Vector2, force: float) -> void:
 var health:int
 var _dying := false
 
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	health = max_health
 	progress_bar.max_value = max_health
@@ -57,12 +59,11 @@ func take_damage(amount: int)->void:
 		die()
 
 func die()->void:
-	# queue_free() só remove o nó no fim do frame: sem essa guarda, vários
-	# projéteis atingindo o inimigo no mesmo frame chamariam die() mais de
-	# uma vez, emitindo "died" (e portanto gerando powerup) repetidamente.
 	if _dying:
 		return
 	_dying = true
+	var pitch := randf_range(1.0 - SPLAT_PITCH_VARIATION, 1.0 + SPLAT_PITCH_VARIATION)
+	Sfx.play(SplatSfx, 0.0, "Master", pitch)
 	died.emit(global_position)
 	call_deferred("_spawn_reward")
 	queue_free()

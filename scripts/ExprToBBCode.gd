@@ -2,17 +2,6 @@ extends Node
 ## Converte uma expressão algébrica em texto simples (com ^ e sqrt())
 ## para uma string BBCode pronta para um RichTextLabel.
 ##
-## IMPORTANTE SOBRE EXPOENTES:
-## O BBCode do Godot NÃO possui uma tag [sup] nativa, e efeitos customizados
-## (RichTextEffect) não conseguem alterar o tamanho da fonte por caractere
-## — apenas a posição. Por isso, o sobrescrito aqui é simulado combinando
-## a tag nativa [font_size] (encolhe o texto) com uma tag customizada
-## [raise] (eleva o texto), definida em rich_text_raise.gd.
-##
-## PRÉ-REQUISITO: o efeito RichTextRaise precisa estar registrado no
-## RichTextLabel antes de definir `text`. Veja powerup.gd para um exemplo
-## (label.install_effect(RichTextRaise.new())).
-##
 ## Sintaxe de entrada esperada:
 ##   +  -  *  /      -> operações básicas (* e / são trocados por × e ÷)
 ##   base^expoente    -> expoente: número simples, ou subexpressão entre
@@ -39,7 +28,7 @@ static func _wrap_superscript(text: String) -> String:
 		SUP_FONT_SIZE, SUP_RAISE, text
 	]
 
-
+#Transformar expressão em RichText
 static func expr_to_bbcode(expr: String) -> String:
 	var result := ""
 	var i := 0
@@ -64,10 +53,6 @@ static func expr_to_bbcode(expr: String) -> String:
 		if c == "^":
 			i += 1
 			if i < n and expr[i] == "(":
-				# expoente entre parênteses: converte recursivamente
-				# (trata ^ e sqrt aninhados) e eleva o resultado por completo,
-				# incluindo os parênteses normais (o [font_size] já cuida do
-				# tamanho, não precisamos de parênteses Unicode).
 				var close_idx2 := _find_matching_paren(expr, i)
 				if close_idx2 == -1:
 					result += "^" + expr.substr(i)
@@ -77,7 +62,6 @@ static func expr_to_bbcode(expr: String) -> String:
 				result += _wrap_superscript("(" + inner_converted + ")")
 				i = close_idx2 + 1
 			else:
-				# expoente numérico simples (com sinal opcional)
 				var j := i
 				if j < n and (expr[j] == "-" or expr[j] == "+"):
 					j += 1

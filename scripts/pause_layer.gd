@@ -1,7 +1,6 @@
 extends Control
 
-## process_mode precisa ser Always (definido na cena) pra este nó continuar
-## recebendo input mesmo com a árvore pausada — senão nunca dá pra despausar.
+# Tela de Pause
 
 const PhaseSelectScene := "res://scenes/phase_select.tscn"
 const MainMenuScene := "res://scenes/main_menu.tscn"
@@ -15,16 +14,16 @@ func _toggle_pause() -> void:
 	get_tree().paused = not get_tree().paused
 	visible = get_tree().paused
 
+#Despausar
 func _on_resume_button_pressed() -> void:
 	_toggle_pause()
 
-## Sai da fase em andamento sem salvar (o progresso só é persistido ao
-## concluir a fase — ver game.gd._finish_phase()). O tree precisa ser
-## despausado antes de trocar de cena, senão a próxima cena carrega travada.
+#Voltar para seleção de fase
 func _on_phase_select_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file(PhaseSelectScene)
 
+#Voltar para menu inicial
 func _on_main_menu_button_pressed() -> void:
 	get_tree().paused = false
 	get_tree().change_scene_to_file(MainMenuScene)

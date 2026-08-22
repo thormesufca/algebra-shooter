@@ -1,59 +1,62 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://wwgr363rxwdy"]
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
-[ext_resource type="Texture2D" uid="uid://xchsbo7usg0u" path="res://assets/sprites/enemies/anim_beetle.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cbetm3e5hquxh" path="res://assets/sprites/enemies/Animais Extended.png" id="2_xeexp"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f0"]
-atlas = ExtResource("2_tex")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_sedhd"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(5, 372, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1"]
-atlas = ExtResource("2_tex")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ekveu"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(299, 372, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2"]
-atlas = ExtResource("2_tex")
-region = Rect2(64, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_cx0rr"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(593, 372, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3"]
-atlas = ExtResource("2_tex")
-region = Rect2(96, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_yuexk"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(740, 372, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f4"]
-atlas = ExtResource("2_tex")
-region = Rect2(128, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_v8tmq"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(887, 372, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5"]
-atlas = ExtResource("2_tex")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ge7sw"]
+atlas = ExtResource("2_xeexp")
+region = Rect2(1034, 372, 147, 124)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_beetle"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f0")
+"texture": SubResource("AtlasTexture_sedhd")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f1")
+"texture": SubResource("AtlasTexture_ekveu")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2")
+"texture": SubResource("AtlasTexture_cx0rr")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f3")
+"texture": SubResource("AtlasTexture_yuexk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f4")
+"texture": SubResource("AtlasTexture_v8tmq")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5")
+"texture": SubResource("AtlasTexture_ge7sw")
 }],
 "loop": true,
 "name": &"moving",
-"speed": 5.0
+"speed": 6.0
 }]
 
 [node name="EnemyBeetle" unique_id=1400000002 instance=ExtResource("1_base")]
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=2003927357]
+rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_beetle")
+frame_progress = 0.39553896
+flip_h = false

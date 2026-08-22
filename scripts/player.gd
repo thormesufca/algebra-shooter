@@ -17,54 +17,54 @@ const PowerupResultLabelScene := preload("res://entities/PowerupResultLabel.tscn
 @export var score = 0
 @export var gold: int = 0
 var multiplicador: int = 1
-## Teto do multiplicador nesta fase, definido por game.gd a partir do PhaseData.
-var max_multiplier: int = 3
+var max_multiplier: int = 3 #Teto multiplicador (setado pela fase)
+var max_shield: float = 3.0 #Escudos
+var bullet_amount_progress: float = 1.0 #Flechas
+@onready var shoot_sound: AudioStreamPlayer2D = $ShootSound #Som de tiro (desativado)
+@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D 
+@onready var hurt_area: Area2D = $HurtArea #Hitbox para jogador
 
-## Acumulador float da "vida máxima" (mesma lógica percentual dos demais
-## atributos). `shield` (a quantidade em jogo) vira floor(max_shield) no
-## início de cada fase — ver start_new_phase().
-var max_shield: float = 3.0
+const HitSfx = preload("res://assets/sounds/effects/Strong Hit.wav") #Som quando é atingido
+const KoSfx := preload("res://assets/sounds/effects/KO Male.wav") #Som quando é morto
 
-## Acumulador float da quantidade de flechas. Mesma lógica de floor do
-## escudo, mas aplicada imediatamente em vez de esperar a próxima fase.
-var bullet_amount_progress: float = 1.0
-@onready var shoot_sound: AudioStreamPlayer2D = $ShootSound
-@onready var sprite: AnimatedSprite2D = $AnimatedSprite2D
-@onready var hurt_area: Area2D = $HurtArea
-
-var sfx = preload("res://assets/sounds/effects/Strong Hit.wav")
-
-const DIRECTIONS := [
-	"south", "se", "east", "ne",
-	"north", "nw", "west", "sw"
-]
-
-const HIT_INVULNERABILITY_DURATION := 3.0
-const HIT_BLINK_INTERVAL := 0.1
+const HIT_INVULNERABILITY_DURATION := 3.0 #Duração invulnerabilidade
+const HIT_BLINK_INTERVAL := 0.1 #Intervalo de piscar
 const KNOCKBACK_FRICTION := 600.0
 const KNOCKBACK_FORCE := 220.0
 const ENEMY_KNOCKBACK_FORCE := 280.0
-const SCREEN_MARGIN := 40.0
-const MIN_X := 60.0
+const SCREEN_MARGIN := 40.0 
+
+#Margens para limitar movimento lateral à imagem da parede
+const MIN_X := 60.0 
 const MAX_X := 800.0
+const MOVING_SPEED_THRESHOLD := 1.0
+
+#Máquina de estados
+enum AnimState { IDLE, WALK, HURT, DEAD }
+var anim_state: AnimState = AnimState.IDLE
 
 var is_invulnerable: bool = false
 var knockback: Vector2 = Vector2.ZERO
+var is_dead: bool = false
 
 func _ready() -> void:
 	hurt_area.body_entered.connect(_on_hurt_area_body_entered)
 
+#Movimento do jogador
 func _physics_process(delta: float) -> void:
 	var direction := Vector2.ZERO
-	direction.x = Input.get_axis("move_left", "move_right")
-	direction.y = Input.get_axis("move_up", "move_down")
+	if not is_dead:
+		direction.x = Input.get_axis("move_left", "move_right")
+		direction.y = Input.get_axis("move_up", "move_down")
 
 	velocity = direction.normalized() * speed + knockback
 	knockback = knockback.move_toward(Vector2.ZERO, KNOCKBACK_FRICTION * delta)
 	move_and_slide()
 
+	#Jogador não pode ultrapassar o campo de visão da câmera
 	_clamp_to_camera_view()
 
+#Seta a posição do jogador aos limites da câmera
 func _clamp_to_camera_view() -> void:
 	position.x = clamp(position.x, MIN_X, MAX_X)
 
@@ -80,9 +80,14 @@ func _on_hurt_area_body_entered(body: Node) -> void:
 	if body.is_in_group("enemy"):
 		_on_hit_by_enemy(body)
 
+
+#Evento quando inimigo atinge jogador
 func _on_hit_by_enemy(enemy: Node) -> void:
+	#Se estiver no estado invulerável, não faz nada
 	if is_invulnerable:
 		return
+
+	#Calcula knockback
 	var push_dir : Vector2 = (global_position - enemy.global_position)
 	if push_dir == Vector2.ZERO:
 		push_dir = Vector2.UP
@@ -91,14 +96,15 @@ func _on_hit_by_enemy(enemy: Node) -> void:
 		enemy.apply_knockback(-push_dir, ENEMY_KNOCKBACK_FORCE)
 	take_damage_from(enemy.global_position, push_dir)
 
-## Ponto de entrada genérico para dano: usado tanto por hits corpo-a-corpo
-## (_on_hit_by_enemy, acima) quanto por ataques à distância de boss (ex.:
-## rock_projectile.gd). push_dir, se omitido, é calculado a partir de
-## source_position.
+#Função de receber dano
 func take_damage_from(source_position: Vector2, push_dir: Vector2 = Vector2.ZERO) -> void:
-	if is_invulnerable:
+	#Se estiver invulnerável ou morto, não faz nada
+	if is_invulnerable or is_dead:
 		return
-	Sfx.play(sfx)
+	#Toca o som
+	Sfx.play(HitSfx)
+	
+	#Calcula knockback
 	if push_dir == Vector2.ZERO:
 		push_dir = (global_position - source_position)
 		if push_dir == Vector2.ZERO:
@@ -106,18 +112,20 @@ func take_damage_from(source_position: Vector2, push_dir: Vector2 = Vector2.ZERO
 		push_dir = push_dir.normalized()
 	knockback = push_dir * KNOCKBACK_FORCE
 
+	#Se não tem mais escudo, morreu
 	if shield <= 0:
+		await _play_death_animation()
 		died.emit()
 		return
+	
+	#Se ainda tem escudo, decrementa, marca como invulnerável e chama função de piscar
 	shield = max(shield - 1, 0)
 	is_invulnerable = true
 	_blink_while_invulnerable()
 
+
+#Função para piscar quando invulnerável
 func _blink_while_invulnerable() -> void:
-	# Guarda a SceneTree numa variável local: se a fase terminar com sucesso
-	# durante o piscar (ver game.gd._finish_phase()), a cena troca para o
-	# menu e este nó sai da árvore — get_tree() passaria a retornar null nos
-	# awaits seguintes.
 	var tree := get_tree()
 	var elapsed := 0.0
 	while elapsed < HIT_INVULNERABILITY_DURATION:
@@ -127,33 +135,73 @@ func _blink_while_invulnerable() -> void:
 			return
 		elapsed += HIT_BLINK_INTERVAL
 	sprite.visible = true
+
+	#Quando terminar de piscar, marca invulnerável como falso
 	is_invulnerable = false
 
+#Processo a cada frame (calcula o ângulo em relação ao mouse e rotaciona o sprite) e verifica estados
 func _process(_delta: float) -> void:
-		var dir := (get_global_mouse_position() - global_position).normalized()
-		var angle := fmod(PI / 2 - dir.angle() + TAU, TAU)  # normaliza para 0..2π
-		var index := int(round(angle / (TAU / 8.0))) % 8
-		var anim_name :String = "walk_" + DIRECTIONS[index]
+	var dir := (get_global_mouse_position() - global_position)
+	sprite.rotation = dir.angle() 
+	_update_animation_state()
 
-		if sprite.animation != anim_name:
-			sprite.play(anim_name)
+
+#Transição entre estados
+func _update_animation_state() -> void:
+	#Se está morto, ignora, tem função específica
+	if is_dead:
+		return
+
+	#Seta o próximo estado com base no atual
+	var next_state: AnimState
+	if is_invulnerable:
+		next_state = AnimState.HURT
+	elif velocity.length() > MOVING_SPEED_THRESHOLD:
+		next_state = AnimState.WALK
+	else:
+		next_state = AnimState.IDLE
+
+	#Se o próximo é igual ao atual, não transiciona
+	if next_state == anim_state:
+		return
 	
+	#Transiciona o estado
+	anim_state = next_state
+	
+	#Altera a animação com base no estado atual (transicionado)
+	match anim_state:
+		AnimState.WALK:
+			sprite.play("walk_shoot")
+		AnimState.HURT:
+			sprite.play("walk_hurt")
+		AnimState.IDLE:
+			sprite.play("idle_shoot")
+
+#Função para rodar animação de morte
+func _play_death_animation() -> void:
+	is_dead = true
+	anim_state = AnimState.DEAD
+	$ShootTimer.stop() #Parar de atirar
+	Sfx.play(KoSfx) #Som de morte
+	sprite.play("death") #Animação de morte
+	await sprite.animation_finished #Aguarda animação de morte terminar
+
 func _on_shoot_timer_timeout() -> void:
 	shoot()
 
+#Atira flechas
 func shoot() -> void:
 	if bullet_scene == null:
 		return
-	var mouse_pos := get_global_mouse_position()
-	var direction := (mouse_pos - global_position).normalized()
+	var mouse_pos := get_global_mouse_position() #Pega posição do mouse
+	var direction := (mouse_pos - global_position).normalized() #Calcula direção com base na posição do mouse e do jogador
 	var perpendicular := direction.rotated(PI / 2)
-
-	var pos = (-bullet_amount / 2) * 10
+	var pos = (-bullet_amount / 2) * 10 #Pequeno shift de posição a depender da quantidade de balas
 	for i in range(bullet_amount):
 		pos += i + 10
 		var bullet = bullet_scene.instantiate()
 		#shoot_sound.play()
-		bullet.position = position + perpendicular * pos
+		bullet.position = position + perpendicular * pos #Posição da flecha depende da quantidade
 		bullet.direction = direction
 		bullet.rotation = direction.angle()
 		bullet.speed = bullet_speed
@@ -168,16 +216,11 @@ func _on_bullet_enemy_hit() -> void:
 func add_gold(amount: int) -> void:
 	gold += amount
 
+#Função para alterar o timer (cadência de tiro)
 func set_fire_rate(new_wait_time: float) -> void:
 	$ShootTimer.wait_time = new_wait_time
 
-## Aplica um PowerupData: acréscimo/decréscimo aditivo sobre o atributo
-## indicado, a partir de value = resultado da expressão * multiplicador.
-## Todos os atributos somam value/100, exceto Velocidade (soma value direto).
-## Shield e BulletAmount usam acumuladores float com floor
-## (max_shield/bullet_amount_progress) em vez de aplicar direto sobre um
-## valor já inteiro — Shield só reflete no jogo na próxima fase,
-## BulletAmount reflete na hora.
+#Aplicar powerup de acordo com características de cada um
 func apply_powerup(data: PowerupData) -> void:
 	var value :float = data.result * multiplicador
 	match data.attribute:
@@ -185,33 +228,32 @@ func apply_powerup(data: PowerupData) -> void:
 			damage = max(damage + value / 100.0, 0.0)
 			_show_result_popup(data, multiplicador, value / 100)
 		PowerupData.Attribute.SPEED:
-			speed = max(speed + value, 0.0)
+			speed = max(speed + value, 0.0) #Velocidade aplica em valor bruto
 			_show_result_popup(data, multiplicador, value)
 		PowerupData.Attribute.FIRE_RATE:
-			# Cadência positiva deve acelerar o disparo, então reduz o
-			# wait_time em vez de aumentá-lo.
+			# Cadência positiva deve acelerar o disparo, então reduz o wait_time em vez de aumentar.
 			var shoot_timer: Timer = $ShootTimer
 			_show_result_popup(data, multiplicador, value / 1000)
 			shoot_timer.wait_time = max(shoot_timer.wait_time - value / 10000.0, 0.05)
+		#Escudo agora é comprado na loja, mantido para não quebrar caso adicione novamente
 		PowerupData.Attribute.SHIELD:
 			var old_shield = int(floor(max_shield))
 			max_shield = max(max_shield + value / 100.0, 0.0)
-				
-			# Perdas no máximo já refletem no escudo atual; ganhos só
-			# valem a partir da próxima fase (start_new_phase()).
 			shield = min(shield, int(floor(max_shield)))
-			# Se aumentou a quantidade de shields máxima, adiciona um shield de imediato
 			if int(floor(max_shield)) > old_shield:
 				shield += 1
 			_show_result_popup(data, multiplicador, value / 100)
 		PowerupData.Attribute.MAGNET:
 			magnet = max(magnet + value / 100.0, 0.0)
 			_show_result_popup(data, multiplicador, value / 100)
+		#Flecha agora é comprada na loja, mantido para não quebrar caso adicione novamente
 		PowerupData.Attribute.BULLET_AMOUNT:
 			bullet_amount_progress = max(bullet_amount_progress + value / 100.0, 1.0)
 			bullet_amount = floor(bullet_amount_progress)
 			_show_result_popup(data, multiplicador, value / 100)
-	multiplicador = 1
+	multiplicador = 1 #Volta multiplicador a 1 quando pegar um powerup
+
+#Popup para mostrar o valor resultado da expressão do powerup
 func _show_result_popup(data: PowerupData, multiplier: int, effective_value: float) -> void:
 	var popup := PowerupResultLabelScene.instantiate()
 	popup.global_position = global_position
@@ -223,15 +265,12 @@ func giveup_powerup() -> void:
 	multiplicador = min(multiplicador + 1, max_multiplier)
 	
 
-## Sincroniza o escudo em jogo com a vida máxima acumulada. Deve ser chamado
-## no início de cada fase.
+
+#Reseta os escudos no início da fase
 func start_new_phase() -> void:
 	shield = int(floor(max_shield))
 
-## Atributos ganhos via powerups (não os valores base do @export), para
-## persistir entre fases como o campo `player` de um GameData — ver
-## game.gd/GameSave. Só deve ser chamado quando a fase é concluída com
-## sucesso.
+#Monta dicionário com atributos do jogador
 func get_save_data() -> Dictionary:
 	return {
 		"damage": damage,
@@ -244,10 +283,7 @@ func get_save_data() -> Dictionary:
 		"gold": gold,
 	}
 
-## Restaura os atributos salvos por get_save_data() (campo `player` do
-## GameData carregado). Chamado por game.gd no início de cada fase; se ainda
-## não houver save, o dicionário vem vazio e os valores padrão do @export
-## são mantidos.
+#Carregar os atributos do jogador do estado salvo
 func apply_save_data(data: Dictionary) -> void:
 	damage = data.get("damage", damage)
 	speed = data.get("speed", speed)

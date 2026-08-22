@@ -1,52 +1,66 @@
-[gd_scene format=3]
+[gd_scene format=3 uid="uid://cqflyqulum1sj"]
 
 [ext_resource type="PackedScene" uid="uid://clcbjxumaguta" path="res://entities/enemies/enemy.tscn" id="1_base"]
-[ext_resource type="Texture2D" uid="uid://d4b8cyff3xmf8" path="res://assets/sprites/enemies/anim_worm.png" id="2_tex"]
+[ext_resource type="Texture2D" uid="uid://cbetm3e5hquxh" path="res://assets/sprites/enemies/Animais Extended.png" id="2_q3wgc"]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f0"]
-atlas = ExtResource("2_tex")
-region = Rect2(0, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_2d8qi"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(0, 0, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f1"]
-atlas = ExtResource("2_tex")
-region = Rect2(32, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_lgjlo"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(147, 0, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f2"]
-atlas = ExtResource("2_tex")
-region = Rect2(64, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_5hmqk"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(294, 0, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f3"]
-atlas = ExtResource("2_tex")
-region = Rect2(96, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_g145h"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(441, 0, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f4"]
-atlas = ExtResource("2_tex")
-region = Rect2(128, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_ctp2g"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(588, 0, 147, 124)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_f5"]
-atlas = ExtResource("2_tex")
-region = Rect2(160, 0, 32, 32)
+[sub_resource type="AtlasTexture" id="AtlasTexture_8hv1m"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(735, 0, 147, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sks6l"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(882, 0, 147, 124)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yhuld"]
+atlas = ExtResource("2_q3wgc")
+region = Rect2(1029, 0, 147, 124)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_worm"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f0")
+"texture": SubResource("AtlasTexture_2d8qi")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f1")
+"texture": SubResource("AtlasTexture_lgjlo")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f2")
+"texture": SubResource("AtlasTexture_5hmqk")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f3")
+"texture": SubResource("AtlasTexture_g145h")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f4")
+"texture": SubResource("AtlasTexture_ctp2g")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_f5")
+"texture": SubResource("AtlasTexture_8hv1m")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sks6l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yhuld")
 }],
 "loop": true,
 "name": &"moving",
@@ -56,4 +70,8 @@ animations = [{
 [node name="EnemyWorm" unique_id=1400000009 instance=ExtResource("1_base")]
 
 [node name="AnimatedSprite2D" parent="." index="1" unique_id=2003927357]
+rotation = 1.5707964
 sprite_frames = SubResource("SpriteFrames_worm")
+frame = 6
+frame_progress = 0.71852237
+flip_h = false
